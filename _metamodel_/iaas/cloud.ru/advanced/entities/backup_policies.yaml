@@ -1,0 +1,94 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.backup_policies:
+    title: 'Политики резервного копирования'
+    objects:
+      backup_policy:
+        route: "/"
+        title: Политика резервного копирования
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: Идентификатор политики РК
+              type: string
+            name:
+              title: Название политики РК
+              type: string
+            operation_type:
+              title: Назначение политики РК
+              type: string
+              enum:
+                - 'backup'
+                - 'replication'
+            enabled:
+              title: Статус политики РК
+              type: string
+            operation_definition:
+              title: Параметры политики РК
+              type: object
+              properties:
+                max_backups:
+                  title: Кол-во хранимых РК (-1 безлимит)
+                  type: string
+                retention_duration_days:
+                  title: Срок хранения РК (дней, -1 безлимит)
+                  type: string
+                day_backups:
+                  title: Кол-во хранимых daily РК
+                  type: integer
+                week_backups:
+                  title: Кол-во хранимых weekly РК
+                  type: integer
+                month_backups:
+                  title: Кол-во хранимых monthly РК
+                  type: integer
+                year_backups:
+                  title: Кол-во хранимых yearly РК
+                  type: integer
+                timezone:
+                  title: Часовой пояс
+                  type: string
+            trigger:
+              title: Расписание РК
+              type: object
+              properties:
+                id:
+                  title: ID расписания РК
+                  type: string
+                name:
+                  title: Название расписания РК
+                  type: string
+                type:
+                  title: Тип расписания РК
+                  type: string
+                properties:
+                  title: Параметры исполнения расписания РК
+                  type: object
+                  properties:
+                    pattern:
+                      title: Расписание РК
+                      type: string
+                    start_time:
+                      title: Дата начала РК
+                      type: string
+            associated_vaults:
+              title: Привязанные хранилища РК
+              type: array
+              items:
+                type: object
+                properties:
+                  vault_id:
+                    title: ID хранилища РК
+                    type: string
+                  destination_vault_id:
+                    title: ID удаленного хранилища РК
+                    type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"

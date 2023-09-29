@@ -1,0 +1,53 @@
+seaf.ta.reverse.cloud_ru.advanced.backup_policies:
+    sber.berezka.backup_policies.b76135366-534d-4ec4-b341-39ed62c20788:
+        id: b76135366-534d-4ec4-b341-39ed62c20788
+        name: Weekly_Backups
+        operation_type: backup
+        enabled: true
+        operation_definition:
+            max_backups: 5
+            retention_duration_days: -1
+            day_backups: 0
+            week_backups: 0
+            month_backups: 0
+            year_backups: 0
+            timezone: UTC+03:00
+        trigger:
+            id: ae0a06cc-dd43-4c38-9942-48ba10e3af8f
+            name: default
+            type: time
+            properties:
+                pattern:
+                    - FREQ=WEEKLY;BYDAY=SA;BYHOUR=20;BYMINUTE=00
+                start_time: '2022-09-06 13:51:32'
+        associated_vaults:
+            -   vault_id: b25cffcc-b485-4c7b-9f92-6acb6e736e66
+                destination_vault_id: null
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.backup_policies.37b80f77-7fb4-4a10-9b3f-73c7ca605777:
+        id: 37b80f77-7fb4-4a10-9b3f-73c7ca605777
+        name: Daily_Backups
+        operation_type: backup
+        enabled: true
+        operation_definition:
+            max_backups: 11
+            retention_duration_days: -1
+            day_backups: 6
+            week_backups: 5
+            month_backups: 0
+            year_backups: 0
+            timezone: UTC+03:00
+        trigger:
+            id: 55957599-4b05-492b-84d0-1be5854b616a
+            name: default
+            type: time
+            properties:
+                pattern:
+                    - FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR,SA,SU;BYHOUR=19;BYMINUTE=00
+                start_time: '2022-09-06 13:51:08'
+        associated_vaults:
+            -   vault_id: 25bd50a1-20a3-4ca7-b84a-d9f6dda9a65c
+                destination_vault_id: null
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01

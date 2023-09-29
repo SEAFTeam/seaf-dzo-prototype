@@ -1,0 +1,38 @@
+# Прикладная функциональность
+aspects:
+  sber.berezka:
+    title: ООО Березка
+  sber.berezka.home_cinema:
+    title: Домашний кинотеатр
+  sber.berezka.home_cinema.auth:
+    title: Аутентификация
+    type: functionality
+    sber:
+      id: 062207a6-adc1-487d-a061-03592cc0ea1a
+      description: Авторизация пользователей
+      state: Используется
+  sber.berezka.home_cinema.payments:
+    title: Платежи
+    type: functionality
+    sber:
+      id: 65561c11-cd2f-4dad-8ab4-c63816b4f92c
+      description: Получение платежей
+      state: Используется
+  sber.berezka.home_cinema.catalog:
+    title: Каталог фильмов
+  sber.berezka.home_cinema.catalog.multiplex:
+    title: ТВ-каналы
+  sber.berezka.home_cinema.catalog.multiplex.c1:
+    title: ТВ-каналы первый мультиплекс
+    type: functionality
+    sber:
+      description: Трансляция каналов
+      id: 14909db1-77a0-4428-905d-0686fc3f4f1f
+      state: Используется
+  sber.berezka.home_cinema.catalog.multiplex.c2:
+    title: ТВ-каналы второй мультиплекс
+    type: functionality
+    sber:
+      description: Трансляция каналов
+      id: 14909db1-77a0-4428-905d-0686fc3f4f1f
+      state: Используется

@@ -1,0 +1,54 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.rdss:
+    presentations:
+      table_view:
+        type: table
+        headers:
+          - value: name
+            text: Название БД
+            sortable: true
+            align: left
+            link: link
+            width: 150
+          - value: status
+            text: Статус БД
+          - value: private_ips
+            text: Внутренние IP адреса
+          - value: public_ips
+            text: Внешние IP адреса
+          - value: DB_type
+            text: Тип СУБД
+          - value: DB_ver
+            text: Версия СУБД
+          - value: HA_type
+            text: Тип высокой доступности
+          - value: HA_nodes
+            text: Количество нод СУБД
+          - value: HA_nodes_az
+            text: Зоны доступности
+            width: 150
+          - value: Volume_type
+            text: Тип дисков
+          - value: Volume_size
+            text: Размер диска
+          - value: vpc
+            text: VPC
+            width: 150
+          - value: tenant
+            text: Тенант
+          - value: dc
+            text: Датацентр
+        source: seaf.ta.reverse.rdb_list
+
+      rds_md:
+        type: markdown
+        template: templates/rdss_md.md
+        source: >
+          (
+            $crdb := $."seaf.ta.reverse.cloud_ru.advanced.rdss".$spread()[$keys()[0] = $params.id];
+            $vpc := $."seaf.ta.reverse.cloud_ru.advanced.vpcs".$spread()[$.*.id = $crdb.*.vpc_id].*.name;
+            $subnet := $."seaf.ta.reverse.cloud_ru.advanced.subnets".$spread()[$.*.id = $crdb.*.subnet_id].*.name;
+            $cdcs := $."seaf.ta.services.dc";
+            $dc := $cdcs.$spread()[$keys()[0] = $crdb.*.DC].*.dc_name;
+            $crdb.($.*) ~> | $ | {'DC': $dc, 'subnet': $subnet, 'vpc': $vpc} |;
+          )

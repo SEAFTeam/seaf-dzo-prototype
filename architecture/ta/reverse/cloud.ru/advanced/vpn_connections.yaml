@@ -1,0 +1,21 @@
+seaf.ta.reverse.cloud_ru.advanced.vpn_connections:
+  sber.berezka.vpn_connections.vpn-hq:
+    id: vpn-hq
+    name: vpn-hq
+    gw_id: vpngw-offices
+    remote_gw_ip: 95.6.17.199
+    remote_subnets:
+      - 10.1.0.0/21
+    branch_id: sber.berezka.office.hq
+    tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+    DC: sber.berezka.dc.01
+  sber.berezka.vpn_connections.vpn-dc02:
+    id: vpn-dc02
+    name: vpn-dc02
+    gw_id: vpngw-offices
+    remote_gw_ip: 95.64.175.198
+    remote_subnets:
+      - 172.16.0.0/16
+    branch_id: sber.berezka.dc.02
+    tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+    DC: sber.berezka.dc.01

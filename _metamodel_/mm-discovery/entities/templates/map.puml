@@ -1,0 +1,22 @@
+@startuml
+skinparam linetype ortho
+top to bottom direction
+skinparam ranksep 150
+
+
+title Метамодель
+
+{{#entities}}
+entity "{{title}}" as {{id}} {
+  id: {{id}}
+  {{#description}}
+  description : {{description}}
+  {{/description}}
+}
+{{/entities}}
+
+{{#relations}}
+{{from}} --- {{to}}
+{{/relations}}
+
+@enduml

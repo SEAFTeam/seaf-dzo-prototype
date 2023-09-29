@@ -1,0 +1,64 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.vaults:
+    title: Хранилища РК
+    objects:
+      vault:
+        route: "/"
+        title: Хранилище РК
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: ID хранилища РК
+              type: string
+            name:
+              title: Имя хранилища РК
+              type: string
+            description:
+              title: Описание хранилища РК
+              type: string
+            resources:
+              title: Ресурсы РК
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    title: Идентификатор ресурса РК
+                    type: string
+                  type:
+                    title: Тип ресурса РК
+                    type: string
+                  name:
+                    title: Имя ресурса РК
+                    type: string
+                  size:
+                    title: Лимит объема РК
+                    type: integer
+                  backup_size:
+                    title: Текущий объем РК
+                    type: integer
+                  backup_count:
+                    title: Кол-во копий РК
+                    type: integer
+                  protect_status:
+                    title: Статус РК
+                    type: string
+                    enum:
+                      - 'available'
+                      - 'error'
+                      - 'protecting'
+                      - 'restoring'
+                      - 'removing'
+                  extra_info:
+                    title: Дополнительная информация
+                    type: object
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"

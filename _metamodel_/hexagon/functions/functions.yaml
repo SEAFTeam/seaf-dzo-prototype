@@ -1,0 +1,699 @@
+# Core functions
+hexF:
+
+  # Translation app layer objects links into hex
+  dh_componentsToHex: >
+    (
+      $components:= $$.components;
+      $reduce($map($spread($components), function($v) {(
+        $maps:= [
+          {"source": $keys($v), "target": "mm.resource", "label": "map"},
+          {"source": $keys($v), "target": "mm.resource.app_service", "label": "type"}];
+        $regs:= $map($v.*.processes, function($vv) {
+          {"source": $keys($v), "target": $vv, "label": "поддерживает"}
+        });
+        $append($maps, $regs);
+      )}), $append)
+    )
+
+
+  # Scans objects declarations through whole lake by seaf.ba.ttl
+  # Excludes in-seaf.ba.ttl relations declarations
+  # Builds array of nodes {"id": seaf.ba.ttl_id, "body": attributes except hex}
+  # Returns all nodes
+  nodes: >
+    (
+      $nativeTTL:= $$."seaf.ba.ttl"; 
+      $nativeTTL:= $mergedeep([$nativeTTL, $$.components]);
+      $nodes:= $each($nativeTTL, function($v, $k) {
+                      {"id": $k, "body": $v~>|$|{}, ["hex", "hexQ", "hexV"]|}
+                    }
+               );
+    )
+  
+  edges: >
+    (
+      $nativeTTL:= $$."seaf.ba.ttl";
+      $inTTLHexes:= $map($spread($nativeTTL), function($v) {
+                        $v.*.hex ? $map($spread($v.*.hex), function($vv) {(
+                                      $hasParams:= "hexParams" in $keys($vv.*) ? $vv.*.hexParams : null;
+                                      $vv ? $map($spread($vv.*), function($vvv) {(
+                                        $not("hexParams" in $keys($vvv)) ?
+                                          ( $dir:= $match($keys($vv), /<=/).match ? "<=" : "=>"; 
+                                            $vvv ? {"source": $dir = "=>" ? $keys($v): $keys($vvv),
+                                                    "target": $dir = "=>" ? $keys($vvv): $keys($v),
+                                                    "label": $replace($keys($vv), /<=|=>/, ""),
+                                                    "hexParams": $hasParams ? $hasParams
+                                                   }
+                                          )
+                                      )})
+                                   )})
+                    }); 
+      $inTTLHexes:= $distinct($reduce($reduce($inTTLHexes, $append), $append));
+      $append($eval($$.hexF.dh_componentsToHex), $inTTLHexes)
+    )
+
+  queryExe: >
+    (
+      $qId:= $.qId; $qObj:= $lookup($$."seaf.ba.ttl", $qId); $log($qObj, "NEW QUERY");
+
+      $nodes:= $eval($$.hexF.nodes);
+      $qNode:= $qObj.hexQ ? {"qId": $qId, 
+                             "body": $qObj~>|$|{}, ["hex", "hexQ", "hexP", "hexR"]|,
+                             "query": $qObj.hexQ
+                             };
+
+      $qRes:=$type($qNode.query) = "object" ?
+        (
+          $headId:= $keys($qNode.query);$log($headId, "headId");
+          $heads:= $headId = "seaf.ba.ttl" ? $nodes.id : 
+                   $match($headId, /\.hexQ/).match ? $eval($$.hexF.queryExe, {"qId": $replace($headId, /\.hexQ/, "")}) :
+                   $headId in $nodes.id ? $headId : "one or more query arguments don'exist";
+          $log($heads, "heads to proceed");
+          $result:= $heads = "one or more query arguments don'exist" ? {"error": "one or more query arguments don'exist"} :
+            (
+              $accum:= function($heads, $conditions, $ic) {(
+
+                $edgeCond:= $keys($conditions[$ic]);
+                $edgeRule:= $match($edgeCond, /EVERY|NONE|ONE|ANY/).match;
+                $edgeDir:= $match($edgeCond, /<=|=>/).match;
+                $heads:= $not($edgeRule and $edgeDir) ? {"error": "conditions corrupted"} :
+                ( 
+                  $edgeLabel:= $replace($edgeCond, $edgeRule, ""); $edgeLabel:= $replace($edgeLabel, $edgeDir, "");
+                  $tails:= $map($spread($conditions[$ic].*), function($vv,$i){
+                    $match($keys($vv), /\.hexQ/).match ? {"t"&$i: $eval($$.hexF.queryExe, {"qId": $replace($keys($vv), /\.hexQ/, "")})}: {"t"&$i: $keys($vv)}
+                  });
+                  /*$tails:= $reduce($tails, $append);*/$log($edgeRule, "logic to exe");$log({"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}, "to eval");
+                  $heads:= $edgeRule = "EVERY" ? $eval($$.hexF.getEvery, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}) :
+                           $edgeRule = "ANY" ? $eval($$.hexF.getAny, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}):
+                           $eedgeRule = "ONE" ? $eval($$.hexF.getOne, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}):
+                           $edgeRule = "NONE" ? $eval($$.hexF.getNone, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails});
+                );
+                $ic<$count($conditions)-1 ? $accum ($heads, $conditions, $ic+1) : $heads
+              )};
+              
+              $accum($heads, $spread($qNode.query.*), 0)
+            )
+        ) :
+
+      {"error": "query not defined"};
+    )
+
+  
+
+  getEvery: >
+    (
+      $log($, "evaluation starts");
+      $heads:= $.heads; $tails:= $.tails; $dir:= $.dir; $label:= $.label?$.label:""; $log("", $count($tails));
+      $edges:= $eval($$.hexF.edges);
+
+      $map($heads, function($v){(
+        $y:=$map($tails, function($vv) {($log("", $v & " - " & $label & " - " & $vv.* );
+          $dir="<=" ? 
+            $label = "" ? $edges[$.source in $vv.* and $.target = $v] : $edges[$.source in $vv.* and $.target = $v and $.label = $label]
+              :
+            $label = "" ? $edges[$.source = $v and $.target in $vv.*] : $edges[$.source = $v and $.target in $vv.* and $.label = $label]
+        )});$log($y);
+        $count($y) = $count($tails) ? ($log($y, "condition evaled"); $v)
+      )});
+    )
+
+  getAny: >
+    (
+      $log($, "ANY triggered");
+      $heads:= $.heads; $tails:= $.tails; $dir:= $.dir; $label:= $.label?$.label:"";
+      $edges:= $eval($$.hexF.edges);
+
+      $map($heads, function($v){(
+        $y:=$map($tails, function($vv) {(
+          $dir="<=" ? 
+            $label = "" ? $edges[$.source in $vv.* and $.target = $v] : $edges[$.source in $vv.* and $.target = $v and $.label = $label]
+              :
+            $label = "" ? $edges[$.source = $v and $.target in $vv.*] : $edges[$.source = $v and $.target in $vv.* and $.label = $label]
+        )});
+
+        $count($y) > 0 ? ($log($v, "condition evaled"); $v)
+      )});
+    )
+
+  getOne: >
+    (
+      $log($, "evaluation starts");
+      $heads:= $.heads; $tails:= $.tails; $dir:= $.dir; $label:= $.label?$.label:""; $log("", $count($tails));
+      $edges:= $eval($$.hexF.edges);
+
+      $map($heads, function($v){(
+        $y:=$map($tails, function($vv) {($log("", $v & " - " & $label & " - " & $vv.* );
+          $dir="<=" ? 
+            $label = "" ? $edges[$.source in $vv.* and $.target = $v] : $edges[$.source in $vv.* and $.target = $v and $.label = $label]
+              :
+            $label = "" ? $edges[$.source = $v and $.target in $vv.*] : $edges[$.source = $v and $.target in $vv.* and $.label = $label]
+        )});$log($y);
+        $count($y) = 1 ? ($log($y, "condition evaled"); $v)
+      )});
+
+  getNone: >
+    (
+      $log($, "evaluation starts");
+      $heads:= $.heads; $tails:= $.tails; $dir:= $.dir; $label:= $.label?$.label:""; $log("", $count($tails));
+      $edges:= $eval($$.hexF.edges);
+
+      $map($heads, function($v){(
+        $y:=$map($tails, function($vv) {($log("", $v & " - " & $label & " - " & $vv.* );
+          $dir="<=" ? 
+            $label = "" ? $edges[$.source in $vv.* and $.target = $v] : $edges[$.source in $vv.* and $.target = $v and $.label = $label]
+              :
+            $label = "" ? $edges[$.source = $v and $.target in $vv.*] : $edges[$.source = $v and $.target in $vv.* and $.label = $label]
+        )});$log($y);
+        $count($y) = 0 ? ($log($y, "condition evaled"); $v)
+      )});
+
+  resolveView: >
+
+    (
+      
+        $patternPre:= $.patternPre;
+          $edges:= $eval($$.hexF.edges);
+          $nodesL:= $eval($$.hexF.nodes);
+          $nodes:= $map($patternPre, function($v) {(
+              $type($v) = "string" and $match($v, /\.hexQ/).match ? 
+                ( $k:= $replace($v, /\.hexQ/, "");
+                  $ld_ids:= $eval($$.hexF.queryExe, {"qId": $k}) ;     
+                  {"pattern":$k, "landscape": {"pat": $k, "id_bage": $map($ld_ids, function($v) {{"id": $v, "bage": $nodesL[$.id = $k].body.bage}})}};
+                ) : 
+              $not($match($keys($v), /hexR/).match) ?
+                {"pattern":$v, "landscape": {"pat": $v, "id_bage": {"id": $v, "bage": $nodesL[$.id = $v].body.bage}}}
+            )});
+          
+          $patternNodes:= $nodes.pattern;
+          $landscapeNodes:= $nodes.landscape;$log($landscapeNodes, "ld nodes");
+
+          $patternEdges:= $edges[$.source in $patternNodes and $.target in $patternNodes and $not($.label in $patternPre[$keys($) = "hexR"].hexR.exclude)];
+          $landscapeEdges:= $edges[$.source in $landscapeNodes.id_bage.id and $.target in $landscapeNodes.id_bage.id];
+          $landscapeEdges:= $map($landscapeEdges, function($v) {(
+            $sourcePat:= $landscapeNodes[$v.source in $.id_bage.id].pat;
+            $targetPat:= $landscapeNodes[$v.target in $.id_bage.id].pat;
+            $edgePat:= $patternEdges[$.source = $sourcePat and $.target = $targetPat];
+            $edgePat ?
+              (
+                $labelPat:= $edgePat.label;
+                $v.label ? $v~>|$|{"label": ($labelPat? $labelPat & ".") & $.label}| : $v~>|$|{"label": ($labelPat? $labelPat)}|
+              )
+          )});
+          
+          $pattern:=   {"nodes": $nodesL[$.id in $patternNodes]~>|$.body|($bage:= $.bage;$bage ? {"bage": {"bId": $bage, "svg": $$.hexBages.$eval($bage)}})|,
+                        "edges": $patternEdges};
+          $landscape:= {"nodes": $nodesL[$.id in $landscapeNodes.id_bage.id]~>|$|($i:=$.id; $log($distinct($landscapeNodes[$i in $.id_bage.id].id_bage.bage), "gg"); $bage:= $distinct($landscapeNodes[$i in $.id_bage.id].id_bage.bage); $bage ? {"body": $.body~>|$|{"bage": {"bId": $bage, "svg": $$.hexBages.$eval($bage)}}|   })|,
+                        "edges": $landscapeEdges};
+
+          /*nesting*/
+          $nesting:= $patternPre[$keys($) = "hexR"].hexR.nest;
+          $nesting:= $count($nesting) > 0 ?
+            (
+                $rules:= $reduce($map($nesting, function($v) {(
+                $rules:= $match($keys($v), /=>/).match ? {"nest": "source", "rule": $substringAfter($keys($v), "=>")} :
+                        $match($keys($v), /<=/).match ? {"nest": "target", "rule": $substringAfter($keys($v), "<=")};
+                )}), $append);
+
+                $edgesToNest:= $landscapeEdges[$substringBefore($.label, ".") in $rules.rule];
+                $nestChunks:= $eval($$.hexF.traverse, {"edges": $reduce($edgesToNest, $append)});
+                $nestChunks:= $map($nestChunks, function($v){
+                    $v.path[1] ? ($rules[$.rule = $v.path[1]].nest = "source" ? $v : {"path": $reverse($v.path)}) : $v
+                });
+                $nestChains:= $eval($$.hexF.getChainsFromChunks, {"paths": $nestChunks});
+                {"chains": $nestChains, "edges": $edgesToNest}
+            ); $log($nesting.chains, "nesting chained");
+
+            /*leveling*/
+            $maxChain:= function($max, $v) {$count($v.path) > $max ? $count($v.path) : $max};
+            $v_dim:= $reduce($nesting.chains, $maxChain, 0);$log($chains, "chains");
+            $leveling:= function($chains, $ci, $v_dim, $matrix) {(
+                $level:= $map($chains, function($v){( $log($v);
+                $ch:= $map($v.path[[0..$ci]], function($vv){$vv != "viewRoot" and $vv != "moded" ? $vv});
+                $v.path[$ci] ? {"chain": $ch, "b": $v.path[$ci-2], "l":$v.path[$ci]} : null
+                )});
+                $matrix:= $append($matrix, {"lev_" & $ci/2:$distinct($level)[$ != null]});
+                $ci< $v_dim-1 ? $leveling($chains, $ci+2, $v_dim, $matrix) : $matrix;
+            )};
+            $X:= $leveling($nesting.chains, 2, $v_dim, []);$log($X, "modes aval");
+            $X:= $map($X.*, function($v) {(
+                {"path": $v.chain}
+            )});$log($X, "nomalized chains");
+
+            $Y:= $map($X, function($v, $i, $a){($log("","TOCHECK " &$v.path[0]);
+                $concats:=$map($a, function($vv, $ii, $aa) {(
+                            $log("", $vv.path);
+                            $reduce($map($vv.path, function($vvv, $iii) {($log("", "> "&$vvv);
+                                ($i != $ii and $iii >= 2) and $v.path[0] = $vvv ? {"path": $append($vv.path[[0..$iii-1]], $v.path)};
+                            )}), $append);
+                          )});
+                $log($concats, "concats");
+
+                $count($concats) >0 ? $concats : $v
+            )});
+            $log($Y, "nomalized check");
+
+          $toNest:= $map($reduce($Y, $append), function($v){(
+          /*$toNest:= $map($nesting.chains, function($v){(*/
+            $composePath:= function($aPath, $cPath, $i) {(
+              $cPath:= $cPath ? $cPath & ".." & $aPath[$i] : $aPath[$i];
+              $i<$count($aPath)-1 ? $composePath($aPath, $cPath, $i+2) : $cPath;
+            )};
+            {"node": $v.path[-1], "path": $composePath($v.path, "", 0), "rule": $v.path[1]}
+          )});
+
+          $nestLandscape:= function($toNest, $landscape, $i){(
+            $landscape:= $landscape~>|$.nodes[$.id = $toNest[$i].node]|{"path": $toNest[$i].path}|;
+            $i<$count($toNest)-1 ? $nestLandscape($toNest, $landscape, $i+1) : $landscape;
+          )};
+          $nestedLandscape:= $nestLandscape($toNest, $landscape, 0);
+
+          $unNestedEdges:= $map($nestedLandscape.edges, function($v){
+            $not($substringBefore($v.label, ".") in $nesting.edges.label) ? $v
+          });
+          $nestedLandscape:= $nestedLandscape~>|$|{"edges": $unNestedEdges}|;
+          $log($nesting, "NESTS");
+          $log($toNest, "paths");
+          $log($landscape, "ld");$log($nestedLandscape, "nestet res");
+
+
+
+
+
+          {"pattern": $pattern, 
+          "landscape": $nestedLandscape
+          }
+
+
+
+
+      )
+
+
+  resolveView1: >
+    (
+      /*
+        $patternPre:= [
+          "mm.process.hexQ",
+          "mm.product.hexQ",
+          "hexR",
+          {
+            "hexR": {
+              "nest": [
+                {
+                  "<=реализует": null
+                },
+                {
+                  "<=используется в": null
+                }
+              ]
+            }
+          }
+        ]
+      */
+
+      $patternPre:= $.patternPre;
+      $edges:= $eval($$.hexF.edges);
+      $nodesL:= $eval($$.hexF.nodes);
+      $nodes:= $map($patternPre, function($v) {(
+          $type($v) = "string" and $match($v, /\.hexQ/).match ? 
+            ( $k:= $replace($v, /\.hexQ/, "");
+              $ld_ids:= $eval($$.hexF.queryExe, {"qId": $k}) ;     
+              {"pattern":$k, "landscape": {"pat": $k, "id_bage": $map($ld_ids, function($v) {{"id": $v, "bage": $nodesL[$.id = $k].body.bage}})}};
+            ) : 
+          $not($match($keys($v), /hexR/).match) ?
+            {"pattern":$v, "landscape": {"pat": $v, "id_bage": {"id": $v, "bage": $nodesL[$.id = $v].body.bage}}}
+        )});
+      
+      $patternNodes:= $nodes.pattern;
+      $landscapeNodes:= $nodes.landscape;$log($landscapeNodes, "ld nodes");
+
+      $patternEdges:= $edges[$.source in $patternNodes and $.target in $patternNodes and $not($.label in $patternPre[$keys($) = "hexR"].hexR.exclude)];
+      $landscapeEdges:= $edges[$.source in $landscapeNodes.id_bage.id and $.target in $landscapeNodes.id_bage.id];
+      $landscapeEdges:= $map($landscapeEdges, function($v) {(
+        $sourcePat:= $landscapeNodes[$v.source in $.id_bage.id].pat;
+        $targetPat:= $landscapeNodes[$v.target in $.id_bage.id].pat;
+        $edgePat:= $patternEdges[$.source = $sourcePat and $.target = $targetPat];
+        $edgePat ?
+          (
+            $labelPat:= $edgePat.label;
+            $v.label ? $v~>|$|{"label": ($labelPat? $labelPat & ".") & $.label}| : $v~>|$|{"label": ($labelPat? $labelPat)}|
+          )
+      )});
+      
+      $pattern:=   {"nodes": $nodesL[$.id in $patternNodes]~>|$.body|($bage:= $.bage;$bage ? {"bage": {"bId": $bage, "svg": $$.hexBages.$eval($bage)}})|,
+                     "edges": $patternEdges};
+      $landscape:= {"nodes": $nodesL[$.id in $landscapeNodes.id_bage.id]~>|$|($i:=$.id; $log($distinct($landscapeNodes[$i in $.id_bage.id].id_bage.bage), "gg"); $bage:= $distinct($landscapeNodes[$i in $.id_bage.id].id_bage.bage); $bage ? {"body": $.body~>|$|{"bage": {"bId": $bage, "svg": $$.hexBages.$eval($bage)}}|   })|,
+                     "edges": $landscapeEdges};
+
+      /*nesting*/
+      $nesting:= $patternPre[$keys($) = "hexR"].hexR.nest;
+      $nesting:= $count($nesting) > 0 ?
+        $map($nesting, function($v) {(
+          $rules:= $match($keys($v), /=>/).match ? {"nest": "source", "rule": $substringAfter($keys($v), "=>")} :
+                   $match($keys($v), /<=/).match ? {"nest": "target", "rule": $substringAfter($keys($v), "<=")};
+          $edgesToNest:= $landscapeEdges[$substringBefore($.label, ".") in $rules.rule];
+          $nestChains:= $eval($$.hexF.getChains, {"edges": $reduce($edgesToNest, $append)});
+          $nestChains:= $rules.nest = "source" ? $nestChains : $rules.nest = "target" ? 
+            (
+              $map($nestChains, function($v) {
+                {"path": $reverse($v.path)}
+              })
+            );
+          {"chains": $nestChains, "edges": $edgesToNest}
+        )});
+
+      $toNest:= $map($nesting.chains, function($v){(
+        $composePath:= function($aPath, $cPath, $i) {(
+          $cPath:= $cPath ? $cPath & ".." & $aPath[$i] : $aPath[$i];
+          $i<$count($aPath)-1 ? $composePath($aPath, $cPath, $i+2) : $cPath;
+        )};
+        {"node": $v.path[-1], "path": $composePath($v.path, "", 0), "rule": $v.path[1]}
+      )});
+
+      $nestLandscape:= function($toNest, $landscape, $i){(
+        $landscape:= $landscape~>|$.nodes[$.id = $toNest[$i].node]|{"path": $toNest[$i].path}|;
+        $i<$count($toNest)-1 ? $nestLandscape($toNest, $landscape, $i+1) : $landscape;
+      )};
+      $nestedLandscape:= $nestLandscape($toNest, $landscape, 0);
+
+      $unNestedEdges:= $map($nestedLandscape.edges, function($v){
+        $not($substringBefore($v.label, ".") in $nesting.edges.label) ? $v
+      });
+      $nestedLandscape:= $nestedLandscape~>|$|{"edges": $unNestedEdges}|;
+      $log($nesting, "NESTS");
+      $log($toNest, "paths");
+      $log($landscape, "ld");$log($nestedLandscape, "nestet res");
+
+
+
+
+
+      {"pattern": $pattern, 
+       "landscape": $nestedLandscape
+      }
+
+
+
+
+    )
+          
+
+  traverse: >
+    (
+      $edges:= $.edges;
+      /*$edges:= $eval(hex.getEdges);*/
+
+      $graph:= $map($edges, function($v) {(
+        $v~>|$|{"traversed": "undisc"}|
+      )});
+      
+      $start:= $graph[0].source; /*$log($start, "ini start");*/
+      $visited:= [];
+      $paths:= [{"path":[$start]}]; /*$log($paths, "ini paths");*/
+      $pathNum:= 0;
+
+      $dfs:= function($start, $current, $graph, $visited, $paths, $pathNum) {(
+        /*
+          add to visited
+          check if undescovered
+          if no - trackback (start new cycle with previous)
+          if yes - discover (check if node visited)
+          if back
+            next undescovered
+            if discovered - (start new cycle with next)
+        */
+        
+        $visited:= $distinct($append($visited, $current)); /*$log($current, "current node");*/
+        $undiscovered:= $graph[source = $current and traversed = "undisc"]; /*$log($undiscovered, "undiscovered of current");*/
+        
+        $count($undiscovered) > 0 ?
+          ( /*$log($pathNum, "CONTINUE current path");*/
+          
+            $next:= $undiscovered[0].target;
+            $next in $visited ?
+              (   
+                  
+                  $edgeLabel:= $graph[source = $current and target = $next].label;
+                  $graph:= $graph~>|$[source = $current and target = $next]|{"traversed": "back"}|;
+                  $path:= {"path":$append($paths[$pathNum].path, [$edgeLabel, $next])};
+                  $paths:= $map($paths, function($v, $i, $a) {$i<$count($a)-1 ? $v : $path});
+                  /*$log($paths, "Path reached known node");*/
+
+                  $path:= {"path":$map($paths[$pathNum].path, function($v, $i, $a) {$i<$count($a)-2 ? $v})};
+                  $paths:= $append($paths, $path); $pathNum:= $pathNum+1;
+
+                  /*$log($paths, "paths copied CALL DFS");*/
+                  
+                  $dfs($start, $current, $graph, $visited, $paths, $pathNum)
+                  
+              ):
+                ( $edgeLabel:= $graph[source = $current and target = $next].label;
+                  $graph:= $graph~>|$[source = $current and target = $next]|{"traversed": "disc"}|;
+                  $path:= {"path":$append($paths[$pathNum].path, [$edgeLabel, $next])};
+                  $paths:= $map($paths, function($v, $i, $a) {$i<$count($a)-1 ? $v : $path});
+
+                  /*
+                  $log($graph[source = $current and target = $next], "discovered as new");
+                  $log($path, "path updated"); $log($paths, "paths stack updated");
+                  $log($next, "continue current path from next CALL DFS");
+                  */
+                  $dfs($start, $next, $graph, $visited, $paths, $pathNum);
+                  
+                );
+          ) :
+
+            ( /*$log($current, "PATH END REACHED");*/
+            
+              $current = $start ? 
+              (
+                /*$log($start, "Cycle Complete from start");*/
+                
+                $untr:= $graph[traversed = "undisc"];
+                $count($untr)>0 ?
+                (   /*
+                    $log($graph[traversed = "undisc"], "Untracked paths detected"); 
+                    $log($untr[0].source, "new start CALL DFS");
+                    */
+                    $paths:= $append($paths, {"path": [$untr[0].source]});
+                    $dfs($untr[0].source, $untr[0].source, $graph, $visited, $paths, $pathNum+1)
+                ):
+                    (/*$log($graph[traversed = "undisc"], "All cycles complete");*/
+                     $paths);
+              ) : 
+              ( 
+                $path:= {"path":$map($paths[$pathNum].path, function($v, $i, $a) {$i<$count($a)-2 ? $v})};
+                $paths:= $append($paths, $path); $pathNum:= $pathNum+1;
+                /*$log($paths[-1], "TRACKBACK to"); $log($paths[-1].path[-1], "continue new path from previous CALL DFS");*/
+                $dfs($start, $paths[-1].path[-1], $graph, $visited, $paths, $pathNum);
+              );
+
+
+            )
+      )};
+
+      $graphTraversed:= $dfs($start, $start, $graph, $visited, $paths, $pathNum);
+
+    )
+
+  getChains: >
+    (
+      $edges:= $.edges;
+
+      $paths:= $eval($$.hexF.traverse, {"edges": $edges});
+      /*$log($paths);*/
+
+      $strings:= $map($paths, function($v) {(
+        $str:= function($s, $add, $i) {(
+          /*$log($add, "add");*/
+          $s:= $s & "-" & $add;
+          $i > 0 ? $str($s, $v.path[$i-1], $i-1) : $s;
+        )};
+        $str("", $v.path[-1], $count($v.path)-1)
+      )});
+
+      /*$log($strings, "strings");*/
+
+      $includes:=$map($strings, function($v, $i) {(
+        $m:=$map($strings, function($vv, $ii) {(
+          $not($i=$ii) and $contains($vv, $v) ? $v;
+        )});
+        /*$log($m, "m");*/
+        $m[0]
+      )});
+      /*$log($includes, "includes");*/
+
+      $clear:= $map($strings, function($v) {(
+        $n:= $map($includes, function($vv) {
+          $v = $vv ? "n"
+        });
+        $count($n)=0 ? $v
+      )});
+
+      /*$log($clear, "clear");*/
+
+      $paths:= $map($clear, function ($v) {(
+        $arr:= $split($v, "-"); /*$log($arr, "arr");*/
+        {"path":  $map($reverse($arr), function($vv, $ii, $a) {(
+                    $ii<$count($a)-1 ? $vv
+                  )})
+        };
+      )});
+
+      /*$log($paths, "paths cleared");*/
+
+      $concat:= function($pa) {(
+
+            $ch:= function($p, $i) {(
+
+            /*$log($p[$i], "head");*/
+            
+              $iter:=   function($pp, $i, $ii, $h){(
+                            $change:= $not($i = $ii) and $p[$i].path[0] = $pp[$ii].path[-1] ?
+                                        ( $preUpdate:= $append($pp[$ii].path, $p[$i].path); 
+                                        $update:= $map($preUpdate, function($v, $iii) {$not($iii = $count($pp[$ii].path)) ? $v});
+                                        /*$log($pp[$ii], "tail");$log($update);*/
+                                        $pp:= $pp~>|$[$ii]|{"path": $update}|;
+                                        );
+                            $change ? $h:= true;
+                            /*$log($h, "changed");$log($change, "ch updated");*/
+                            $pp:= $change ? $change : $pp;
+                            $ii<$count($pp)-1 ? $iter($pp, $i, $ii+1, $h) : {"h": $h, "pp":$pp}
+              )};
+              $headConcat:= $iter($p, $i, 0, false);
+              
+              $iter:= $headConcat.h ? $headConcat.pp~>|$[$i]|{"path": false}| : $headConcat.pp;
+              /*$log($iter, "one head iter");*/
+              $iter:= $iter[$not(path=false)]; /*$log($iter, "one head iter cleared");*/
+              $i<$count($p)-1 ? $ch($iter, $i+1): $iter;
+            
+            )};
+
+            $it:=$ch($pa, 0);/*$log($it, "full cycle");*/
+            $count($it)<$count($pa) ? ($pa:= $it;$concat($pa)): $it
+      )};
+
+          $chains:= $concat($paths);
+    ) 
+
+  getChainsFromChunks: >
+    (
+      $paths:= $.paths;
+
+
+      $strings:= $map($paths, function($v) {(
+        $str:= function($s, $add, $i) {(
+          /*$log($add, "add");*/
+          $s:= $s & "-" & $add;
+          $i > 0 ? $str($s, $v.path[$i-1], $i-1) : $s;
+        )};
+        $str("", $v.path[-1], $count($v.path)-1)
+      )});
+
+      /*$log($strings, "strings");*/
+
+      $includes:=$map($strings, function($v, $i) {(
+        $m:=$map($strings, function($vv, $ii) {(
+          $not($i=$ii) and $contains($vv, $v) ? $v;
+        )});
+        /*$log($m, "m");*/
+        $m[0]
+      )});
+      /*$log($includes, "includes");*/
+
+      $clear:= $map($strings, function($v) {(
+        $n:= $map($includes, function($vv) {
+          $v = $vv ? "n"
+        });
+        $count($n)=0 ? $v
+      )});
+
+      /*$log($clear, "clear");*/
+
+      $paths:= $map($clear, function ($v) {(
+        $arr:= $split($v, "-"); /*$log($arr, "arr");*/
+        {"path":  $map($reverse($arr), function($vv, $ii, $a) {(
+                    $ii<$count($a)-1 ? $vv
+                  )})
+        };
+      )});
+
+      /*$log($paths, "paths cleared");*/
+
+      $concat:= function($pa) {(
+
+            $ch:= function($p, $i) {(
+
+            /*$log($p[$i], "head");*/
+            
+              $iter:=   function($pp, $i, $ii, $h){(
+                            $change:= $not($i = $ii) and $p[$i].path[0] = $pp[$ii].path[-1] ?
+                                        ( $preUpdate:= $append($pp[$ii].path, $p[$i].path); 
+                                        $update:= $map($preUpdate, function($v, $iii) {$not($iii = $count($pp[$ii].path)) ? $v});
+                                        /*$log($pp[$ii], "tail");$log($update);*/
+                                        $pp:= $pp~>|$[$ii]|{"path": $update}|;
+                                        );
+                            $change ? $h:= true;
+                            /*$log($h, "changed");$log($change, "ch updated");*/
+                            $pp:= $change ? $change : $pp;
+                            $ii<$count($pp)-1 ? $iter($pp, $i, $ii+1, $h) : {"h": $h, "pp":$pp}
+              )};
+              $headConcat:= $iter($p, $i, 0, false);
+              
+              $iter:= $headConcat.h ? $headConcat.pp~>|$[$i]|{"path": false}| : $headConcat.pp;
+              /*$log($iter, "one head iter");*/
+              $iter:= $iter[$not(path=false)]; /*$log($iter, "one head iter cleared");*/
+              $i<$count($p)-1 ? $ch($iter, $i+1): $iter;
+            
+            )};
+
+            $it:=$ch($pa, 0);/*$log($it, "full cycle");*/
+            $count($it)<$count($pa) ? ($pa:= $it;$concat($pa)): $it
+      )};
+
+          $chains:= $concat($paths);
+    ) 
+
+
+  title_break: >
+    (
+      $str:= $.str;
+      $lim:= $$.hexEnv.title_length_threshold;
+
+      $length($str) >= $lim ?
+        (
+          $bySpace:= $split($str, / /);
+          $break:= function ($arr, $i, $tail, $res) {(
+            $ratio:= $length($arr[$i])/$lim;
+            $res:= $ratio <= 1.1 and $count($arr) = $i+1 ? $res &  $arr[$i] :
+                   $ratio <= 1.1 and $count($arr) > $i+1 ? $res &  $arr[$i] & "\\n" :
+                   $ratio <= 1.5 and $count($arr) = $i+1 ? $res & $substring($arr[$i], 0, $floor($length($arr[$i])/2)) & "\\n" & $substring($arr[$i], $floor($length($arr[$i])/2)) :
+                   $ratio <= 1.5 and $count($arr) > $i+1 ? $res & $substring($arr[$i], 0, $floor($length($arr[$i])/2)) & "\\n" & $substring($arr[$i], $floor($length($arr[$i])/2))& "\\n";   
+
+            $i<$count($arr)-1 ? $break($arr, $i+1, $tail, $res): $res
+          )};
+
+          $broken:= $break($bySpace, 0, '', '');
+
+        
+        ) : $str;
+    
+    )
+
+  getBages: >
+    (
+      /*
+        Input: nodes
+        Reurns: svg array
+      */    
+
+      $nodes:= $.nodes;
+      $map($distinct($nodes.**.bage), function($v) {
+        {"bageId": $v, "svg": $$.hex.icons.$eval($v)}
+      })
+
+    )
+
+
+
+

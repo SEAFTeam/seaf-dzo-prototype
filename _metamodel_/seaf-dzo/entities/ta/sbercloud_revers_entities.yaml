@@ -1,0 +1,336 @@
+entities:
+  seaf.ta.components.server_virtual_cloud:
+    title: Расширение описания виртуальных серверов для целей реверса из Сбер Клауда
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.components.server_virtual"
+          properties:
+            vpc_id:
+              title: VPC
+              type: string
+              minLength: 0
+            addresses:
+              title: IP адреса
+              type: array
+              minItems: 0
+              items:
+                type: string
+                minLength: 7
+            flavor:
+              title: Спецификация (Flavor)
+              type: string
+              minLength: 3
+            tenant:
+              title: Тенант в облаке
+              type: string
+            tags:
+              title: Тэги
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    title: Имя ключа
+                    type: string
+                  value:
+                    title: Значение ключа
+                    type: string
+          required:
+            - flavor
+            - addresses
+            - vpc_id
+            - tenant
+            - tags
+
+  seaf.ta.services.wan_cloud:
+    title: Расширение описания WAN Netowrks
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.services.wan"
+          properties:
+            tenant:
+              title: Тенант в облаке
+              type: string
+            int_address:
+              title: Внутренний адрес
+              type: string
+          required:
+            - int_address
+            - tenant
+
+  seaf.ta.services.lan_cloud:
+    title: Расширение описания LAN Networks
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.services.lan"
+          properties:
+            gateway:
+              title: Название VPC
+              type: string
+            dns_list:
+              title: DNS сервера
+              type: array
+              items:
+                type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            name:
+              title: Название подсети
+              type: string
+          required:
+            - gateway
+            - tenant
+            - name
+
+  tech_components_vpc_cloud:
+    title: Расширение описания Hardware Network Appliance
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.components.network"
+          properties:
+            cidr: #todo ссылка на созданную сеть seaf.ta.services.lan_cloud
+              title: CIDR сети
+              type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+          required:
+            - cidr
+            - tenant
+
+  tech_components_vpn_cloud:
+    title: Расширение описания Network Appliance
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.components.network"
+          properties:
+            localareanetwork_id: #todo ссылка на созданную сеть seaf.ta.services.lan_cloud
+              title: CIDR сети
+              type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            vpc:
+              title: ID VPC
+              type: string
+            wideareanetwork_id:
+              title: EIP IP
+              type: string
+          required:
+            - localareanetwork_id
+            - tenant
+            - vpc
+            - wideareanetwork_id
+
+
+  seaf.ta.services.network_links_peering_cloud:
+    title: Расширение описания Site Links
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.services.network_links"
+          properties:
+            tenant:
+              title: Тенант в облаке
+              type: string
+            name:
+              title: Название подсети
+              type: string
+            status:
+              title: Состояние
+              type: string
+          required:
+            - name
+            - tenant
+            - status
+
+  seaf.ta.services.network_links_vpn_cloud:
+    title: Расширение описания Site Links
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.services.network_links"
+          properties:
+            name:
+              title: Название подсети
+              type: string
+            network_appliance_id1:
+              title: ID of local VPN Gateway
+              type: string
+            remote_gw_ip:
+              title: IP адрес удаленного узла
+              type: string
+            remote_subnets:
+              title: CIDR удаленных сетей
+              type: array
+              items:
+                type: string
+          required:
+            - name
+            - remote_subnets
+            - remote_gw_ip
+            - network_appliance_id1
+
+
+### Взято целиком без изменений из работы Марата ####
+  backup_policies:
+    title: 'Политики резервного копирования'
+    schema:
+      type: object
+      patternproperties:
+        .*:
+          type: object
+          properties:
+            name:
+              title: Название политики РК
+              type: string
+            operation_type:
+              title: Назначение политики РК
+              type: string
+              enum:
+                - 'backup'
+                - 'replication'
+            enabled:
+              title: Статус политики РК
+              type: string
+            operation_definition:
+              title: Параметры политики РК
+              type: object
+              properties:
+                max_backups:
+                  title: Кол-во хранимых РК (-1 безлимит)
+                  type: string
+                retention_duration_days:
+                  title: Срок хранения РК (дней, -1 безлимит)
+                  type: string
+                day_backups:
+                  title: Кол-во хранимых daily РК
+                  type: int
+                week_backups:
+                  title: Кол-во хранимых weekly РК
+                  type: int
+                month_backups:
+                  title: Кол-во хранимых monthly РК
+                  type: int
+                year_backups:
+                  title: Кол-во хранимых yearly РК
+                  type: int
+                timezone:
+                  title: Часовой пояс
+                  type: string
+            trigger:
+              title: Расписание РК
+              type: object
+              properties:
+                id:
+                  title: ID расписания РК
+                  type: string
+                name:
+                  title: Название расписания РК
+                  type: string
+                type:
+                  title: Тип расписания РК
+                  type: string
+                properties:
+                  title: Параметры исполнения расписания РК
+                  type: object
+                  properties:
+                    pattern:
+                      title: Расписание РК
+                      type: string
+                    start_time:
+                      title: Дата начала РК
+                      type: datetime
+            associated_vaults:
+              title: Привязанные хранилища РК
+              type: array
+              items:
+                type: object
+                properties:
+                  vault_id:
+                    title: ID хранилища РК
+                    type: string
+                  destination_vault_id:
+                    title: ID удаленного хранилища РК
+                    type: string
+            iaas_provider:
+              title: Облачный провайдер
+              type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр
+              type: string
+
+  vaults:
+    title: Хранилища РК
+    schema:
+      type: object
+      patternproperties:
+        .*:
+          type: object
+          properties:
+            name:
+              title: Имя хранилища РК
+              type: string
+            description:
+              title: Описание хранилища РК
+              type: string
+            resources:
+              title: Ресурсы РК
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    title: Идентификатор ресурса РК
+                    type: string
+                  type:
+                    title: Тип ресурса РК
+                    type: string
+                  name:
+                    title: Имя ресурса РК
+                    type: string
+                  size:
+                    title: Лимит объема РК
+                    type: int
+                  backup_size:
+                    title: Текущий объем РК
+                    type: int
+                  backup_count:
+                    title: Кол-во копий РК
+                  protect_status:
+                    title: Статус РК
+                    type: string
+                    enum:
+                      - 'available'
+                      - 'error'
+                      - 'protecting'
+                      - 'restoring'
+                      - 'removing'
+                  extra_info:
+                    title: Дополнительная информация
+                    type: object
+            iaas_provider:
+              title: Облачный провайдер
+              type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр
+              type: string

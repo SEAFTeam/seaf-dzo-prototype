@@ -1,0 +1,84 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.cces:
+    title: Cloud Container Engine
+    objects:
+      cce:
+        route: "/"
+        title: Cloud Container Engine
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: CCE ID
+              type: string
+            name:
+              title: Имя кластера
+              type: string
+            alias:
+              title: Alias кластера
+              type: string
+            flavor:
+              title: Flavor кластера
+              type: string
+            version:
+              title: Версия CCE
+              type: string
+            platform_version:
+              title: Версия платформы CCE
+              type: string
+            vpc_id:
+              title: Идентификатор VPC
+              type: string
+            subnet_id:
+              title: Идентификатор подсети
+              type: string
+            addresses:
+              title: IP адреса
+              type: array
+              minItems: 0
+              items:
+                type: string
+                minLength: 7
+            security_groups:
+              title: Группы безопасности
+              type: array
+              items:
+                type: string
+            container_network:
+              title: Сеть POD'ов
+              type: string
+            service_network:
+              title: Сеть сервисов
+              type: string
+            authentication:
+              title: Тип аутентификации
+              type: string
+            masters_az:
+              title: Зоны доступности
+              type: array
+              items:
+                type: string
+            supportistio:
+              title: Поддержка istio
+              type: boolean
+            endpoints:
+              title: Endpoints
+              type: array
+              items:
+                type: object
+                properties:
+                  url:
+                    title: URL эндпоинта
+                    type: string
+                  type:
+                    title: Тип эндпоинта
+                    type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"

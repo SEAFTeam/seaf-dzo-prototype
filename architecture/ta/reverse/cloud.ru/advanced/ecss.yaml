@@ -1,0 +1,453 @@
+seaf.ta.reverse.cloud_ru.advanced.ecss:
+    sber.berezka.ecss.e5e60a69-0653-4297-8799-ea0df4f0cacc:
+        id: e5e60a69-0653-4297-8799-ea0df4f0cacc
+        name: ecs-prod-someserver1
+        flavor: s7n.large.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        az: ru-moscow-1a
+        cpu:
+            cores: 2
+            frequency: ''
+            arch: ''
+        ram: 4096
+        nic_qty: 1
+        addresses:
+            - 10.10.0.51
+        subnets:
+            - 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        disks:
+            -   4bae3e4d-63db-46f8-8fda-c5668a748ae2:
+                    device: /dev/vda
+                    size: 50
+                    az: ru-moscow-1a
+                    type: SAS
+        tags:
+            - key: AS_Name
+              value: SomewhatAS
+            - key: Service_Name
+              value: Application Server
+            - key: Team
+              value: IT
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст
+    sber.berezka.ecss.fb77c40e-b1e2-4aa5-89a9-45725b7ccf30:
+        id: fb77c40e-b1e2-4aa5-89a9-45725b7ccf30
+        name: ecs-prod-someserver2
+        flavor: s7n.xlarge.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        az: ru-moscow-1a
+        cpu:
+            cores: 4
+            frequency: ''
+            arch: ''
+        ram: 8192
+        nic_qty: 1
+        addresses:
+            - 10.10.0.52
+        subnets:
+            - 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        disks:
+            -   9eece804-5497-443b-a248-059c657c60f0:
+                    device: /dev/vda
+                    size: 50
+                    az: ru-moscow-1a
+                    type: SSD
+            -   5a5f3f8d-1a36-418f-aca8-f903a68e7b0e:
+                    device: /dev/vdb
+                    size: 100
+                    az: ru-moscow-1a
+                    type: SSD
+        tags:
+            - key: AS_Name
+              value: SomewhatAS
+            - key: Service_Name
+              value: Application Server
+            - key: Team
+              value: IT
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст
+    sber.berezka.ecss.729d3b73-350c-4987-86ed-01d36b719c57:
+        id: 729d3b73-350c-4987-86ed-01d36b719c57
+        name: ecs-auth-server
+        flavor: s7n.large.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: abddcd66-c607-4ec6-9d12-30378e0e54c0
+        az: ru-moscow-1b
+        cpu:
+            cores: 2
+            frequency: ''
+            arch: ''
+        ram: 4096
+        nic_qty: 1
+        addresses:
+            - 10.1.0.10
+        subnets:
+            - f90d9869-6c04-4be5-944f-2a08f3e72c2f
+        disks:
+            -   a8352cac-46bc-4228-bde0-2e5bdff40d74:
+                    device: /dev/vda
+                    size: 30
+                    az: ru-moscow-1b
+                    type: SAS
+        tags:
+            - key: AS_Name
+              value: SomewhatAS
+            - key: Service_Name
+              value: Auth Server
+            - key: Team
+              value: IT
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст
+    sber.berezka.ecss.d33114ee-70d6-4444-9457-e142216b95aa:
+        id: d33114ee-70d6-4444-9457-e142216b95aa
+        name: ecs-test-nginx
+        flavor: s7n.large.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        az: ru-moscow-1a
+        cpu:
+            cores: 2
+            frequency: ''
+            arch: ''
+        ram: 4096
+        nic_qty: 1
+        addresses:
+            - 10.10.10.53
+        subnets:
+            - 6b2820d7-17c6-409a-91cb-b634cf596fdb
+        disks:
+            -   e29771d6-a433-4c8d-8c9f-8b83b9b5e07e:
+                    device: /dev/vda
+                    size: 50
+                    az: ru-moscow-1a
+                    type: SAS
+            -   71a00f20-bc12-4725-9e22-3450366cbdf4:
+                    device: /dev/vdb
+                    size: 300
+                    az: ru-moscow-1a
+                    type: SAS
+        tags: []
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст
+    sber.berezka.ecss.62f713a4-1139-461f-8053-1df267861aef:
+        id: 62f713a4-1139-461f-8053-1df267861aef
+        name: ecs-prod-nginx
+        flavor: s7n.large.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        az: ru-moscow-1b
+        cpu:
+            cores: 2
+            frequency: ''
+            arch: ''
+        ram: 4096
+        nic_qty: 1
+        addresses:
+            - 10.10.0.53
+        subnets:
+            - 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        disks:
+            -   5d960d0f-4f39-4381-b6f6-b7b7b8cd3218:
+                    device: /dev/vda
+                    size: 50
+                    az: ru-moscow-1b
+                    type: SAS
+            -   14f221a1-03cb-4aec-97ca-13146aec7b32:
+                    device: /dev/vdb
+                    size: 100
+                    az: ru-moscow-1b
+                    type: SAS
+        tags:
+            - key: AS_Name
+              value: SomewhatAS
+            - key: Service_Name
+              value: Balancer Server
+            - key: Team
+              value: IT
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст
+    sber.berezka.ecss.82935ed6-9c65-4e73-a1ad-1511e21f50b0:
+        id: 82935ed6-9c65-4e73-a1ad-1511e21f50b0
+        name: ecs-prod-app1
+        flavor: s7n.large.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        az: ru-moscow-1b
+        cpu:
+            cores: 2
+            frequency: ''
+            arch: ''
+        ram: 4096
+        nic_qty: 1
+        addresses:
+            - 10.10.0.54
+        subnets:
+            - 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        disks:
+            -   c170c112-b0d5-4ab1-9a97-aad38f3403e5:
+                    device: /dev/vda
+                    size: 100
+                    az: ru-moscow-1b
+                    type: SAS
+            -   f32b079e-b75b-4ffb-a8da-69bd9d085cf3:
+                    device: /dev/vdb
+                    size: 200
+                    az: ru-moscow-1b
+                    type: SAS
+        tags: []
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст
+    sber.berezka.ecss.9c84c9c0-58b8-40b1-84e8-c165535d9c33:
+        id: 9c84c9c0-58b8-40b1-84e8-c165535d9c33
+        name: ecs-test-app
+        flavor: s7n.xlarge.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        az: ru-moscow-1a
+        cpu:
+            cores: 4
+            frequency: ''
+            arch: ''
+        ram: 8192
+        nic_qty: 1
+        addresses:
+            - 10.10.10.54
+        subnets:
+            - 6b2820d7-17c6-409a-91cb-b634cf596fdb
+        disks:
+            -   b47f8a29-d2ac-4e42-b435-75de8afa35bd:
+                    device: /dev/vda
+                    size: 40
+                    az: ru-moscow-1a
+                    type: SAS
+        tags: []
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст
+    sber.berezka.ecss.113c84ac-c328-4119-8057-402b96a7c06c:
+        id: 113c84ac-c328-4119-8057-402b96a7c06c
+        name: ecs-prod-zabbix
+        flavor: s7n.large.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        az: ru-moscow-1c
+        cpu:
+            cores: 2
+            frequency: ''
+            arch: ''
+        ram: 4096
+        nic_qty: 1
+        addresses:
+            - 10.10.0.55
+        subnets:
+            - 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        disks:
+            -   62c20c65-b96b-4e96-b92f-7e4a5c85c872:
+                    device: /dev/vda
+                    size: 70
+                    az: ru-moscow-1c
+                    type: SAS
+        tags: []
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст
+    sber.berezka.ecss.ab37d178-869f-49ff-bb7c-25e6730a5c61:
+        id: ab37d178-869f-49ff-bb7c-25e6730a5c61
+        name: ecs-prod-dochub
+        flavor: s7n.xlarge.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        az: ru-moscow-1c
+        cpu:
+            cores: 4
+            frequency: ''
+            arch: ''
+        ram: 8192
+        nic_qty: 1
+        addresses:
+            - 10.10.0.56
+        subnets:
+            - 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        disks:
+            -   1279d767-b799-41ae-8832-0d452d5a62e0:
+                    device: /dev/vda
+                    size: 80
+                    az: ru-moscow-1c
+                    type: SAS
+        tags: []
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст
+    sber.berezka.ecss.f86bc8e3-8187-48fc-9973-4bd4c35370fe:
+        id: f86bc8e3-8187-48fc-9973-4bd4c35370fe
+        name: ecs-prod-app2
+        flavor: s7n.xlarge.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        az: ru-moscow-1a
+        cpu:
+            cores: 4
+            frequency: ''
+            arch: ''
+        ram: 8192
+        nic_qty: 1
+        addresses:
+            - 10.100.2.249
+        subnets:
+            - 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        disks:
+            -   1a09bd6d-f397-407b-8ec0-80c905cdec25:
+                    device: /dev/vda
+                    size: 40
+                    az: ru-moscow-1a
+                    type: SAS
+            -   ed69b508-a874-4a5d-a117-3ab8d7ba69d3:
+                    device: /dev/vdb
+                    size: 200
+                    az: ru-moscow-1a
+                    type: SAS
+        tags: []
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст
+    sber.berezka.ecss.ea0e59a3-02c0-43dc-aacf-58d8d7dd9e8a:
+        id: ea0e59a3-02c0-43dc-aacf-58d8d7dd9e8a
+        name: ecs-fw-external
+        flavor: c6nl.xlarge.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: abddcd66-c607-4ec6-9d12-30378e0e54c0
+        az: ru-moscow-1a
+        cpu:
+            cores: 4
+            frequency: ''
+            arch: ''
+        ram: 8192
+        nic_qty: 2
+        addresses:
+            - 10.1.1.2
+            - 188.31.17.86
+            - 10.1.1.3
+            - 73.54.34.19
+            - 10.1.1.4
+            - 64.23.26.23
+            - 10.1.0.2
+        subnets:
+            - f90d9869-6c04-4be5-944f-2a08f3e72c2f
+            - fa768d9d-787e-4778-930d-8b8049f01df4
+        disks:
+            -   0b08487f-d8bd-42a1-912a-baba15d4aa60:
+                    device: /dev/vda
+                    size: 100
+                    az: ru-moscow-1a
+                    type: SAS
+        tags: []
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст
+    sber.berezka.ecss.6196ae7c-ef37-4f2a-b1b3-33983e30d128:
+        id: 6196ae7c-ef37-4f2a-b1b3-33983e30d128
+        name: ecs-prod-app3
+        flavor: s6.xlarge.2
+        os:
+            type: Linux
+            bit: '64'
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        az: ru-moscow-1c
+        cpu:
+            cores: 4
+            frequency: ''
+            arch: ''
+        ram: 8192
+        nic_qty: 1
+        addresses:
+            - 10.100.2.3
+        subnets:
+            - 994a6e04-e812-4be1-b0a8-0e995cf3df16
+        disks:
+            -   15dcb1d7-3a82-4be0-808f-95c7c993a2f4:
+                    device: /dev/vda
+                    size: 150
+                    az: ru-moscow-1c
+                    type: SAS
+        tags: []
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        type: vm
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        description: Пример описания сервера, здесь может быть любой текст

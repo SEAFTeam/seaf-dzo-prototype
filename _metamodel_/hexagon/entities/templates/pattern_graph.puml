@@ -1,0 +1,18 @@
+@startuml
+
+left to right direction
+hide empty description
+set separator ::
+
+!$url = "{{{url}}}"
+
+{{#nodes}}
+{{#body.bage}}sprite ${{bId}} {{{svg}}}{{/body.bage}}
+' object "<${{bId}}*8>\n{{bId}}" as {{bId}}
+state "{{#body.bage}}<${{bId}}*2>\n{{/body.bage}}{{body.title}}" as {{id}} 
+{{/nodes}}
+
+{{#edges}}
+{{source}} --> {{target}} {{#label}}: {{.}}{{/label}}
+{{/edges}}
+@enduml

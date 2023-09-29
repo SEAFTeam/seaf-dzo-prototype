@@ -1,0 +1,30 @@
+seaf.ta.reverse.cloud_ru.advanced.nat_gateways:
+    sber.berezka.nat_gateways.d9dade58-8b2c-4505-814f-eb38e503f1b1:
+        id: d9dade58-8b2c-4505-814f-eb38e503f1b1
+        name: nat-gateway
+        description: ''
+        subnet_id: 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+        status: ACTIVE
+        address: 10.10.0.25
+        snat_rules:
+            -   id: 00c4fa69-38f5-4df7-88fd-f98ae315db51
+                eip_id:
+                    - 7785b143-e83f-4466-aa22-05b2419fc670
+                eip_address:
+                    - 170.170.190.235
+                status: ACTIVE
+                subnet_id: 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+                cidr: ''
+                source_type: 0
+            -   id: 1e6da21a-ec04-42ac-b813-23fe4359fc0a
+                eip_id:
+                    - 7785b143-e83f-4466-aa22-05b2419fc670
+                eip_address:
+                    - 170.170.190.235
+                status: ACTIVE
+                subnet_id: 6b2820d7-17c6-409a-91cb-b634cf596fdb
+                cidr: ''
+                source_type: 0
+        dnat_rules: []

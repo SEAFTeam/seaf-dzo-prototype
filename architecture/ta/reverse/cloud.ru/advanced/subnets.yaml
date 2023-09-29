@@ -1,0 +1,49 @@
+seaf.ta.reverse.cloud_ru.advanced.subnets:
+    sber.berezka.subnets.0d9f37b6-0889-4763-8cf3-20d9641af0c1:
+        id: 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        name: subnet-Prod
+        cidr: 10.10.0.0/24
+        description: Production network
+        gateway: 10.10.0.1
+        dns_list:
+            - 100.1.3.5
+            - 100.2.6.4
+        vpc: d48e294f-eb6a-4352-8d73-275b7a966e90
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.subnets.6b2820d7-17c6-409a-91cb-b634cf596fdb:
+        id: 6b2820d7-17c6-409a-91cb-b634cf596fdb
+        name: subnet-Test
+        cidr: 10.10.10.0/24
+        description: Test environments
+        gateway: 10.10.10.1
+        dns_list:
+            - 100.1.3.5
+            - 100.2.6.4
+        vpc: d48e294f-eb6a-4352-8d73-275b7a966e90
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.subnets.f90d9869-6c04-4be5-944f-2a08f3e72c2f:
+        id: f90d9869-6c04-4be5-944f-2a08f3e72c2f
+        name: subnet-DMZ
+        cidr: 10.1.0.0/24
+        description: DMZ subnet
+        gateway: 10.1.0.1
+        dns_list:
+            - 8.8.8.8
+            - 8.8.9.8
+        vpc: abddcd66-c607-4ec6-9d12-30378e0e54c0
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.subnets.fa768d9d-787e-4778-930d-8b8049f01df4:
+        id: fa768d9d-787e-4778-930d-8b8049f01df4
+        name: subnet-internet
+        cidr: 10.1.1.0/24
+        description: Internet facing interfaces
+        gateway: 10.100.49.1
+        dns_list:
+            - 8.9.9.8
+            - 8.8.8.8
+        vpc: abddcd66-c607-4ec6-9d12-30378e0e54c0
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01

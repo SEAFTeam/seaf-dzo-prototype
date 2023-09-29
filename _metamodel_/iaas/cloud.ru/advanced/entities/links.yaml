@@ -1,0 +1,27 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.links:
+    title: Связи с прикладными компонентами
+    objects:
+      link:
+        route: "/"
+        title: Связь с АС
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            app_id:
+              title: ID прикладного компонента
+              $ref: "#/$rels/components.component"
+            reverse_ta_id:
+              title: ID технологического компонента
+              type: array
+              items:
+                anyOf:
+                  - $ref: "#/$rels/seaf.ta.reverse.cloud_ru.advanced.ecss.ecs"
+                  - $ref: "#/$rels/seaf.ta.reverse.cloud_ru.advanced.dmss.dms"
+                  - $ref: "#/$rels/seaf.ta.reverse.cloud_ru.advanced.rdss.rds"
+                  - $ref: "#/$rels/seaf.ta.reverse.cloud_ru.advanced.cces.cce"
+                  - $ref: "#/$rels/seaf.ta.reverse.cloud_ru.advanced.elbs.elb"
+

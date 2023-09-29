@@ -1,0 +1,73 @@
+seaf.ba.ttl:
+
+  berezka:
+    title: Березка
+    hex:
+      <=:
+        berezka.home_cinema:
+        berezka.media_platform_saas:
+        berezka.media_platform_self:
+      =>map:
+        mm.party:
+
+  fl:
+    title: ФЛ
+    hex:
+      =>map:
+        mm.party:
+      =>:
+        berezka.home_cinema:
+
+  berezka.home_cinema:
+    title: Домашний кинотеатр
+    hex:
+      =>map:
+        mm.product:
+      <=:
+        berezka.media_platform_self:
+
+  bank.payments:
+    title: Прием платежей
+    hex:
+      =>map:
+        mm.product:
+      =>:
+        berezka.home_cinema:
+        bank:
+
+
+  berezka.media_platform_saas:
+    title: Медиа-платформа
+    hex:
+      =>map:
+        mm.product:
+
+  berezka.media_platform_self:
+    title: Медиа-платформа
+    hex:
+      =>map:
+        mm.product:
+
+  bank:
+    title: Банк
+    hex:
+      =>map:
+        mm.party:
+      <=:
+        bank.fl_auth:
+
+  bank.fl_auth:
+    title: Аутентификация пользователей
+    hex:
+      =>map:
+        mm.product:
+      =>:
+        berezka.home_cinema:
+
+  content_matter_buz:
+    title: Контентно-зависимый бизнес
+    hex:
+      =>map:
+        mm.party:
+      =>:
+        berezka.media_platform_saas:

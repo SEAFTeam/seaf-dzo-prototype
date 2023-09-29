@@ -1,0 +1,11 @@
+# Предопределенные домены прикладных компонентов
+components:
+  sber.berezka:
+    title: Березка
+    entity: package
+    description: ООО Березка
+
+aspects:
+  sber:
+    title: Сбер
+

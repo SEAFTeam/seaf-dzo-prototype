@@ -1,0 +1,14 @@
+entities:
+  seaf.ta.reverse.general:
+    presentations:
+      readme:
+        type: markdown
+        template: ../../README.md
+
+      readme_cloud_advanced:
+        type: markdown
+        template: ../README_CLOUD_ADVANCED.md
+
+      metamodel:
+        type: mermaid
+        template: templates/schema.mmd

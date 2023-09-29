@@ -1,0 +1,106 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.nat_gateways:
+    presentations:
+      table_view:
+        type: table
+        headers:
+          - value: name
+            text: Название
+            width: 200
+            sortable: true
+            link: link
+          - value: address
+            text: IP адрес
+          - value: snat_rules_qty
+            text: Кол-во SNAT правил
+            width: 200
+          - value: dnat_rules_qty
+            text: Кол-во DNAT правил
+            width: 200
+          - value: subnet
+            text: Подсеть
+            width: 200
+          - value: vpc
+            text: VPC
+            width: 150
+          - value: dc
+            text: DC/IaaS
+            width: 150
+        source: >
+          (
+              $cnatgw := $."seaf.ta.reverse.cloud_ru.advanced.nat_gateways";
+              $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+              $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+              $cdcs := $."seaf.ta.services.dc";
+              $cnatgw.$spread().[(
+                  $subnet_id := $.*.subnet_id;
+                  $subnet := $csubnets.$spread()[$.*.id = $subnet_id];
+                  $vpc := $cvpcs.$spread()[$.*.id = $subnet.*.vpc].*.name;
+                  $id := $keys()[0];
+                  $natgw_dc := $.*.DC;
+                  $dc := $cdcs.$spread()[$keys()[0] = $natgw_dc].*.dc_name;
+                  {
+                      'name': $.*.name,
+                      'address': $.*.address,
+                      'subnet': $subnet.*.name,
+                      'vpc': $vpc,
+                      'snat_rules_qty': $count($.*.snat_rules),
+                      'dnat_rules_qty': $count($.*.dnat_rules),
+                      'dc': $dc,
+                      'link': '/entities/seaf.ta.reverse.cloud_ru.advanced.nat_gateways/natgw_md?id=' & $id
+                  }
+              )]
+          )
+
+      natgw_md:
+        type: markdown
+        template: templates/natgw.md
+        source: >
+          (
+              $ctx := $params;
+              $natgw := $."seaf.ta.reverse.cloud_ru.advanced.nat_gateways".$spread()[$keys()[0] = $ctx.id];
+              $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+              $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+              $subnet_id := $natgw.*.subnet_id;
+              $subnet := $csubnets.$spread()[$.*.id = $subnet_id];
+              $vpc := $cvpcs.$spread()[$.*.id = $subnet.*.vpc].*.name;
+              $array := $natgw.$spread().($.*);
+              $dc := $."seaf.ta.services.dc".$spread()[$keys()[0] = $natgw.*.DC].*.dc_name;
+              $array := $array ~> | $ | {'DC': $dc, 'vpc': $vpc, 'subnet': $subnet.*.name}|;
+          
+          )
+
+      natgw_snat:
+        type: table
+        headers:
+          - value: id
+            text: ID правила
+          - value: subnet
+            text: Source Subnet
+            width: 200
+            sortable: true
+            link: link
+          - value: eip_address
+            text: Elastic IP адрес
+        source: >
+          (
+              $ctx := $params;
+              $natgw := $."seaf.ta.reverse.cloud_ru.advanced.nat_gateways".$spread()[$.*.id = $ctx.id];
+              $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+              $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+              $subnet_id := $natgw.*.subnet_id;
+              $subnet := $csubnets.$spread()[$.*.id = $subnet_id];
+              $vpc := $cvpcs.$spread()[$.*.id = $subnet.*.vpc].*.name;
+              $array := $natgw.$spread().($.*);
+              $snat := $natgw.$spread().*.snat_rules.(
+                  $item := $; 
+                  $subnet := $csubnets.$spread()[$.*.id = $item.subnet_id].*.name;
+                  $eip_address := $item.eip_address;
+                  {
+                      'id': $item.id,
+                      'subnet': $subnet,
+                      'eip_address': $eip_address,
+                      'link': '/entities/seaf.ta.reverse.cloud_ru.advanced.vpcs/vpcs_diagram_full'
+                  }                  
+              );
+          )

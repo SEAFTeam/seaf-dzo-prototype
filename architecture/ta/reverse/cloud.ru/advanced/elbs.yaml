@@ -1,0 +1,70 @@
+seaf.ta.reverse.cloud_ru.advanced.elbs:
+    sber.berezka.elbs.6d174721-db0e-4758-9a96-2f626e1a6632:
+        id: 6d174721-db0e-4758-9a96-2f626e1a6632
+        name: elb-ingress-test
+        description: ''
+        subnet_id: 6b2820d7-17c6-409a-91cb-b634cf596fdb
+        port_id: 18f854e2-1189-44ba-ab12-ddf88d788de7
+        address: 10.10.10.30
+        operating_status: ONLINE
+        provisioning_status: ACTIVE
+        listeners:
+            -   id: a230fdde-fe28-48dd-88a4-59926d9623b0
+                name: listener-1b3e
+                default_pool_id: c247be56-3483-4f05-bbff-19705bf3f81c
+                protocol_port: 80
+                protocol: TCP
+        pools:
+            -   id: c247be56-3483-4f05-bbff-19705bf3f81c
+                name: server_group-1
+                lb_algorithm: ROUND_ROBIN
+                members: []
+        tags: []
+        forwardingpolicy: []
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.elbs.ad9af3b6-fd82-404e-8d6c-466660e92329:
+        id: ad9af3b6-fd82-404e-8d6c-466660e92329
+        name: elb-ingress-prod
+        description: ''
+        subnet_id: 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        port_id: b0128136-c7c4-48eb-9af0-7bcc4855361f
+        address: 10.10.0.30
+        operating_status: ONLINE
+        provisioning_status: ACTIVE
+        listeners:
+            -   id: 4125ce7a-18b5-4003-8bfa-e7600d3a7608
+                name: TCP_80
+                default_pool_id: 10f7c034-d7f6-43b1-a936-686c823177f8
+                protocol_port: 80
+                protocol: TCP
+            -   id: cbd1dc3e-66a3-4c79-82e1-4fd113fc80c7
+                name: TCP_443
+                default_pool_id: 53f3529d-faac-440c-9ac4-2182c7525f3d
+                protocol_port: 443
+                protocol: TCP
+        pools:
+            -   id: 10f7c034-d7f6-43b1-a936-686c823177f8
+                name: TCP-80
+                lb_algorithm: ROUND_ROBIN
+                members:
+                    -   id: 01318751-2670-4199-9c20-fc32b1341591
+                        address: 10.10.0.51
+                        name: a8350fe7-cfdd-11ed-9fc0-0255ac100088_10.10.0.51
+                    -   id: 01735b0b-81fa-400f-8410-4fecbbf058e4
+                        address: 10.10.0.52
+                        name: a8350fe7-cfdd-11ed-9fc0-0255ac100088_10.10.0.52
+            -   id: 53f3529d-faac-440c-9ac4-2182c7525f3d
+                name: TCP-443
+                lb_algorithm: ROUND_ROBIN
+                members:
+                    -   id: 2d14f3f7-d5d5-4873-ab45-4d0fd1d010e0
+                        address: 10.10.0.51
+                        name: a8350fe7-cfdd-11ed-9fc0-0255ac100088_10.10.0.51
+                    -   id: 84e2e165-3023-4eae-af9a-8eb7fa21b828
+                        address: 10.10.0.52
+                        name: a8350fe7-cfdd-11ed-9fc0-0255ac100088_10.10.0.52
+        tags: []
+        forwardingpolicy: []
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01

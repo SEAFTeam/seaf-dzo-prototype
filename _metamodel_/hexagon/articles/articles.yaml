@@ -1,0 +1,25 @@
+articles:
+
+  hex_main:
+    # location: Hexagon
+    description: Hexagon docs entry point
+    type: markdown
+    source: ../README.md
+
+  hex_declare:
+    location: Декларирование объектов и отношений
+    description: Objects and relations declaring
+    type: markdown
+    source: hex_declare.md
+
+  hex_queries:
+    location: hex запросы
+    description: Quering hex
+    type: markdown
+    source: hex_queries.md
+
+  hex_views:
+    location: Представления (views)
+    description: hexV usage
+    type: markdown
+    source: hex_views.md

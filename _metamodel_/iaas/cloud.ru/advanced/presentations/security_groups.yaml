@@ -1,0 +1,41 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.security_groups:
+    presentations:
+      table_view:
+        type: table
+        headers:
+          - value: name
+            text: Название правила
+            width: 300
+          - value: direction
+            text: Направление
+          - value: ethertype
+            text: Протокол l3
+          - value: protocol
+            text: Протокол l4
+          - value: protocol_port
+            text: Порт
+          - value: remote
+            text: Партнер
+        source: >
+          (
+              $ctx := $params;
+              $csecurity_groups := $."seaf.ta.reverse.cloud_ru.advanced.security_groups";
+              $security_group := $."seaf.ta.reverse.cloud_ru.advanced.security_groups".$spread()[*.id = $ctx.id];
+              $security_group.*.rules.(
+                  $rgid := $.remote_group_id;
+                  $remote := (
+                      $.remote_group_id != null ? $csecurity_groups.$spread()[$keys()[0] = $rgid].*.name :
+                          $.remote_address_group_id != null ? $.remote_address_group_id : 
+                              $.remote_ip_prefix != null ? $.remote_ip_prefix;
+                  );
+                  {
+                      'name': $.description,
+                      'direction': $.direction,
+                      'ethertype': $.ethertype,
+                      'protocol': $.protocol,
+                      'protocol_port': $.protocol_port,
+                      'remote': $remote
+                  }
+              )
+          )

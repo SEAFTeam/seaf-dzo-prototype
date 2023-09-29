@@ -1,0 +1,11 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.dmss:
+    menu: >
+      (
+          $count($."seaf.ta.reverse.cloud_ru.advanced.dmss") > 0 ? [{
+                      /* Размещение в пользовательском меню */
+                      "location": "Документы/Техническая архитектура/Реверс/Cloud.ru/Advanced/Реестры/Distributed Message Services",
+                      /* URI представления context см. ниже.*/
+                      "link": "entities/seaf.ta.reverse.cloud_ru.advanced.dmss/table_view"
+          }];
+      )

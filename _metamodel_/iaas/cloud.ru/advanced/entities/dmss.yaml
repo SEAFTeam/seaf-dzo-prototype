@@ -1,0 +1,86 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.dmss:
+    title: Distributed Message Services
+    objects:
+      dms:
+        route: "/"
+        title: Distributed Message Service
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: Идентификатор сервиса DMS
+              type: string
+            name:
+              title: Имя сервиса DMS
+              type: string
+            engine:
+              title: Движок сервиса DMS (rabbit или kafka)
+              type: string
+            engine_version:
+              title: Версия движка сервиса DMS
+              type: string
+            port:
+              title: Порт сервиса
+              type: string
+            address:
+              title: IP адрес сервиса DMS
+              type: string
+            vpc_id:
+              title: Идентификатор VPC
+              type: string
+            subnet_id:
+              title: Идентификатор подсети
+              type: string
+            status:
+              title: Статус сервиса DMS
+              type: string
+            type:
+              title: Тип отказоустойчивости DMS
+              type: string
+            specification:
+              title: Спецификация
+              type: string
+            security_groups:
+              title: Группы безопасности
+              type: array
+              items:
+                type: string
+            available_az:
+              title: Зоны доступности
+              type: array
+              items:
+                type: string
+            storage_space:
+              title: Доступное место
+              type: string
+            total_storage_space:
+              title: Размер хранилища
+              type: string
+            used_storage_space:
+              title: Хранилище использовано
+              type: string
+            storage_spec_code:
+              title: Спецификация хранилища
+              type: string
+            management:
+              title: URL мэнеджмент интерфейса
+              type: string
+            support_features:
+              title: ПОддерживаемые фичи
+              type: string
+            node_num:
+              title: Количество экземпляров
+              type: integer
+            disk_encrypted:
+              title: Шифрование диска
+              type: boolean
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"

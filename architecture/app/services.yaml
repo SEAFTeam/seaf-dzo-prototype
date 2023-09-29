@@ -1,0 +1,12 @@
+components:
+  sber.berezka.home_cinema:
+    entity: component
+    description: Прикладной сервис Домашний кинотеатр
+    title: Домашний кинотеатр
+    sber:
+      type: service
+      access_from_external: true
+      role_model: Централизованная
+      criticality: Business Critical
+      id: ea93d8e7-2303-4621-ad2a-80f2634b3b85
+      class: Иное

@@ -1,0 +1,58 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.security_groups:
+    title: Security Groups (firewall rules)
+    objects:
+      security_group:
+        route: "/"
+        title: Security Group
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: Security Groups ID
+              type: string
+            name:
+              title: Security Group Name
+              type: string
+            description:
+              title: Описание Security Group
+              type: string
+            rules:
+              title: Endpoints
+              type: array
+              items:
+                type: object
+                properties:
+                  description:
+                    title: Описание правила
+                    type: string
+                  direction:
+                    title: Направление
+                    type: string
+                  ethertype:
+                    title: IP протокол
+                    type: string
+                  protocol_port:
+                    title: Порт или диапазон портов
+                    type: string
+                  protocol:
+                    title: Протокол
+                    type: string
+                  remote_group_id:
+                    title: Идентификатор правила
+                    type: string
+                  remote_ip_prefix:
+                    title: Диапазон адресов
+                    type: string
+                  remote_address_group_id:
+                    title: Идентификатор группы адресов
+                    type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"

@@ -1,0 +1,216 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.elbs:
+    presentations:
+      table_view:
+        type: table
+        headers:
+          - value: name
+            text: Название
+            sortable: true
+            link: link
+            width: 200
+          - value: address
+            text: IP адрес
+          - value: listeners
+            text: Listeners
+            width: 250
+          - value: pools
+            text: Пулы
+          - value: subnet
+            text: Подсеть
+            width: 200
+          - value: vpc
+            text: VPC
+            width: 150
+          - value: dc
+            text: DC/IaaS
+            width: 150
+        source: >
+          (
+              $celbs := $."seaf.ta.reverse.cloud_ru.advanced.elbs";
+              $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+              $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+              $cdcs := $."seaf.ta.services.dc";
+              [[$celbs.$spread().{
+                  'id': $keys()[0],
+                  'elb': $.* 
+              }].(
+                  $tmp := elb.subnet_id;
+                  $subn := $csubnets.$spread()[$.*.id = $tmp];
+                  $vpc := $cvpcs.$spread()[$.*.id = $subn.*.vpc];
+                  $listeners := $join(elb.listeners.($.name & '-' & $.protocol & $.protocol_port),'\n');
+                  $pools := $join(elb.pools.($.name & ' (' & $join($.members.address, ', ') & ')'), '\n');
+                  $elb_dc := elb.DC;
+                  $dc := $cdcs.$spread()[$keys()[0] = $elb_dc].*.dc_name;
+                  {
+                      'name': elb.name,
+                      'address': elb.address,
+                      'subnet': $subn.*.name,
+                      'vpc': $vpc.*.name,
+                      'listeners': $listeners,
+                      'pools': $pools,
+                      'dc': $dc,
+                      'link': '/entities/seaf.ta.reverse.cloud_ru.advanced.elbs/elb_md?id=' & id
+                  }   
+              )]
+          )
+
+      elb_md:
+        type: markdown
+        template: templates/elb.md
+        source: >
+          (
+              $ctx := $params;
+              $elb := $."seaf.ta.reverse.cloud_ru.advanced.elbs".$spread()[$keys()[0] = $ctx.id];
+              $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+              $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+              $cservers := $."seaf.ta.reverse.cloud_ru.advanced.ecss";
+              $cdcs := $."seaf.ta.services.dc";
+              $elb.$spread().(
+                  $id := $keys()[0];
+                  $tmp := $.*.subnet_id;
+                  $subn := $csubnets.$spread()[$.*.id = $tmp];
+                  $vpc := $cvpcs.$spread()[$.*.id = $subn.*.vpc];
+                  $pools := $.*.pools;
+                  $listeners := $.*.listeners.(
+                      $pool_id := $.default_pool_id;
+                      $pool := $pools[id = $pool_id];
+                      $members := $join($pool.members.($ip := $.address; $cservers.*[$ip in addresses].name), ', ');
+                      {
+                          'name': $.name,
+                          'port': $.protocol & $.protocol_port,
+                          'lbtype': $pool.lb_algorithm,
+                          'members': $members
+                      }
+                  );
+                  $elb_dc := $.*.DC;
+                  $dc := $cdcs.$spread()[$keys()[0] = $elb_dc].*.dc_name;
+                  {
+                      'id': $id,
+                      'name': $.*.name,
+                      'address': $.*.address,
+                      'subnet': $subn.*.name,
+                      'vpc': $vpc.*.name,
+                      'listeners': $listeners,
+                      'dc': $dc,
+                      'linkelb': '/entities/seaf.ta.reverse.cloud_ru.advanced.elbs/elb_md?id=' & id
+                  }   
+              )
+          )
+      elb_schema:
+        type: smartants
+        source: >
+          (
+              $ctx := $params;
+              $elb := $."seaf.ta.reverse.cloud_ru.advanced.elbs".$spread()[$keys()[0] = $ctx.id];
+              $cservers := $."seaf.ta.reverse.cloud_ru.advanced.ecss";
+              $elb.$spread().(
+                  $id := $keys()[0];
+                  $ip := $.*.address;
+                  $pools := $.*.pools;
+                  $listeners := $.*.listeners.(
+                      $pool_id := $.default_pool_id;
+                      $pool := $pools[id = $pool_id];
+                      $members := $pool.members.($ip := $.address; {'name':$cservers.*[$ip in addresses].name, 'ip': $ip});
+                      {
+                          'id': $.id,
+                          'name': $.name,
+                          'port': $.protocol & $.protocol_port,
+                          'lbtype': $pool.lb_algorithm,
+                          'members': $members
+                      }
+                  );
+                  $nodes := $listeners.(
+                      {
+                          $.id: {
+                              'title': '',
+                              'symbol': 'listener_' & $.id
+                          }
+                      }
+                  );
+              
+                  $nodes := $append($nodes, $listeners.(
+                          $.members.(
+                              {
+                                  $.name: {
+                                      'title': '',
+                                      'symbol': 'server_' & $.name
+                                  }
+                              }
+                          )
+                      )
+                  );
+                  $nodes := $append($nodes, 
+                      {'user':{'title': 'Пользовтель', 'symbol': 'user'}}
+                  );
+                  $links := $listeners.(
+                      $listener := $.id;
+                      $lbtype := $.lbtype;
+                      $.members.(
+                          {
+                              "from": $listener,
+                              "to": $.name,
+                              "title": $lbtype,
+                              "style": '->'
+                          }
+                      )
+                  );
+                  $links := $append($links,
+                      $listeners.(          
+                          {
+                              'from': 'user', 
+                              'to': $.id, 
+                              'title': 'Клиентская нагрузка', 
+                              'style': '->'
+                          }
+                      )   
+                  );
+                  $symbols := $listeners.(
+                      $symbol := '<svg fill="#D90000" width="150" height="150" xmlns="http://www.w3.org/2000/svg" fill="#D90000" version="1.1">'
+                                              & "<rect fill=\"#fff\" x=\"0\" y=\"0\" width=\"150\" height=\"150\" rx=\"10\" stroke=\"#000\"/>"
+                                              & '<svg x="55" y="25" width="193" height="213" viewBox="0 0 965 1065" fill="none" xmlns="http://www.w3.org/2000/svg">'
+                                                & '<path fill-rule="evenodd" clip-rule="evenodd" d="M104.021 194.055L174.988 149.149C177.294 147.69 178.004 144.652 176.584 142.322L104.021 23.247V194.055ZM89.021 23.14L16.1683 142.306C14.7422 144.639 15.4543 147.685 17.7668 149.143L89.021 194.086V23.14ZM3.37047 134.482C-2.33406 143.813 0.5143 155.996 9.76458 161.831L85.8342 209.81C92.362 213.928 100.676 213.922 107.198 209.795L183.009 161.824C192.232 155.988 195.073 143.836 189.393 134.516L113.572 10.0953C105.785 -2.68384 87.2355 -2.69708 79.4298 10.0709L3.37047 134.482Z" fill="#343F48"/>'
+                                                & '<path d="M116.145 193.153C116.145 204.083 107.285 212.943 96.3548 212.943C85.4249 212.943 76.5645 204.083 76.5645 193.153C76.5645 182.223 85.4249 173.363 96.3548 173.363C107.285 173.363 116.145 182.223 116.145 193.153Z" fill="white"/>'
+                                                & '<path fill-rule="evenodd" clip-rule="evenodd" d="M96.3548 197.943C99.0004 197.943 101.145 195.798 101.145 193.153C101.145 190.507 99.0004 188.363 96.3548 188.363C93.7091 188.363 91.5645 190.507 91.5645 193.153C91.5645 195.798 93.7091 197.943 96.3548 197.943ZM96.3548 212.943C107.285 212.943 116.145 204.083 116.145 193.153C116.145 182.223 107.285 173.363 96.3548 173.363C85.4249 173.363 76.5645 182.223 76.5645 193.153C76.5645 204.083 85.4249 212.943 96.3548 212.943Z" fill="#C4C4C4"/>'
+                                                & '<path d="M192.488 144.928C192.488 155.858 183.627 164.719 172.698 164.719C161.768 164.719 152.907 155.858 152.907 144.928C152.907 133.998 161.768 125.138 172.698 125.138C183.627 125.138 192.488 133.998 192.488 144.928Z" fill="white"/>'
+                                                & '<path fill-rule="evenodd" clip-rule="evenodd" d="M172.698 149.719C175.343 149.719 177.488 147.574 177.488 144.928C177.488 142.283 175.343 140.138 172.698 140.138C170.052 140.138 167.907 142.283 167.907 144.928C167.907 147.574 170.052 149.719 172.698 149.719ZM172.698 164.719C183.627 164.719 192.488 155.858 192.488 144.928C192.488 133.998 183.627 125.138 172.698 125.138C161.768 125.138 152.907 133.998 152.907 144.928C152.907 155.858 161.768 164.719 172.698 164.719Z" fill="#07E897"/>'
+                                                & '<path d="M39.8941 145.034C39.8941 155.964 31.0337 164.824 20.1038 164.824C9.17389 164.824 0.313477 155.964 0.313477 145.034C0.313477 134.104 9.17389 125.243 20.1038 125.243C31.0337 125.243 39.8941 134.104 39.8941 145.034Z" fill="white"/>'
+                                                & '<path fill-rule="evenodd" clip-rule="evenodd" d="M20.1038 149.824C22.7494 149.824 24.8941 147.679 24.8941 145.034C24.8941 142.388 22.7494 140.243 20.1038 140.243C17.4582 140.243 15.3135 142.388 15.3135 145.034C15.3135 147.679 17.4582 149.824 20.1038 149.824ZM20.1038 164.824C31.0337 164.824 39.8941 155.964 39.8941 145.034C39.8941 134.104 31.0337 125.243 20.1038 125.243C9.17389 125.243 0.313477 134.104 0.313477 145.034C0.313477 155.964 9.17389 164.824 20.1038 164.824Z" fill="#07E897"/>'
+                                                & '<path d="M116.057 20.3823C116.057 31.3122 107.197 40.1726 96.2669 40.1726C85.337 40.1726 76.4766 31.3122 76.4766 20.3823C76.4766 9.45246 85.337 0.592041 96.2669 0.592041C107.197 0.592041 116.057 9.45246 116.057 20.3823Z" fill="white"/>'
+                                                & '<path fill-rule="evenodd" clip-rule="evenodd" d="M96.2669 25.1726C98.9125 25.1726 101.057 23.0279 101.057 20.3823C101.057 17.7367 98.9125 15.592 96.2669 15.592C93.6213 15.592 91.4766 17.7367 91.4766 20.3823C91.4766 23.0279 93.6213 25.1726 96.2669 25.1726ZM96.2669 40.1726C107.197 40.1726 116.057 31.3122 116.057 20.3823C116.057 9.45246 107.197 0.592041 96.2669 0.592041C85.337 0.592041 76.4766 9.45246 76.4766 20.3823C76.4766 31.3122 85.337 40.1726 96.2669 40.1726Z" fill="#343F48"/>'
+                                              & '</svg>'
+                                              & '<text fill="#333333" width="150" x="75" y="85" text-anchor="middle" font-size="12" stroke="#000" stroke-width="0">' & $.name & '</text>'
+                                              & '<text fill="#333333" width="150" x="75" y="105" text-anchor="middle" font-size="12" stroke="#000" stroke-width="0">' & $ip & ' at ' & $.port & '</text>'
+                                            & '</svg>';
+                      {
+                          'listener_' & $.id: $symbol
+                      }
+                  );
+                  $symbols := $append($symbols,
+                      $listeners.(
+                          $.members.(          
+                                $symbol := "<svg width=\"150\" height=\"150\" fill=\"#000000\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">"
+                                            & "<rect fill=\"#fff\" x=\"0\" y=\"0\" width=\"150\" height=\"150\" rx=\"10\" stroke=\"#000\"/>"
+                                            & "<svg x=\"55\" y=\"30\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">"
+                                                & "<path class=\"clr-i-outline clr-i-outline-path-1\" d=\"M18,24.3a2.48,2.48,0,1,0,2.48,2.47A2.48,2.48,0,0,0,18,24.3Zm0,3.6a1.13,1.13,0,1,1,1.13-1.12A1.13,1.13,0,0,1,18,27.9Z\"></path>"
+                                                & "<path class=\"clr-i-outline clr-i-outline-path-2\" d=\"M25.65,3.6H10.35A1.35,1.35,0,0,0,9,4.95V32.4H27V4.95A1.35,1.35,0,0,0,25.65,3.6Zm-.45,27H10.8V5.4H25.2Z\"></path>"
+                                                & "<rect class=\"clr-i-outline clr-i-outline-path-3\" x=\"12.6\" y=\"7.2\" width=\"10.8\" height=\"1.44\"></rect>"
+                                                & "<rect class=\"clr-i-outline clr-i-outline-path-4\" x=\"12.6\" y=\"10.8\" width=\"10.8\" height=\"1.44\"></rect>"
+                                                & "<rect x=\"0\" y=\"0\" width=\"36\" height=\"36\" fill-opacity=\"0\"/>"
+                                            & "</svg>"
+                                            & "<text fill=\"#333333\" width=\"150\" x=\"75\" y=\"80\" text-anchor=\"middle\" font-size=\"12\" stroke=\"#000\" stroke-width=\"0\">" & $.name & "</text>"
+                                            & "<text fill=\"#333333\" width=\"150\" x=\"75\" y=\"100\" text-anchor=\"middle\" font-size=\"12\" stroke=\"#000\" stroke-width=\"0\">" & $.ip & "</text>"
+                                          & "</svg>";
+                                  {
+                                      'server_' & $.name: $symbol
+                                  }
+                          )   
+                        )
+                  );
+                  {
+                      'nodes': $merge($nodes),
+                      'symbols': $merge($symbols),
+                      'links': $links
+                  }   
+              )
+          )

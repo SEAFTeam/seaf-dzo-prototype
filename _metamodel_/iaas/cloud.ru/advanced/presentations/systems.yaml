@@ -1,0 +1,323 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.systems:
+    presentations:
+      systems_ta:
+        type: markdown
+        template: templates/systems.md
+        source: >
+          (
+              $systems := $.components.$spread()[*.sber.type = 'service'];
+              $components := $.components.$spread()[*.sber.type = 'component'];
+              $system := [$systems.$spread().$merge([$.*, {"id": $keys($), "domain": $split($keys($), ".")[0]}])];
+              $system[id=$params.id];
+          )
+
+      components:
+        type: table
+        headers:
+          - value: name
+            text: Наименование
+            sortable: true
+            align: left
+            link: link
+            width: 150
+          - value: type
+            text: Тип компонента
+            sortable: true
+            align: left
+            width: 200
+          - value: vpc
+            text: VPC
+            align: left
+            width: 150
+          - value: az
+            text: Зона доступности
+            align: left
+          - value: tenant
+            text: Тенант
+          - value: dc
+            text: Датацентр
+            width: 200
+        source: >
+          (
+              $systems := $.components.$spread()[*.sber.type = 'service'];
+              $links := $."seaf.ta.reverse.cloud_ru.advanced.links";
+              $system := $systems[$keys()[0] = $params.id];
+              $regexp := $exists($system) = true ? $eval("/" & $split($system.$keys()[0], '.')[-1] & "\\./");
+              $components := $.components.$spread()[*.sber.type = 'component'][$regexp($keys()[0])];
+              $cdcs := $."seaf.ta.services.dc";
+              $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+              $tech_components := $components.$spread().(
+                  $app_id := $keys()[0];
+                  $links.$spread()[*.app_id = $app_id].*.reverse_ta_id
+              );
+              $tech_components.(
+                  $id := $;
+                  $entities := $$.$spread()[$split($keys()[0], '.')[-2] = "advanced"];
+                  $object := $entities.(
+                    $entity := $keys()[0];
+                    $type := $$.entities.$spread()[$keys()[0] = $entity].*.title;
+                    $.*.$spread()[$keys()[0] = $id].(
+                          $vpc_id := $.*.vpc_id;
+                          $vpc := $cvpcs.$spread()[*.id = $vpc_id].*.name;
+                          $dc_id := $.*.DC;
+                          $dc := $cdcs.$spread()[$keys()[0] = $dc_id].*.dc_name;
+                          {
+                              'name': $.*.name,
+                              'type': $type,
+                              'vpc': $vpc,
+                              'az': $.*.az,
+                              'tenant': $.*.tenant,
+                              'dc': $dc
+                          }
+                    )
+                  )
+              )
+          )
+
+      systems_az:
+        type: table
+        headers:
+          - value: location
+            text: Зона доступности / ЦОД
+            sortable: true
+            align: left
+            link: link
+            width: 150
+          - value: objects
+            text: Количество объектов
+        source: >
+          (
+              $systems := $.components.$spread()[*.sber.type = 'service'];
+              $links := $."seaf.ta.reverse.cloud_ru.advanced.links";
+              $system := $systems[$keys()[0] = $params.id];
+              $regexp := $exists($system) = true ? $eval("/" & $split($system.$keys()[0], '.')[-1] & "\\./");
+              $components := $.components.$spread()[*.sber.type = 'component'][$regexp($keys()[0])].($obj := $; $obj.$keys()[0] in $links.*.app_id ? $obj);
+              $cdcs := $."seaf.ta.services.dc";
+              $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+              $tech_components := $components.$spread().(
+                  $app_id := $keys()[0];
+                  $links.$spread()[*.app_id = $app_id].*.reverse_ta_id
+              );
+              $tmp := $tech_components.(
+                  $id := $;
+                  $entities := $$.$spread()[$split($keys()[0], '.')[-2] = "advanced"];
+                  $object := $entities.(
+                      $entity := $keys()[0];
+                      $type := $$.entities.$spread()[$keys()[0] = $entity].*.title;
+                      $.*.$spread()[$keys()[0] = $id].(
+                            $vpc_id := $.*.vpc_id;
+                            $vpc := $cvpcs.$spread()[*.id = $vpc_id].*.name;
+                            $dc_id := $.*.DC;
+                            $dc := $cdcs.$spread()[$keys()[0] = $dc_id].*.dc_name;
+                            $azs := (
+                                $exists($.*.az) ? $.*.az : (
+                                    $exists($.*.masters_az) ? $.*.masters_az : (
+                                        $exists($.*.available_az) ? $.*.available_az
+                                    )
+                                )
+                            );
+                            {
+                                'location': $azs
+                            }
+                      )
+                  )
+              );
+              $result := $tmp.$spread().(
+                  $location := location;
+                  $location.(
+                    $id := $;
+                    $qty := $count($tmp.$spread()[location = $id]);
+                    {
+                        'location': $id,
+                        'objects': $qty
+                    }
+                )
+              );
+              $distinct($result)
+          )
+
+      systems_az_diagram:
+        type: smartants
+        source: >
+          (
+              $systems := $.components.$spread()[*.sber.type = 'service'];
+              $links := $."seaf.ta.reverse.cloud_ru.advanced.links";
+              $system := $systems[$keys()[0] = $params.id];
+              $regexp := $exists($system) = true ? $eval("/" & $split($system.$keys()[0], '.')[-1] & "\\./");
+              $components := $.components.$spread()[*.sber.type = 'component'][$regexp($keys()[0])].($obj := $; $obj.$keys()[0] in $links.*.app_id ? $obj);
+              $cdcs := $."seaf.ta.services.dc";
+              $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+              $svg_elb := $.functions."seaf.ta.reverse".svg_elb;
+              $svg_cce := $.functions."seaf.ta.reverse".svg_cce;
+              $svg_dms := $.functions."seaf.ta.reverse".svg_dms;
+              $svg_rdb := $.functions."seaf.ta.reverse".svg_rdb;
+              $svg_vm := $.functions."seaf.ta.reverse".svg_vm;
+              $tech_components_ids := $components.$spread().(
+                  $app_id := $keys()[0];
+                  $links.$spread()[*.app_id = $app_id].*.reverse_ta_id
+              );
+              $tech_components := $tech_components_ids.(
+                  $id := $;
+                  $entities := $$.$spread()[$split($keys()[0], '.')[-2] = "advanced"];
+                  $object := $entities.(
+                    $entity := $keys()[0];
+                    $type := $$.entities.$spread()[$keys()[0] = $entity].*.title;
+                    $.*.$spread()[$keys()[0] = $id].(
+                        $id := $keys()[0];
+                        $vpc_id := $.*.vpc_id;
+                        $vpc := $cvpcs.$spread()[*.id = $vpc_id].*.name;
+                        $dc_id := $.*.DC;
+                        $dc := $cdcs.$spread()[$keys()[0] = $dc_id].*.dc_name;
+                        $azs := (
+                            $exists($.*.az) ? $.*.az : (
+                                $exists($.*.masters_az) ? $.*.masters_az : (
+                                    $exists($.*.available_az) ? $.*.available_az
+                            )
+                        )
+                    );
+                      $apps := $links.$spread()[$id in *.reverse_ta_id].*.app_id;
+                        {
+                          'id': $keys()[0],
+                          'name': $.*.name,
+                          'type': $type,
+                          'vpc': $vpc,
+                          'az': $azs,
+                          'tenant': $.*.tenant,
+                          'dc': $dc,
+                          'app_id': $apps
+                        }
+                    )
+                  )
+              );
+              $system_name := $system.*.title;
+              $nodes := $system.({$system_name: {'title': $.*.title}});
+              $nodes := $nodes ~> $append($components.({$system_name & '.' & $.*.title:{'title': 'Компонент - ' & $.*.title}}));
+              $nodes := $nodes ~> $append($tech_components.(
+                 $cmp := $;
+                 $app := $components[$keys()[0] in $cmp.app_id];
+                 $app.(
+                    $prefix := $system_name & '.' & $.*.title & '.' & $cmp.dc;
+                    $suffix := $exists($cmp.az) ? $cmp.az[0] & '.' & $cmp.name : $cmp.name;
+                    {
+                    $prefix & '.' & $suffix: {'title': $cmp.name, 'symbol': $split($cmp.id, '.')[-2]}
+                    }
+                )
+              ));
+              $nodes := $nodes ~> $append($components.$spread().(
+                    $cmp := $;
+                    $tech := $tech_components[app_id = $cmp.$keys()[0]];
+                    $dcs := $distinct($tech.dc).({$system_name & '.' & $cmp.*.title & '.' & $: {'title': 'DC/IaaS - ' & $}});
+                    $az := $distinct($tech.dc).($dcid := $; {$dcid: $distinct($tech[dc = $dcid].az)}).($dcid := $keys()[0]; $.*.({$system_name & '.' & $cmp.*.title & '.' & $dcid & '.' & $: {'title': 'AZ - ' & $}}));
+                    $append($dcs, $az)
+                  )
+              );
+              $symbols := $tech_components.(
+                  $id := $.id;
+                  $switch := {
+                    'ecss': $svg_vm,
+                    'rdss': $svg_rdb,
+                    'cces': $svg_cce,
+                    'elbs': $svg_elb,
+                    'dmss': $svg_dms
+                  };
+                  $switch_links := {
+                    'ecss': "/entities/seaf.ta.reverse.cloud_ru.advanced.ecss/server_md?id=",
+                    'rdss': "/entities/seaf.ta.reverse.cloud_ru.advanced.rdss/rds_md?id=",
+                    'cces': "/entities/seaf.ta.reverse.cloud_ru.advanced.cces/cce_md?id=",
+                    'elbs': "/entities/seaf.ta.reverse.cloud_ru.advanced.elbs/elb_md?id=",
+                    'dmss': "/entities/seaf.ta.reverse.cloud_ru.advanced.dmss/dms_md?id="
+                  };
+                  {
+                    $split($id, '.')[-2]: $eval($switch.$spread()[$keys()[0] = $split($id, '.')[-2]].*, {'srv': $.name , 'ip': '' , 'x': 0 , 'y': 0, 'href': $switch_links.$spread()[$keys()[0] = $split($id, '.')[-2]].* & $id })
+                  }
+              );
+              {
+                  'nodes': $merge($nodes),
+                  'symbols': $merge($symbols)
+              } 
+          )
+
+      systems_backup:
+        type: table
+        headers:
+          - value: name
+            text: Имя ресурса
+            sortable: true
+            align: left
+            width: 200
+          - value: type
+            text: Тип ресурса
+          - value: backup_vault
+            text: Хранилище РК
+            width: 200
+          - value: backup_schedule
+            text: Расписание РК
+          - value: backup_retention
+            text: Длительность хранения РК
+          - value: backup_schedule_status
+            text: Статус расписания РК
+          - value: backup_state
+            text: Статус резервной копии
+          - value: tenant
+            text: Тенант
+          - value: dc
+            text: Датацентр
+
+        source: >
+          (
+              $systems := $.components.$spread()[*.sber.type = 'service'];
+              $servers := $."seaf.ta.reverse.cloud_ru.advanced.ecss";
+              $vaults := $."seaf.ta.reverse.cloud_ru.advanced.vaults";
+              $backup_policies := $."seaf.ta.reverse.cloud_ru.advanced.backup_policies";
+              $links := $."seaf.ta.reverse.cloud_ru.advanced.links";
+              $system := $systems[$keys()[0] = $params.id];
+              $regexp := $exists($system) = true ? $eval("/" & $split($system.$keys()[0], '.')[-1] & "\\./");
+              $components := $.components.$spread()[*.sber.type = 'component'][$regexp($keys()[0])];
+              $system_servers := $servers.$spread()[$keys()[0] in $links.$spread()[*.app_id in $components.$keys()[0]].*.reverse_ta_id[$match(/.*\.ecss\..*/)]];
+              $ac_disks := $system_servers.*.disks.$keys();
+              $cdcs := $."seaf.ta.services.dc";
+              $system_servers.(
+                  $server := $;
+                  $id := $.*.id;
+                  $name := $.*.name;
+                  $disks := $.*.disks;
+                  $srv_vault := $vaults.$spread()[$id in *.resources.id];
+                  $disk_vault := $disks.(
+                      $diskid := $.$keys();
+                      $disk := $;
+                      $vaults.$spread()[$diskid in *.resources.id].(
+                          $vid := $.*.id;
+                          $schedule := $backup_policies.$spread()[$vid in *.associated_vaults.vault_id];
+                          $dc_id := $server.*.DC;
+                          $dc := $cdcs.$spread()[$keys()[0] = $dc_id].*.dc_name;
+                          [{
+                              'name': $server.name & ' - ' & $disk.*.device,
+                              'type': 'volume',
+                              'backup_vault': $.*.name,
+                              'backup_schedule': $join($schedule.*.trigger.properties.pattern, '\n'),
+                              'backup_retention': $schedule.*.operation_definition.retention_duration_days,
+                              'backup_schedule_status': $schedule.*.enabled,
+                              'backup_state': $.*.resources[id=$diskid].protect_status,
+                              'dc': $dc,
+                              'tenant': $server.*.tenant
+                          }]
+                      )
+                  );
+                  $schedule_srv := $srv_vault.($vids := $.*.id; $backup_policies.$spread()[$vids in *.associated_vaults.vault_id]);
+                  $dc_id := $.*.DC;
+                  $dc := $cdcs.$spread()[$keys()[0] = $dc_id].*.dc_name;
+                  $srv_backup := [{
+                      'name': $name,
+                      'type': $.type,
+                      'backup_vault': $join($srv_vault.*.name, '\n'),
+                      'backup_schedule': $join($schedule_srv.*.trigger.properties.pattern, '\n'),
+                      'backup_retention': $schedule_srv.*.operation_definition.retention_duration_days,
+                      'backup_schedule_status': $schedule_srv.*.enabled,
+                      'backup_state': $srv_vault.*.resources[id=$id].protect_status,
+                      'dc': $dc,
+                      'tenant': $.*.tenant
+                  }];
+                  $append($srv_backup, $disk_vault);
+              );
+          )

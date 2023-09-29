@@ -1,0 +1,26 @@
+imports:
+  - entities/hex_core.yaml
+  - articles/articles.yaml
+  - functions/functions.yaml  
+  - entities/templates/bages.yaml    
+
+  #- query_entity.yaml                 # Basic functions, presentations and docs
+
+
+  # - house_construction_example/dochub.yaml
+
+  # - hex_lang/hex_lang.yaml
+  # - abstract_example/terminals_example.yaml
+
+  # Examples used in docs (could be switched off)
+  #- things/objects_example.yaml
+  #- terminals_example.yaml
+  #- hex_lang/test_queries.yaml # queries configs for test queries engine
+
+  #- things_example.yaml
+
+hexEnv:
+  url: "http://localhost:8081/"   # Base URL is used in PlantUml templates links
+
+  title_length_threshold: 12      # This param influence the objects long titles breaking down into multiline
+

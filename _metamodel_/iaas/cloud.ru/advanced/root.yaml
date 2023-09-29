@@ -1,0 +1,6 @@
+imports:
+  - datasets/root.yaml
+  - entities/root.yaml
+  - menu/root.yaml
+  - presentations/root.yaml
+  - functions/root.yaml

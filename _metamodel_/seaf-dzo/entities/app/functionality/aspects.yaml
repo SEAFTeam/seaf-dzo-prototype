@@ -1,0 +1,32 @@
+# Прикладная функциональность SEAF
+# Расширяется и кастомизируется метамодель DocHub
+entities:
+  aspects:
+    schema:
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          properties:
+            sber:
+              title: Информация о функциональности
+              type: object
+              properties:
+                id:
+                  title: Уникальный идентификатор функциональности
+                  type: string
+                  format: uuid
+                description:
+                  title: Описание функциональности
+                  type: string
+                state:
+                  title: Статус функциональности
+                  type: string
+                  enum:
+                    - Планируется
+                    - Разрабатывается
+                    - Используется
+                    - Изменяется
+                    - Выводится (Удаляется)
+              required:
+                - id
+                - description
+                - state

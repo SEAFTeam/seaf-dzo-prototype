@@ -1,0 +1,19 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.ecss:
+    menu: >
+      (
+          $count($."seaf.ta.reverse.cloud_ru.advanced.ecss") > 0 ? [
+            {
+              /* Размещение в пользовательском меню */
+              "location": "Документы/Техническая архитектура/Реверс/Cloud.ru/Advanced/Реестры/Elastic Cloud Servers",
+              /* URI представления context см. ниже.*/
+              "link": "entities/seaf.ta.reverse.cloud_ru.advanced.ecss/table_view"
+            },
+            {
+              /* Размещение в пользовательском меню */
+              "location": "Документы/Техническая архитектура/Реверс/Cloud.ru/Advanced/Схемы/Servers in VPC",
+              /* URI представления context см. ниже.*/
+              "link": "entities/seaf.ta.reverse.cloud_ru.advanced.ecss/servers_diagram"
+            }
+          ];
+      )

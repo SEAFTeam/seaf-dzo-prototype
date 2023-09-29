@@ -1,0 +1,17 @@
+components:
+
+  sber.berezka.home_cinema.auth:
+    entity: component
+    title: Аутентификация
+    description: Аутентификация пользователей
+    processes:
+      - bank.registartion
+      - bank.sign_in
+
+
+  sber.berezka.home_cinema.catalog:
+    entity: component
+    title: Каталог фильмов
+    description: Каталог фильмов
+    processes:
+      - berezka.brows_cat

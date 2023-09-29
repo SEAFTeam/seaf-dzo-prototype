@@ -1,0 +1,3 @@
+imports:
+  - integrations.yaml
+  - specifications.yaml

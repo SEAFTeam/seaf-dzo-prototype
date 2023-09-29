@@ -1,0 +1,12 @@
+@startuml
+
+hide attributes
+
+{{#bages}}
+sprite ${{bId}} {{{svg}}}
+object "<${{bId}}*8>\n{{bId}}" as {{bId}}
+{{/bages}}
+
+
+
+@endwhile

@@ -1,0 +1,18 @@
+imports:
+  - ecss.yaml
+  - eips.yaml
+  - subnets.yaml
+  - vpcs.yaml
+  - rdss.yaml
+  - vaults.yaml
+  - peerings.yaml
+  - backup_policies.yaml
+  - branches.yaml
+  - vpn_gateways.yaml
+  - vpn_connections.yaml
+  - nat_gateways.yaml
+  - elbs.yaml
+  - security_groups.yaml
+  - cces.yaml
+  - dmss.yaml
+  - links.yaml

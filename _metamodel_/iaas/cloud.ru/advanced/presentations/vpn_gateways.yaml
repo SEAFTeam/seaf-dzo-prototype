@@ -1,0 +1,100 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.vpn_gateways:
+    presentations:
+      table_view:
+        type: table
+        headers:
+          - value: name
+            text: Gateway name
+            width: 200
+            sortable: true
+            link: link
+          - value: ip
+            text: IP адрес
+          - value: subnet
+            text: Подсеть
+            width: 150
+          - value: vpc
+            text: VPC
+            width: 150
+          - value: dc
+            text: DC/IaaS
+            width: 150
+        source: >
+          (
+              $cvpngws := $."seaf.ta.reverse.cloud_ru.advanced.vpn_gateways";
+              $cvpnconn := $."seaf.ta.reverse.cloud_ru.advanced.vpn_connections";
+              $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+              $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+              $cdcs := $."seaf.ta.services.dc";
+              $cvpngws.$spread().[(
+                  $self := $;
+                  $subnet := $csubnets.$spread()[$.*.id = $self.*.subnet_id].*.name;
+                  $vpc := $cvpcs.$spread()[$.*.id = $self.*.vpc_id].*.name;
+                  $connections := $cvpnconn.$spread()[*.gw_id = $self.$keys()];
+                  $vpngw_dc := $.*.DC;
+                  $dc := $cdcs.$spread()[$keys()[0] = $vpngw_dc].*.dc_name;
+                  {
+                      'name': $self.*.name,
+                      'ip': $self.*.ip_address,
+                      'subnet': $subnet,
+                      'vpc': $vpc,
+                      'dc': $dc,
+                      'link': '/entities/seaf.ta.reverse.cloud_ru.advanced.vpn_gateways/vpngw_md?id=' & $self.$keys()[0]
+                  }
+              )]
+          )
+
+      vpngw_md:
+        type: markdown
+        template: templates/vpngw.md
+        source: >
+          (
+             $ctx := $params;
+             $cvpngw := $."seaf.ta.reverse.cloud_ru.advanced.vpn_gateways".$spread()[$keys() = $ctx.id];
+             $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+             $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+             $subnet := $csubnets.$spread()[$.*.id = $cvpngw.*.subnet_id].*.name;
+             $vpc := $cvpcs.$spread()[$.*.id = $cvpngw.*.vpc_id].*.name;
+             $cdcs := $."seaf.ta.services.dc";
+             $vpngw_dc := $cvpngw.*.DC;
+             $dc := $cdcs.$spread()[$keys()[0] = $vpngw_dc].*.dc_name;
+             {
+                 'name': $cvpngw.*.name,
+                 'ip': $cvpngw.*.ip_address,
+                 'subnet': $subnet,
+                 'vpc': $vpc,
+                 'dc': $dc,
+                 'id': $ctx.id
+             }
+          )
+
+      vpn_connections:
+        type: table
+        headers:
+          - value: name
+            text: Название VPN соединения
+          - value: remote_gw_ip
+            text: IP адрес удаленного узла
+          - value: remote_subnets
+            text: Удаленные сети
+          - value: branch
+            text: Удаленный офис/ЦОД
+        source: >
+          (
+              $ctx := $params;
+              $realty := $.$spread()[$keys()[0] = "seaf.ta.services.dc" or $keys()[0] = "seaf.ta.components.office"];
+              $cvpngw := $."seaf.ta.reverse.cloud_ru.advanced.vpn_gateways".$spread()[$keys() = $ctx.id];
+              $connections := $."seaf.ta.reverse.cloud_ru.advanced.vpn_connections".$spread()[*.gw_id = $cvpngw.*.id];
+              $connections.$spread().(
+                  $self := $;
+                  $matcher := /\.*name$/;
+                  $branch := $realty.$spread().*.$spread()[$keys()[0] = $self.*.branch_id].*.$spread()[$matcher($keys()[0])].*;
+                  {
+                      'name': $self.*.name,
+                      'remote_gw_ip': $self.*.remote_gw_ip,
+                      'remote_subnets': $join($self.*.remote_subnets, ', '),
+                      'branch': $branch
+                  }
+              )
+          )

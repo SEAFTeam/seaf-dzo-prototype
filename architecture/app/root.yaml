@@ -1,0 +1,7 @@
+imports:
+  - services.yaml
+  - functionality.yaml
+  - components.yaml
+  - integrations.yaml
+  - contexts.yaml
+  - requirements.yaml

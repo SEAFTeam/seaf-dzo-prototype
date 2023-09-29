@@ -1,0 +1,3 @@
+imports:
+  - app/root.yaml
+  - ta/root.yaml

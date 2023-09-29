@@ -1,0 +1,95 @@
+datasets:
+  seaf.ta.reverse.servers_list:
+    source: >
+      (
+            $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+            $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+            $cservers := $."seaf.ta.reverse.cloud_ru.advanced.ecss";
+            $cdcs := $."seaf.ta.services.dc";
+            $matchfunc := $.functions."seaf.ta.reverse".match_ip_to_subnet;
+            [[$cservers.$spread().{
+              "id": $keys()[0],
+              "server": $.*
+            }].(
+              $subnet := server.subnets.(
+                  $id := $;
+                  $csubnets.$spread()[$.*.id = $id]
+              );
+              $vpc := (
+                        $keyj := server.vpc_id;
+                        $cvpcs.$spread().(
+                            $id := $.*.id;
+                            $id = $keyj ? $
+                        )
+                     );
+              $srv_dc := server.DC;
+              $dc := $cdcs.$spread()[$keys()[0] = $srv_dc].*.dc_name;
+              {
+              "name": server.name,
+              "os_type": server.os.type,
+              "os_bit": server.os.bit,
+              "cpu_qty": server.cpu.cores,
+              "ram":  (server.ram / 1024),
+              "disks": $join(server.disks.(*.device & ' - ' & *.type & ' - ' & *.size & 'Gb'), '\n'),
+              "nic_qty": server.nic_qty,
+              "addresses": $join(server.addresses, "\n"),
+              "addresses_array": server.addresses,
+              "vpc": $vpc.*.name,
+              "vpc_array": $vpc,
+              "subnet": $join($subnet.*.name, "\n"),
+              "subnet_array": $subnet,
+              "az": server.az,
+              "flavor": server.flavor,
+              "tags": $join(server.tags.($.key & ': ' & $.value), "\n"),
+              "type": server.type,
+              "iaas_provider": server.iaas_provider,
+              "tenant": server.tenant,
+              "dc": $dc,
+              "link": "/entities/seaf.ta.reverse.cloud_ru.advanced.ecss/server_md?id=" & id
+            })]      
+      )
+
+  seaf.ta.reverse.rdb_list:
+    source: >
+      (
+          $crdbs := $."seaf.ta.reverse.cloud_ru.advanced.rdss";
+          $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+          $cdcs := $."seaf.ta.services.dc";
+          $rdb_table := (
+                          [[$crdbs.$spread().{
+                              "id": $keys()[0],
+                              "rdb": $.*
+                          }].(
+                              $vpc := (
+                                        $keyj := rdb.vpc_id;
+                                        $cvpcs.$spread().(
+                                            $id := $.*.id;
+                                            $id = $keyj ? $
+                                        )
+                              );
+                              $rdb_dc := rdb.DC;
+                              $dc := $cdcs.$spread()[$keys()[0] = $rdb_dc].*.dc_name;
+                            {
+                              "name": rdb.name,
+                              "status": rdb.status,
+                              "vpc_id": rdb.vpc_id,
+                              "subnet_id": rdb.subnet_id,
+                              "private_ips": rdb.private_ips,
+                              "public_ips": rdb.public_ips,
+                              "DB_type": rdb.datastore.type,
+                              "DB_ver": rdb.datastore.complete_version != null ? rdb.datastore.complete_version : rdb.datastore.version,
+                              "HA_type": rdb.type,
+                              "HA_nodes": $count(rdb.nodes),
+                              "HA_nodes_az": $join(rdb.nodes.availability_zone, ", "),
+                              "Volume_type": rdb.volume.type,
+                              "Volume_size": rdb.volume.size,
+                              "vpc": $vpc.*.name,
+                              "iaas_provider": rdb.iaas_provider,
+                              "tenant": rdb.tenant,
+                              "dc": $dc,
+                              "link": "/entities/seaf.ta.reverse.cloud_ru.advanced.rdss/rds_md?id=" & id
+                            }
+                          )]
+                      );
+      
+      )

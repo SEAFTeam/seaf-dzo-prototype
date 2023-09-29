@@ -1,0 +1,42 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.vpn_connections:
+    title: Подключения VPN
+    objects:
+      vpn_connection:
+        route: "/"
+        title: Подключение VPN
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: Идентификатор VPN соединения
+              type: string
+            name:
+              title: Название соединения
+              type: string
+            gw_id:
+              title: ID of local VPN Gateway
+              type: string
+            remote_gw_ip:
+              title: IP адрес удаленного узла
+              type: string
+            remote_subnets:
+              title: CIDR удаленных сетей
+              type: array
+              items:
+                type: string
+            branch_id:
+              title: ID офиса или ЦОД
+              oneOf:
+                - $ref: "#/$rels/seaf.ta.components.office.office"
+                - $ref: "#/$rels/seaf.ta.services.dc.dc"
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"
+

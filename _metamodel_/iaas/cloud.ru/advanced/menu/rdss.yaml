@@ -1,0 +1,11 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.rdss:
+    menu: >
+      (
+          $count($."seaf.ta.reverse.cloud_ru.advanced.rdss") > 0 ? [{
+                      /* Размещение в пользовательском меню */
+                      "location": "Документы/Техническая архитектура/Реверс/Cloud.ru/Advanced/Реестры/Relational Database Services",
+                      /* URI представления context см. ниже.*/
+                      "link": "entities/seaf.ta.reverse.cloud_ru.advanced.rdss/table_view"
+          }];
+      )

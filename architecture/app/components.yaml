@@ -1,0 +1,63 @@
+# Прикладные компоненты обеспечивающие прикладные сервисы
+components:
+  sber.berezka.home_cinema.auth:
+    entity: component
+    title: Аутентификация
+    description: Авторизация пользователей
+    aspects:
+      - sber.berezka.home_cinema.auth
+    sber:
+      type: component
+      component_type: Интеграционный компонент
+      scalability: Горизонтальная
+      stores_confidential_data: true
+      id: 0068655c-8520-4902-a81e-c526e3afd77f
+      provider: ООО Березка
+      provider_type: Собственная разработка
+      cloud_readiness: Компоненты в гибридном публичном облаке/наборе облаков с управляемыми облачными поставщиками инфраструктурными сервисами (Cloud Native 5)
+
+  sber.berezka.home_cinema.catalog:
+    entity: component
+    title: Каталог фильмов
+    description: Каталог фильмов
+    sber:
+      type: component
+      component_type: Сервер Приложений
+      scalability: Вертикальная
+      stores_confidential_data: false
+      id: 735df01b-772e-4e16-84f1-02e1ae476be3
+      provider: ООО Березка
+      provider_type: Собственная разработка
+
+  sber.berezka.home_cinema.payments:
+    entity: component
+    title: Платежи
+    description: Осуществление платежей пользователей за подписки
+    aspects:
+      - sber.berezka.home_cinema.payments
+    sber:
+      type: component
+      component_type: Сервер Приложений
+      scalability: Горизонтальная
+      stores_confidential_data: true
+      id: 735df01b-772e-4e16-84f1-02e1ae476be3
+      provider: ООО Березка
+      provider_type: Собственная разработка
+      cloud_readiness: Компоненты в гибридном публичном облаке/наборе облаков с управляемыми облачными поставщиками инфраструктурными сервисами (Cloud Native 5)
+
+  sber.berezka.home_cinema.canals:
+    entity: component
+    title: ТВ-Каналы
+    description: Трансляция ТВ-каналов
+    aspects:
+      - sber.berezka.home_cinema.catalog.multiplex.c1
+      - sber.berezka.home_cinema.catalog.multiplex.c2
+    sber:
+      type: component
+      component_type: Сервер Приложений
+      scalability: Горизонтальная
+      stores_confidential_data: true
+      id: 0068655c-8520-4902-a81e-c526e3afd77f
+      provider: ООО Березка
+      provider_type: Собственная разработка
+      cloud_readiness: Компоненты в гибридном публичном облаке/наборе облаков с управляемыми облачными поставщиками инфраструктурными сервисами (Cloud Native 5)

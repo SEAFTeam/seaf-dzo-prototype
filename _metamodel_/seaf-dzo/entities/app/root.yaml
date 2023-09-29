@@ -1,0 +1,4 @@
+imports:
+  - components/root.yaml
+  - integrations/root.yaml
+  - functionality/root.yaml

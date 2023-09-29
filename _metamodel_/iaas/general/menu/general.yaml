@@ -1,0 +1,17 @@
+entities:
+  seaf.ta.reverse.general:
+    menu: >
+      (
+          [{
+                      /* Размещение в пользовательском меню */
+                      "location": "Документы/Техническая архитектура/Реверс/README",
+                      /* URI представления context см. ниже.*/
+                      "link": "entities/seaf.ta.reverse.general/readme"
+          },
+          {
+                      /* Размещение в пользовательском меню */
+                      "location": "Документы/Техническая архитектура/Реверс/Cloud.ru/Advanced/README",
+                      /* URI представления context см. ниже.*/
+                      "link": "entities/seaf.ta.reverse.general/readme_cloud_advanced"
+          }];
+      )

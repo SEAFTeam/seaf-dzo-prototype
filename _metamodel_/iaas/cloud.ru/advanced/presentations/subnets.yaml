@@ -1,0 +1,44 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.subnets:
+    presentations:
+      table_view:
+        type: table
+        headers:
+          - value: id
+            text: ID сущности
+            width: 200
+            sortable: true
+          - value: name
+            text: Наименование сущности
+            width: 200
+            sortable: true
+          - value: type
+            text: Тип сущности
+            width: 200
+            sortable: true
+          - value: subnetname
+            text: Наименование подсети
+            width: 200
+            sortable: true
+        source: >
+          (      
+              $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+              $csubnets.$spread().(
+                  $subnetid := $.*.id;
+                  $subnetname := $.*.name;
+                  $subnetentities := $$.$spread()[$split($keys()[0], '.')[-2] = "advanced"];
+                  $subnetobjects := $subnetentities.(
+                          $entity := $keys()[0];
+                          $type := $$.entities.$spread()[$keys()[0] = $entity].*.title;
+                          $.*.$spread()[*.subnet_id = $subnetid or $subnetid in *.subnets].(
+                              $entityid := $keys()[0];
+                              {
+                                  'id': $entityid,
+                                  'name': $.*.name,
+                                  'type': $type,
+                                  'subnetname': $subnetname
+                              }
+                          )
+                  )
+              )
+          )

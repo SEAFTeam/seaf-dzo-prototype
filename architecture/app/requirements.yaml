@@ -1,0 +1,11 @@
+seaf.requirements:
+  auth:
+    title: Авторизация
+    type: functional
+    description: Авторизация должна проходить без ввода пароля
+    functionality:
+      - auth
+    verifications:
+      manual_check:
+        title: Ручная проверка
+        condition: Тестировщик должен успешно пройти авторизацию без ввода пароля

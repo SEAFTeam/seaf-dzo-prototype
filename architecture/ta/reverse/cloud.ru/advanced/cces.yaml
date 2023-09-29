@@ -1,0 +1,51 @@
+seaf.ta.reverse.cloud_ru.advanced.cces:
+    sber.berezka.cces.a8350fe7-cfdd-11ed-9fc0-0255ac100088:
+        name: cce-test
+        id: a8350fe7-cfdd-11ed-9fc0-0255ac100088
+        alias: cce-dev
+        flavor: cce.s1.small
+        version: v1.23
+        platform_version: cce.8.0
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        subnet_id: 6b2820d7-17c6-409a-91cb-b634cf596fdb
+        addresses:
+            - 10.10.10.10
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        container_network: 172.16.0.0/16
+        service_network: 10.34.0.0/16
+        authentication: rbac
+        masters_az:
+            - ru-moscow-1c
+        supportistio: true
+        endpoints:
+            -   url: https://10.10.10.10:5443
+                type: Internal
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.cces.37ff849a-91b4-11ed-92d6-0255ac100089:
+        name: cce-prod
+        id: 37ff849a-91b4-11ed-92d6-0255ac100089
+        alias: cce-prod
+        flavor: cce.s2.small
+        version: v1.21
+        platform_version: cce.3.0
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        subnet_id: 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        addresses:
+            - 10.10.0.10
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        container_network: 172.16.0.0/16
+        service_network: 10.34.0.0/16
+        authentication: rbac
+        masters_az:
+            - ru-moscow-1a
+        supportistio: true
+        endpoints:
+            -   url: https://10.10.0.10:5443
+                type: Internal
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01

@@ -1,0 +1,55 @@
+seaf.ta.reverse.cloud_ru.advanced.dmss:
+    sber.berezka.cces.dmss.7bb3c551-0fc3-4916-a853-302390af0569:
+        id: 7bb3c551-0fc3-4916-a853-302390af0569
+        name: dms-rabbitmq-test
+        engine: rabbitmq
+        engine_version: 3.7.17
+        port: 5672
+        address: 10.10.10.20
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        subnet_id: 6b2820d7-17c6-409a-91cb-b634cf596fdb
+        status: RUNNING
+        type: single
+        specification: 2vCPUs 4GB
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        available_az:
+            - ru-moscow-1a
+        storage_space: 177
+        total_storage_space: 200
+        used_storage_space: 0
+        storage_spec_code: dms.physical.storage.high
+        management: http://10.10.10.20:15672
+        support_features: auto.create.topics.enable,rabbitmq.plugin.management,auto_topic_switch,feature.physerver.kafka.user.manager,kafka.new.pod.port,message_trace_enable,features.pod.token.access,log.enable,features.log.collection,max.connections,rabbitmq.manage.support,replica_port_standalone,engine.upgrade.available,feature.physerver.kafka.topic.accesspolicy,enable.kafka.quota.monitor,rocketmq.acl,roma_app_enable,support.kafka.producer.ip,enable.new.authinfo,enable.kafka.quota,rabbitmq_run_log_enable,route,kafka.config.dynamic.modify.enable,feature.physerver.kafka.topic.modify,enable.topic.quota,roma.user.manage.no.support,auto.create.groups.enable,feature.physerver.kafka.pulbic.dynamic,kafka.config.static.modify.enable
+        node_num: 1
+        disk_encrypted: false
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.cces.dmss.fc5d98f2-d0c3-4125-9354-744c786ead81:
+        id: fc5d98f2-d0c3-4125-9354-744c786ead81
+        name: dms-rabbitmq-prod
+        engine: rabbitmq
+        engine_version: 3.7.17
+        port: 5672
+        address: 10.10.0.20
+        vpc_id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        subnet_id: 0d9f37b6-0889-4763-8cf3-20d9641af0c1
+        status: RUNNING
+        type: single
+        specification: 2vCPUs 4GB
+        security_groups:
+            - 0fdb3e4f-c7a6-42eb-9531-552ac5006202
+            - 13867d36-264c-4fab-bc30-990cb9723cf6
+        available_az:
+            - ru-moscow-1a
+        storage_space: 177
+        total_storage_space: 200
+        used_storage_space: 0
+        storage_spec_code: dms.physical.storage.ultra
+        management: http://10.10.0.20:15672
+        support_features: engine.upgrade.available,feature.physerver.kafka.topic.accesspolicy,rabbitmq.plugin.management,enable.kafka.quota.monitor,rocketmq.acl,roma_app_enable,auto_topic_switch,feature.physerver.kafka.user.manager,enable.new.authinfo,enable.kafka.quota,route,kafka.config.dynamic.modify.enable,kafka.new.pod.port,feature.physerver.kafka.topic.modify,message_trace_enable,features.pod.token.access,enable.topic.quota,roma.user.manage.no.support,feature.physerver.kafka.pulbic.dynamic,features.log.collection,max.connections,rabbitmq.manage.support,kafka.config.static.modify.enable,replica_port_standalone
+        node_num: 1
+        disk_encrypted: false
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01

@@ -1,0 +1,80 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.backup_policies:
+    presentations:
+      server_backup:
+        type: table
+        headers:
+          - value: name
+            text: Имя ресурса
+            sortable: true
+            align: left
+            width: 200
+          - value: type
+            text: Тип ресурса
+          - value: backup_vault
+            text: Хранилище РК
+            width: 200
+          - value: backup_schedule
+            text: Расписание РК
+          - value: backup_retention
+            text: Длительность хранения РК
+          - value: backup_schedule_status
+            text: Статус расписания РК
+          - value: backup_state
+            text: Статус резервной копии
+          - value: tenant
+            text: Тенант
+          - value: dc
+            text: Датацентр
+        source: >
+          (
+            $ctx := $params;
+            $servers := $."seaf.ta.reverse.cloud_ru.advanced.ecss";
+            $vaults := $."seaf.ta.reverse.cloud_ru.advanced.vaults";
+            $backup_policies := $."seaf.ta.reverse.cloud_ru.advanced.backup_policies";
+            $bkp_server := $servers.$spread()[$keys()[0] = $ctx.id];
+            $disks := $bkp_server.*.disks.$keys();
+            $bkp_server.(
+                $server := $;
+                $id := $.*.id;
+                $name := $.*.name;
+                $disks := $.*.disks;
+                $srv_vault := $vaults.$spread()[$id in *.resources.id];
+                $disk_vault := $disks.(
+                    $diskid := $.$keys();
+                    $disk := $;
+                    $vaults.$spread()[$diskid in *.resources.id].(
+                        $vid := $.*.id;
+                        $schedule := $backup_policies.$spread()[$vid in *.associated_vaults.vault_id];
+                        $dc_id := $server.*.DC;
+                        $dc := $cdcs.$spread()[$keys()[0] = $dc_id].*.dc_name;
+                        [{
+                            'name': $server.*.name & ' - ' & $disk.*.device,
+                            'type': 'volume',
+                            'backup_vault': $.*.name,
+                            'backup_schedule': $join($schedule.*.trigger.properties.pattern, '\n'),
+                            'backup_retention': $schedule.*.operation_definition.retention_duration_days,
+                            'backup_schedule_status': $schedule.*.enabled,
+                            'backup_state': $.*.resources[id=$diskid].protect_status,
+                            'dc': $dc,
+                            'tenant': $server.*.tenant
+                        }]
+                    )
+                );
+                $schedule_srv := $srv_vault.($vids := $.*.id; $backup_policies.$spread()[$vids in *.associated_vaults.vault_id]);
+                $dc_id := $.*.DC;
+                $dc := $cdcs.$spread()[$keys()[0] = $dc_id].*.dc_name;
+                $srv_backup := [{
+                    'name': $name,
+                    'type': $.type,
+                    'backup_vault': $join($srv_vault.*.name, '\n'),
+                    'backup_schedule': $join($schedule_srv.*.trigger.properties.pattern, '\n'),
+                    'backup_retention': $schedule_srv.*.operation_definition.retention_duration_days,
+                    'backup_schedule_status': $schedule_srv.*.enabled,
+                    'backup_state': $srv_vault.*.resources[id=$id].protect_status,
+                    'dc': $dc,
+                    'tenant': $.*.tenant
+                }];
+                $append($srv_backup, $disk_vault);
+            );
+          )

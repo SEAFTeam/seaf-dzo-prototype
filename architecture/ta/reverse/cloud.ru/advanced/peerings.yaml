@@ -1,0 +1,10 @@
+seaf.ta.reverse.cloud_ru.advanced.peerings:
+    sber.berezka.peerings.b58bce54-e2c9-4d00-b5eb-a7db6e80bd7c:
+        id: b58bce54-e2c9-4d00-b5eb-a7db6e80bd7c
+        name: peering-Internal-External
+        request_vpc: d48e294f-eb6a-4352-8d73-275b7a966e90
+        accept_vpc: abddcd66-c607-4ec6-9d12-30378e0e54c0
+        description: ''
+        status: ACTIVE
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01

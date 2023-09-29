@@ -1,0 +1,61 @@
+C4Component
+    title Схема метамодели реверса архитектуры в Cloud.ru Advanced
+
+    Container_Boundary(SEAF.TA.COMPONENTS, "Технические компоненты (seaf-core)") {
+        Component(office, "Сущность Офис компании", "seaf.ta.components.office", "office")
+    }
+
+    Container_Boundary(SEAF.TA.SERVICES, "Технические сервисы (seaf-core)") {
+        Component(dc, "Датацентр", "seaf.ta.services.dc", "dc")
+    }
+
+    Container_Boundary(COMPONENTS, "Прикладные компоненты (seaf-core)") {
+        Component(component, "Прикладной сервис/компонент", "components", "components")
+    }
+
+    Container_Boundary(SEAF.TA.REVERSE.CLOUD_RU.ADVANCED, "Расширение метамодели для экспорта конфигурации IaaS ") {
+        Component(ecss, "Elastic Cloud Server", "Виртуальные машины", "ecss")
+        Component(cces, "Cloud Container Engine", "Кластеры k8s", "cces")
+        Component(rdss, "Relational Database Services", "Реляционные БД как сервис", "rdss")
+        Component(dmss, "Distributed Message Services", "Очереди сообщений", "dmss")
+        Component(elbs, "Elastic Load Balancers", "Балансировщики", "elbs")
+        Component(vpcs, "Virtual Private Cloud", "Сетевые зоны", "vpcs")
+        Component(subnets, "VPC Subnets", "Подсети", "subnets")
+        Component(peerings, "VPC Peerings", "VPC Routes", "peerings")
+        Component(security_groups, "Security Groups", "Firewall rules", "security_groups")
+        Component(backup_policies, "Backup Policies", "Политики резервного копирования", "backup_policies")
+        Component(vaults, "Backup vaults", "Хранилища резервного копирования", "vaults")
+        Component(vpn_connections, "VPN Connections", "VPN соединения", "vpn_connections")
+        Component(vpn_gateways, "VPN Gateway", "VPN шлюзы", "vpn_gateways")
+        Component(nat_gateways, "NAT Gateway", "NAT шлюзы", "nat_gateways")
+        Component(links, "Cущность-связь", "Для связи прикладного и технического словев", "links")
+
+        Rel(vpn_connections, office, "Connects")
+        Rel(vpn_connections, dc, "Connects")
+        Rel(vpn_gateways, vpn_connections, "Hosts")
+        Rel(vpn_connections, dc, "Connects")
+
+        Rel(ecss, dc, "Находится в")
+        Rel(cces, dc, "Находится в")
+        Rel(rdss, dc, "Находится в")
+        Rel(dmss, dc, "Находится в")
+        Rel(vpcs, dc, "Находится в")
+        Rel(elbs, dc, "Находится в")
+        Rel(subnets, dc, "Находится в")
+        Rel(peerings, dc, "Находится в")
+        Rel(security_groups, dc, "Находится в")
+        Rel(backup_policies, dc, "Находится в")
+        Rel(vaults, dc, "Находится в")
+        Rel(vpn_gateways, dc, "Находится в")
+        Rel(nat_gateways, dc, "Находится в")
+
+        Rel(links, ecss, "Связывает")
+        Rel(links, cces, "Связывает")
+        Rel(links, rdss, "Связывает")
+        Rel(links, dmss, "Связывает")
+        Rel(links, elbs, "Связывает")
+        Rel(links, component, "Связывает")
+
+    }
+
+    UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="1")

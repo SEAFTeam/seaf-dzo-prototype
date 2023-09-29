@@ -1,0 +1,50 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.eips:
+    title: Elastic IP addresses
+    objects:
+      eip:
+        route: "/"
+        title: Elastic IP address
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: Идентификатор EIP
+            ext_address:
+              title: Внешний адрес
+              type: string
+              minLength: 1
+            int_address:
+              title: Внутренний адрес
+              type: string
+            type:
+              title: Тип адреса
+              type: string
+            port_id:
+              title: Идентификатор порта для которого привязан IP
+              type: string
+            limit:
+              title: Лимиты
+              type: object
+              properties:
+                rule_id:
+                  title: ID правила
+                  type: string
+                rule_name:
+                  title: Название правила
+                  type: string
+                throughput:
+                  title: Пропускная способность (Mbps)
+                  type: integer
+                type:
+                  title: Тип лимита
+                  type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"

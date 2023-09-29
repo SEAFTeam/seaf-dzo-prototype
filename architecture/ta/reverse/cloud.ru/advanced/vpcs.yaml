@@ -1,0 +1,15 @@
+seaf.ta.reverse.cloud_ru.advanced.vpcs:
+    sber.berezka.vpcs.d48e294f-eb6a-4352-8d73-275b7a966e90:
+        id: d48e294f-eb6a-4352-8d73-275b7a966e90
+        name: vpc-internal
+        cidr: 10.10.0.0/16
+        description: ''
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.vpcs.abddcd66-c607-4ec6-9d12-30378e0e54c0:
+        id: abddcd66-c607-4ec6-9d12-30378e0e54c0
+        name: vpc-external
+        cidr: 10.1.0.0/16
+        description: ''
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01

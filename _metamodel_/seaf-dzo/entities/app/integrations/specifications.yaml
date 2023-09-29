@@ -1,0 +1,55 @@
+# Расширение спецификаций по интеграциям для SEAF ДЗО Группы Сбер
+entities:
+  seaf.integration_specifications:
+    schema:
+      type: object
+      patternProperties:
+        "^[a-z0-9_\\$][a-z0-9_\\$]*(\\.[a-z0-9_\\$][a-z0-9_\\$]*)*$":
+          type: object
+          properties:
+            id:
+              title: Уникальный идентификатор спецификации интеграции
+              type: string
+              format: uuid
+            sber:
+              type: object
+              properties:
+                interface:
+                  title: Интерфейс взаимодействия
+                  type: string
+                interface_type:
+                  title: Тип интерфейса взаимодействия
+                  type: string
+                  enum:
+                    - API
+                    - Файловая интеграция
+                    - Иное
+                interface_standard_type:
+                  title: Стандартизованность интерфейса взаимодействия
+                  type: string
+                  enum:
+                    - Универсальный интерфейс/Индустриальный стандарт
+                    - Закрытый платформенный интерфейс
+                encryption:
+                  title: Используемое шифрование
+                  type: string
+                  enum:
+                    - TLS
+                    - SSL
+                    - ФПСУ-IP
+                    - IPSec
+                    - Иное шифрование
+                    - Шифрование отсутствует
+                external_channel:
+                  title: Интеграция через внешний канал?
+                  type: boolean
+                regulatory_required:
+                  title: Интеграция по требованию и правилам регулятора?
+                  type: boolean
+              required:
+                - interface
+                - interface_type
+                - interface_standard_type
+          required:
+            - id
+            - description

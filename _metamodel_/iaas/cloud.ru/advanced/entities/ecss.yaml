@@ -1,0 +1,134 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.ecss:
+    title: 'Виртуальный сервер (SberCloud Advanced)'
+    objects:
+      ecs:
+        route: "/"
+        title: Elastic Cloud Server
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: Идентификатор ВМ
+              type: string
+              minLength: 5
+            name:
+              title: Имя сервера
+              type: string
+              minLength: 3
+            description:
+              title: Описание
+              type: string
+            flavor:
+              title: Спецификация (Flavor)
+              type: string
+              minLength: 3
+            az:
+              title: Зона доступности
+              type: string
+              minLength: 5
+            os:
+              title: Операционная система
+              type: object
+              properties:
+                bit:
+                  title: Разрядность ОС
+                  type: string
+                  minLength: 2
+                type:
+                  title: ОС
+                  type: string
+                  minLength: 0
+            nic_qty:
+              title: Количество сетевых адаптеров
+              type: integer
+            addresses:
+              title: IP адреса
+              type: array
+              minItems: 0
+              items:
+                type: string
+                minLength: 7
+            vpc_id:
+              title: VPC
+              type: string
+              minLength: 0
+            subnets:
+              title: Subnet
+              type: array
+              items:
+                type: string
+            ram:
+              title: ОЗУ
+              type: integer
+            cpu:
+              title: Процессор
+              type: object
+              properties:
+                cores:
+                  title: Ядра
+                  type: integer
+                frequency:
+                  title: Частота
+                  type: string
+                  minLength: 0
+            security_groups:
+              title: Группы безопасности
+              type: array
+              items:
+                type: string
+            tags:
+              title: Тэги
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    title: Имя ключа
+                    type: string
+                  value:
+                    title: Значение ключа
+                    type: string
+            disks:
+              title: Диски
+              type: array
+              minItems: 1
+              items:
+                .*:
+                  type: object
+                  properties:
+                    az:
+                      title: Зона доступности
+                      type: string
+                      minLength: 1
+                    device:
+                      title: Точка монтирования
+                      type: string
+                      minLength: 1
+                    size:
+                      title: Размер
+                      type: string
+                      minLength: 1
+                    type:
+                      title: Тип
+                      type: string
+                      minLength: 1
+            type:
+              title: Тип сервера
+              type: string
+              enum:
+                - 'vm'
+                - 'physical'
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"
+
+
+
+

@@ -1,0 +1,8 @@
+imports:
+  - parties_products.yaml
+  - processes.yaml
+  - resources.yaml
+  - capabilities.yaml
+
+  # Application layer manifest example (to be detached before release)
+#  - apps.yaml

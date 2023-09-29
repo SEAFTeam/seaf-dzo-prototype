@@ -1,0 +1,43 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.subnets:
+    title: Subnet
+    objects:
+      subnet:
+        route: "/"
+        title: VPC Subnet
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: ID Подсети
+              type: string
+            cidr:
+              title: CIDR сети
+              type: string
+              minLength: 1
+            description:
+              title: Описание
+              type: string
+            name:
+              title: Название подсети
+              type: string
+            gateway:
+              title: Название VPC
+              type: string
+            vpc:
+              title: ID VPC
+              type: string
+            dns_list:
+              title: DNS сервера
+              type: array
+              items:
+                type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"

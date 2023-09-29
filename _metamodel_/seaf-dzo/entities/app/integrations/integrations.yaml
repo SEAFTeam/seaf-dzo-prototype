@@ -1,0 +1,15 @@
+# Расширение интеграций для SEAF ДЗО Группы Сбер
+entities:
+  integrations:
+    schema:
+      patternProperties:
+        "^[a-z0-9_\\$][a-z0-9_\\$]*(\\.[a-z0-9_\\$][a-z0-9_\\$]*)*$":
+          properties:
+            id:
+              type: string
+              title: Идентификатор интеграции
+              format: uuid
+          required:
+            - id
+            - description
+            - specifications

@@ -1,0 +1,36 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.peerings:
+    title: VPC Peerings
+    objects:
+      peering:
+        route: "/"
+        title: VPC Peering
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+            name:
+              title: Название пиринга
+              type: string
+              minLength: 1
+            request_vpc:
+              title: Источник VPC ID
+              type: string
+            accept_vpc:
+              title: Назначение VPC ID
+              type: string
+            description:
+              title: Описание
+              type: string
+            status:
+              title: Состояние
+              type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"

@@ -1,0 +1,223 @@
+ttl:
+
+  terminal: 
+    title: Терминал  
+    bage: building_filled_gear_green
+    hex:
+      # package: передает
+
+    hexQ:                   # атрибут, содержащий запрос
+      ttl:                # все ttl-объекты, которые
+          EXACT=>map:     # в обязательном порядке имеют исходящую связь "map"
+              terminal:   # с объектом terminal
+
+  
+  # package:
+  #   title: Пакет
+  #   bage: box_sealed
+  #   hex:
+  #     terminal: передается в
+  #     transformation: трансформируется
+
+  all_terminals:              # идентификатор запроса
+    title: все терминалы    # имя запроса
+    hexQ:                   # атрибут, содержащий запрос
+        ttl:                # все ttl-объекты, которые
+            EXACT=>map:     # в обязательном порядке имеют исходящую связь "map"
+                terminal:   # с объектом terminal
+
+
+  transformation:
+    title: Трансформация
+    bage: shuffle_yellow
+    hex:
+      =>доступна в:
+        terminal:
+        sea_terminal:
+        valley_terminal:
+        mountine_terminal:
+        river_terminal:
+        desert_terminal:
+        forest_terminal:
+      
+    hexQ:
+      ttl:
+        EXACT=>map:
+          transformation:
+      # package: выпускает
+
+
+
+# Tramsform actions
+
+  to_red_transform:
+    title: Перекраска в красный
+    hex:
+      =>map:
+        transformation:
+      =>:
+        mountine_terminal:
+        desert_terminal:
+
+  to_green_transform:
+    title: Перекраска в зеленый
+    hex:
+      =>map:
+        transformation:
+      =>:
+        valley_terminal:
+        sea_terminal:
+        forest_terminal:
+
+  to_blue_transform:
+    title: Перекраска в синий
+    hex:
+      =>map:
+        transformation:
+      =>:
+        sea_terminal:
+        river_terminal:
+
+  enlarge_transform:
+    title: Увеличение размера
+    hex:
+      =>map:
+        transformation:
+      =>:
+        river_terminal:
+        forest_terminal:
+
+  reduce_transform:
+    title: Уменьшение размера
+    hex:
+      =>map:
+        transformation:
+      =>:
+        sea_terminal:
+        mountine_terminal:
+        river_terminal:
+        desert_terminal:
+        forest_terminal:
+        valley_terminal:
+
+  sphere_cube_transform:
+    title: Куб из сферы
+    hex:
+      =>map:
+        transformation:
+      =>:
+        desert_terminal:
+        mountine_terminal:
+
+  cube_sphere_transform:
+    title: в сферу из куба
+    hex:
+      =>map:
+        transformation:
+      =>:
+        sea_terminal: map             
+
+
+  cube_pyramide_transform:
+    title: Пирамида из куба
+    hex:
+      =>map:
+        transformation:
+      =>:
+        mountine_terminal:
+
+  pyramide_cube_transform:
+    title: Куб из пирамиды
+    hex:
+      =>map:
+        transformation:
+      =>:
+        mountine_terminal:
+
+# Terminals
+
+  mountine_terminal:
+    title: Горный
+    hex:
+      =>map:
+        terminal:
+  
+  river_terminal:
+    title: Речной
+    hex:
+      =>map:
+        terminal:
+
+  valley_terminal:
+    title: В долине
+    hex:
+      =>map:
+        terminal:
+
+  desert_terminal:
+    title: Пустынный
+    hex:
+      =>map:
+        terminal:
+
+  sea_terminal:
+    title: Морской
+    hex: 
+      =>map:
+        terminal:
+
+  forest_terminal:
+    title: Лесной
+    hex:
+      =>map:
+        terminal:
+
+
+  test_view:
+    title: Тестовый view
+    description: Паттерн данного view представляет собой два запроса и связи между ними. Ландшафт (landscape) -- это
+      результат выполнения запросов и связи между результирующими объектами, если они соответствуют связям паттерна.
+    hexV:
+      terminal.hexQ:
+      transformation.hexQ:
+
+  test_view_moded:
+    title: Тестовый view (moded)
+    hexV:
+      modes:
+        - title: Морской
+          hexV:
+            sea_terminal:
+            transformation.hexQ:
+        - title: Речной
+          hexV:
+            river_terminal:
+            transformation.hexQ:
+        - title: Лесной
+          hexV:
+            forest_terminal:
+            transformation.hexQ:
+        - title: Горный
+          hexV:
+            mountine_terminal:
+            transformation.hexQ:
+        - title: Равнинный
+          hexV:
+            valley_terminal:
+            transformation.hexQ:
+        - title: Пустынный
+          hexV:
+            desert_terminal:
+            transformation.hexQ:
+
+
+hexNav:
+  - title: Материалы
+    link: 
+    params:
+    includes:
+      - title: Тестовый вью
+        link: "entities/hexV/view?id=test_view"
+      - title: Тестовый вью (moded)
+        link: "entities/hexV/view?id=test_view_moded"
+

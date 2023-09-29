@@ -1,0 +1,24 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.branches:
+    title: Офисы
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            name:
+              title: Название объекта
+              type: string
+            country:
+              title: Страна
+              type: string
+            city:
+              title: Город
+              type: string
+            location:
+              title: Адрес
+              type: string
+            symbol:
+              title: ID символа
+              type: string

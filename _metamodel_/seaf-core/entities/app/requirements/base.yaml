@@ -1,0 +1,76 @@
+# Требования прикладной архитектуры SEAF
+entities:
+  seaf.requirements:
+    title: Требования
+    objects:
+      requirement:
+        route: "/"
+        title: Требование
+    schema:
+      type: object
+      patternProperties:
+        "^[a-z0-9_\\$][a-z0-9_\\$]*(\\.[a-z0-9_\\$][a-z0-9_\\$]*)*$":
+          type: object
+          properties:
+            title:
+              title: Название требования
+              type: string
+            type:
+              type: string
+              enum:
+                - business
+                - functional
+                - non-functional
+            functionality:
+              title: Функции обеспечивающие требование
+              type: array
+              items:
+                $ref: "#/$rels/aspects.aspect"
+            description:
+              title: Подробное описание требования
+              type: string
+            verifications:
+              title: Критерии выполнения
+              type: object
+              patternProperties:
+                "^[a-z0-9_\\$][a-z0-9_\\$]*(\\.[a-z0-9_\\$][a-z0-9_\\$]*)*$":
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      title: Название критерия
+                    condition:
+                      type: string
+                      title: Условие выполнения критерия проверки
+                  required:
+                    - title
+                    - condition
+          required:
+            - title
+            - type
+            - description
+            - verifications
+    menu: >
+      (
+        $requirements := $."seaf.requirements";
+        $makeLocation := function($id) {(
+            $arrleft := function($arr ,$count) {
+                $map($arr, function($v, $i) {
+                  $i <= $count ? $v
+                })
+            };
+            $domains := $split($id, ".");
+            "Анализ/Требования/" & $join($map($domains, function($domain, $index) {(
+                $lookup($requirements, $join($arrleft($domains, $index), ".")).title
+            )}), "/");
+        )};
+        [$append([{
+            "link": "/entities/seaf.requirements/tree", 
+            "location": "Анализ/Требования" 
+          }],
+          [$requirements.$spread().{
+              "link": "/entities/seaf.requirements/blank?seaf-req-id=" & $keys()[0],
+              "location": $makeLocation($keys()[0])
+          }][location]
+        )];
+      )

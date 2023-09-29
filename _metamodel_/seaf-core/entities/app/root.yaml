@@ -1,0 +1,7 @@
+imports:
+  - components.yaml
+  - contexts.yaml
+  - aspects.yaml
+  - integrations/root.yaml
+  - requirements/root.yaml
+  - specifications/root.yaml

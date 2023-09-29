@@ -1,0 +1,19 @@
+seaf.ta.reverse.cloud_ru.advanced.links:
+  sber.berezka.links.home_cinema.auth:
+    app_id: sber.berezka.home_cinema.auth
+    reverse_ta_id:
+      - sber.berezka.ecss.62f713a4-1139-461f-8053-1df267861aef
+      - sber.berezka.ecss.729d3b73-350c-4987-86ed-01d36b719c57
+      - sber.berezka.rdss.0e493e5847714a14a313e215d9e59b15in03
+      - sber.berezka.elbs.ad9af3b6-fd82-404e-8d6c-466660e92329
+      - sber.berezka.ecss.e5e60a69-0653-4297-8799-ea0df4f0cacc
+
+  sber.berezka.links.home_cinema.catalog:
+    app_id: sber.berezka.home_cinema.catalog
+    reverse_ta_id:
+      - sber.berezka.ecss.82935ed6-9c65-4e73-a1ad-1511e21f50b0
+      - sber.berezka.ecss.82935ed6-9c65-4e73-a1ad-1511e21f50b0
+      - sber.berezka.elbs.ad9af3b6-fd82-404e-8d6c-466660e92329
+      - sber.berezka.rdss.97c20535c2b1428886a45ca7383632b7in03
+      - sber.berezka.cces.dmss.fc5d98f2-d0c3-4125-9354-744c786ead81
+      - sber.berezka.ecss.fb77c40e-b1e2-4aa5-89a9-45725b7ccf30

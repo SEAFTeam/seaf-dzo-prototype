@@ -1,0 +1,611 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.vpcs:
+    presentations:
+      vpcs_diagram:
+        type: smartants
+        source: >
+          (
+            $cservers := $."seaf.ta.reverse.cloud_ru.advanced.ecss";
+            $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+            $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+            $eips := $."seaf.ta.reverse.cloud_ru.advanced.eips";
+            $cpeerings := $."seaf.ta.reverse.cloud_ru.advanced.peerings";
+            $arr := $merge($cvpcs.$spread().(
+                      $id := $.*.id;
+                      $name := $.*.name;
+                      $subnets := $csubnets.$spread().(
+                                $subnetid := $.*.id;
+                                $vpcid := $.*.vpc;
+                                $vpcid = $id ?
+                                {
+                                  'id': $subnetid,
+                                  'title': *.name & ' - ' & *.cidr
+                                }
+                              );
+                      $id in $csubnets.*.vpc ?
+                      {
+                          $name: {
+                              'title': $name & ' - ' & *.cidr,
+                              'description': *.cidr,
+                              'symbol': 'symbol-' & $name,
+                              'subnets': $subnets
+                          }
+                      }
+              )
+            );
+            $nodes := $arr.$spread().(
+              $name := $keys()[0];
+              {
+                $name:{
+                  'title': $.*.title,
+                  'symbol': $.*.symbol
+                }
+              }
+            );
+            $gate_vpcs := $eips.$spread().(
+              $ext_ip := *.ext_address;
+              $ext_ip in $cservers.*.addresses ? (
+                $cservers.$spread().(
+                    $vpcid := *.vpc_id;
+                    $srvip := *.addresses;
+                    $ext_ip in $srvip ?
+                      [
+                        {'vpc': $vpcid }
+                      ]
+                )
+              )
+            );
+            $links := [];
+            $links := $append($links, $cpeerings.$spread().(
+                              $srcid := $.*.request_vpc;
+                              $dstid := $.*.accept_vpc;
+                              $from := $cvpcs.$spread()[$.*.id = $srcid].*.name;
+                              $to := $cvpcs.$spread()[$.*.id = $dstid].*.name;
+                                {
+                                  "from": $from,
+                                  "to": $to,
+                                  "title": $.*.name,
+                                  "style": "->"
+                                }
+                          )
+            );
+            $rowHeight := 18;
+            $fontHeight := 16;
+            $fontWidth := 10;
+            $padding := 8;
+            $symbols := $merge($arr.$spread().(
+                    $id := "symbol-" & $keys()[0];
+                    /* Определяем количество аспектов для вычисления высоты символа */
+                    $aspectCount := $count(*.subnets);
+                    /* Определяем максимальную длину текста для вычисления ширины символа */
+                    $maxTitle := $max(*.subnets.($length($.title)));
+                    /* Вычисляем размеры символа */
+                    $width := $maxTitle ? $maxTitle * $fontWidth + $padding * 2 : 64; /* Умножаем на ширину символа */   
+                    $height := ($aspectCount) * $rowHeight + $padding * 2 + 10; /* Умножаем на высоту строки */
+                    {
+                        $id: /* Генерируем символ */
+                            "<g>"
+                                /* Создаем контейнер */
+                                & "<rect width=\"" & $width & "\" height=" & $height & " fill=\"#eee\" stroke=\"#222\" rx=3 />"
+                                /* Заполняем аспектами */
+                                & $join($map(*.subnets, function($v, $i) {
+                                    "<a href=\"/entities/seaf.ta.reverse.cloud_ru.advanced.subnets/table_view\">"
+                                    & "<text x=6 y=" & ($i * $rowHeight + $padding + $rowHeight) & " style=\"font-size:" & $fontHeight & "\" fill=\"blue\">" & $v.title & "</text>"
+                                    & "</a>"
+                                }))
+                            & "</g>"
+                    }
+                ));
+            /* $links ? $nodes := $merge($append($nodes, {'internet':{'title': 'internet', 'symbol': 'cloud'}})) : $nodes := $nodes; */
+            {
+              "nodes": $merge($nodes),
+              "symbols": $symbols,
+              "links": $links
+            }
+          )
+
+      vpcs_diagram_full:
+        type: smartants
+        source: >
+          (
+            $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+            $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+            $cservers := $."seaf.ta.reverse.cloud_ru.advanced.ecss";
+            $ceips := $."seaf.ta.reverse.cloud_ru.advanced.eips";
+            $cpeerings := $."seaf.ta.reverse.cloud_ru.advanced.peerings";
+            $crdbs := $."seaf.ta.reverse.cloud_ru.advanced.rdss";
+            $cvpngws := $."seaf.ta.reverse.cloud_ru.advanced.vpn_gateways";
+            $cvpnconn := $."seaf.ta.reverse.cloud_ru.advanced.vpn_connections";
+            $cnatgws := $."seaf.ta.reverse.cloud_ru.advanced.nat_gateways";
+            $celbs := $."seaf.ta.reverse.cloud_ru.advanced.elbs";
+            $cces := $."seaf.ta.reverse.cloud_ru.advanced.cces";
+            $cdmss := $."seaf.ta.reverse.cloud_ru.advanced.dmss";
+            /*$cbranches := $."seaf.ta.reverse.cloud_ru.advanced.branches";*/
+            $coffices := $."seaf.ta.components.office";
+            $cdcs := $."seaf.ta.services.dc";
+            $matchfunc := $.functions."seaf.ta.reverse".match_ip_to_subnet;
+            $svg_vm := $.functions."seaf.ta.reverse".svg_vm;
+            $svg_vm_internet := $.functions."seaf.ta.reverse".svg_vm_internet;
+            $svg_rdb := $.functions."seaf.ta.reverse".svg_rdb;
+            $svg_rdb_internet := $.functions."seaf.ta.reverse".svg_rdb_internet;
+            $svg_internet := $.functions."seaf.ta.reverse".svg_internet;
+            $svg_vpngw := $.functions."seaf.ta.reverse".svg_vpngw;
+            $svg_branch := $.functions."seaf.ta.reverse".svg_branch;
+            $svg_natgw := $.functions."seaf.ta.reverse".svg_natgw;
+            $svg_elb := $.functions."seaf.ta.reverse".svg_elb;
+            $svg_cce := $.functions."seaf.ta.reverse".svg_cce;
+            $svg_dms := $.functions."seaf.ta.reverse".svg_dms;
+            $svg_dc := $.functions."seaf.ta.reverse".svg_dc;
+            $servers_table := (
+                        [[$cservers.$spread().{
+                          "id": $keys()[0],
+                          "server": $.*
+                        }].(
+                          $subnet := server.subnets.(
+                              $id := $;
+                              $csubnets.$spread()[$.*.id = $id].($)
+                          );
+                          $vpc := (
+                                    $keyj := server.vpc_id;
+                                    $cvpcs.$spread().(
+                                        $id := $.*.id;
+                                        $id = $keyj ? $
+                                    )
+                                 );
+                          {
+                          "id": $.*.id,
+                          "name": server.name,
+                          "os_type": server.os.type,
+                          "os_bit": server.os.bit,
+                          "cpu_qty": server.cpu.cores,
+                          "ram":  (server.ram / 1024),
+                          "disks": $join(server.disks.(*.device & ' - ' & *.type & ' - ' & *.size & 'Gb'), '\n'),
+                          "nic_qty": server.nic_qty,
+                          "addresses": $join(server.addresses, "\n"),
+                          "addresses_array": server.addresses,
+                          "vpc": $vpc.*.name,
+                          "vpc_array": $vpc,
+                          "subnet": $join($subnet.*.name, "\n"),
+                          "subnet_array": $subnet,
+                          "az": server.az,
+                          "flavor": server.flavor,
+                          "tags": $join(server.tags.($.key & ': ' & $.value), "\n"),
+                          "type": server.type,
+                          "iaas_provider": server.iaas_provider,
+                          "tenant": server.tenant,
+                          "dc": server.DC,
+                          "link": "/entities/seaf.ta.reverse.cloud_ru.advanced.ecss/server_md?id=" & id
+                        })]
+            );
+            $rdb_table := (
+                [[$crdbs.$spread().{
+                    "id": $keys()[0],
+                    "rdb": $.*
+                }].(
+                  {
+                    "id": $.*.id,
+                    "name": rdb.name,
+                    "status": rdb.status,
+                    "vpc_id": rdb.vpc_id,
+                    "subnet_id": rdb.subnet_id,
+                    "private_ips": rdb.private_ips,
+                    "public_ips": rdb.public_ips,
+                    "iaas_provider": rdb.iaas_provider,
+                    "tenant": rdb.tenant,
+                    "dc": rdb.DC,
+                    "link": "/entities/seaf.ta.reverse.cloud_ru.advanced.rdss/rds_md?id=" & id
+                  }
+                )]
+            );
+            $vpngw_table := (
+                [[$cvpngws.$spread().{
+                    "id": $keys()[0],
+                    "gw": $.*
+                }].(
+                  {
+                    "id": $.*.id,
+                    "name": gw.name,
+                    "vpc_id": gw.vpc_id,
+                    "subnet_id": gw.subnet_id,
+                    "ip_address": gw.ip_address,
+                    "link": "/entities/seaf.ta.reverse.cloud_ru.advanced.vpn_gateways/vpngw_md?id=" & id
+                  }
+                )]
+            );
+            $natgw_table := (
+              [[$cnatgws.$spread().{
+                  "id": $keys()[0], 
+                  "gw": $.*
+              }].(
+                  $tmp := gw.subnet_id;
+                  $subn := $csubnets.$spread()[$.*.id = $tmp];
+                  $vpc := $cvpcs.$spread()[$.*.id = $subn.*.vpc];
+                  {
+                    "id": $.*.id,
+                    "name": gw.name,
+                    "vpc_id": $vpc.*.id,
+                    "subnet_id": gw.subnet_id,
+                    "ip_address": gw.address,
+                    "link": "/entities/seaf.ta.reverse.cloud_ru.advanced.nat_gateways/natgw_md?id=" & id
+                  };
+              )]
+            );
+            $elbs_table := (
+              [[$celbs.$spread().{
+                  "id": $keys()[0], 
+                  "elb": $.*
+              }].(
+                  $tmp := elb.subnet_id;
+                  $subn := $csubnets.$spread()[$.*.id = $tmp];
+                  $vpc := $cvpcs.$spread()[$.*.id = $subn.*.vpc];
+                  {
+                    "id": $.*.id,
+                    "name": elb.name,
+                    "vpc_id": $vpc.*.id,
+                    "subnet_id": elb.subnet_id,
+                    "ip_address": elb.address,
+                    "link": "/entities/seaf.ta.reverse.cloud_ru.advanced.elbs/elb_md?id=" & id
+                  };
+              )]
+            );
+            $cces_table := (
+              [[$cces.$spread().{
+                  "id": $keys()[0], 
+                  "cce": $.*
+              }].(
+                  $subnet_id := cce.subnet_id;
+                  $vpc_id := cce.vpc_id;
+                  $subn := $csubnets.$spread()[$.*.id = $subnet_id];
+                  {
+                    "id": $.*.id,
+                    "name": cce.name,
+                    "vpc_id": $vpc_id,
+                    "subnet_id": $subnet_id,
+                    "ip_addresses": cce.addresses,
+                    "link": "/entities/seaf.ta.reverse.cloud_ru.advanced.cces/cce_md?id=" & id
+                  };
+              )]
+            );
+            $dmss_table := (
+              [[$cdmss.$spread().{
+                  "id": $keys()[0], 
+                  "dms": $.*
+              }].(
+                  {
+                    "id": $.*.id,
+                    "name": dms.name,
+                    "vpc_id": dms.vpc_id,
+                    "subnet_id": dms.subnet_id,
+                    "ip_addresses": dms.address,
+                    "link": "/entities/seaf.ta.reverse.cloud_ru.advanced.dmss/dms_md?id=" & id
+                  };
+              )]
+            );   
+            $vpc_grid := $cvpcs.$spread().(
+                $id := $.*.id;
+                $subnets := $csubnets.$spread()[*.vpc=$id];
+                $srv_in_vpc := $servers_table[$id in vpc_array.*.id];
+                $rdb_in_vpc := $rdb_table[vpc_id = $id];
+                $cvpcname := $.*.name;
+                $tenant := $.*.tenant;
+                $vpc_dc := $.*.DC;
+                $dc := $cdcs.$spread()[$keys()[0] = $vpc_dc].*.dc_name;
+                $subnet_grid := $map($subnets, function ($v, $i){(
+                    $subnet_id := $v.*.id;
+                    $subnet_name := $v.*.name;
+                    $subnet_cidr := $v.*.cidr;
+                    $subnet_desc := $v.*.description;
+                    $index := $i + 1;
+                    $srv_in_subnet := $srv_in_vpc[$subnet_id in subnet_array.*.id].(
+                        $internet := $count($.addresses_array[$ in $ceips.*.ext_address]) > 0 ? true : false;
+                        $multinet := $count($.subnet_array) > 1 ? true : false;
+                        {
+                            'name': $.name,
+                            'addresses': $.addresses_array,
+                            'internet': $internet,
+                            'multinet': $multinet,
+                            'vpc': $.vpc,
+                            'type': 'vm',
+                            'link': $.link
+                        }
+                    );
+                    $rdb_in_subnet := $rdb_table[subnet_id=$subnet_id].(
+                        $ips := $append($.public_ips, $.private_ips);
+                        $internet := $ips.($ in $ceips.*.ext_address ? true) = true ? true : false;
+                        {
+                            'name': $.name,
+                            'addresses': $ips,
+                            'internet': $internet,
+                            'multinet': false,
+                            'vpc': $cvpcname,
+                            'type': 'rdb',
+                            'link': $.link                          
+                        }
+                    );
+                    $vpngw_in_subnet := $vpngw_table[subnet_id=$subnet_id].(
+                        {
+                            'name': $.name,
+                            'addresses': $.ip_address,
+                            'internet': true,
+                            'multinet': false,
+                            'vpc': $cvpcname,
+                            'type': 'vpngw',
+                            'link': $.link                   
+                        }
+                    );
+                    $natgw_in_subnet := $natgw_table[subnet_id=$subnet_id].(
+                        {
+                            'name': $.name,
+                            'addresses': $.ip_address,
+                            'internet': true,
+                            'multinet': false,
+                            'vpc': $cvpcname,
+                            'type': 'natgw',
+                            'link': $.link                      
+                        }
+                    );
+                    $elb_in_subnet := $elbs_table[subnet_id=$subnet_id].(
+                        {
+                            'name': $.name,
+                            'addresses': $.ip_address,
+                            'internet': false,
+                            'multinet': false,
+                            'vpc': $cvpcname,
+                            'type': 'elb',
+                            'link': $.link                      
+                        }
+                    );
+                    $cce_in_subnet := $cces_table[subnet_id=$subnet_id].(
+                        {
+                            'name': $.name,
+                            'addresses': $.ip_addresses,
+                            'internet': false,
+                            'multinet': false,
+                            'vpc': $cvpcname,
+                            'type': 'cce',
+                            'link': $.link                      
+                        }
+                    );
+                    $dms_in_subnet := $dmss_table[subnet_id=$subnet_id].(
+                        {
+                            'name': $.name,
+                            'addresses': $.ip_addresses,
+                            'internet': false,
+                            'multinet': false,
+                            'vpc': $cvpcname,
+                            'type': 'dms',
+                            'link': $.link                      
+                        }
+                    );
+                    $servers_qty := $count($srv_in_subnet);
+                    $rdb_qty := $count($rdb_in_subnet);
+                    $vpngw_qty := $count($vpngw_in_subnet);
+                    $natgw_qty := $count($natgw_in_subnet);
+                    $elb_qty := $count($elb_in_subnet);
+                    $cce_qty := $count($cce_in_subnet);
+                    $dms_qty := $count($dms_in_subnet);
+                    $objects_qty := $servers_qty + $rdb_qty + $vpngw_qty + $natgw_qty + $elb_qty + $cce_qty + $dms_qty;
+                    /* Counting rows an columns */
+                        $objects_qty <= 2 ? $grid := {'raws': 1, 'columns': $objects_qty};
+                        ($objects_qty > 2 and $objects_qty <= 4) ? $grid := {'raws': 2, 'columns': 2};
+                        ($objects_qty > 4 and $objects_qty <= 9) ? $grid := {'raws': $ceil($objects_qty/3), 'columns': 3};
+                        ($objects_qty > 9 and $objects_qty <= 16) ? $grid := {'raws': $ceil($objects_qty/4), 'columns': 4};
+                        ($objects_qty > 16 and $objects_qty <= 25) ? $grid := {'raws': $ceil($objects_qty/5), 'columns': 5};
+                        ($objects_qty > 25) ? $grid := {'raws': $ceil($objects_qty/6), 'columns': 6};
+                    /* End of row-coumn calculations */
+                    $raws := $grid.raws;
+                    $columns := $grid.columns != 0 ? $grid.columns : 1;
+                    $swidth := $columns = 1 ? $columns * 200 + 20 : $columns * 100 + 20;
+                    $sheight := $raws * 100 + 120;
+                    {
+                        'subnetid': $subnet_id,
+                        'subnetname': $subnet_name,
+                        'subnetdesc': $subnet_desc,
+                        'cidr': $subnet_cidr,
+                        'servers': $srv_in_subnet,
+                        'rdbs': $rdb_in_subnet,
+                        'objects': $append($append($append($append($append($append($srv_in_subnet, $rdb_in_subnet), $vpngw_in_subnet), $natgw_in_subnet), $elb_in_subnet), $cce_in_subnet), $dms_in_subnet),
+                        'objects_qty': $objects_qty,
+                        'raws': $raws,
+                        'columns': $columns,
+                        'swidth': $swidth,
+                        'sheight': $sheight
+                    }
+                )});
+                {$dc & '.' & $tenant & '.' & $cvpcname: {
+                    'vpc_id': $id,
+                    'vpc_name': $.*.name,
+                    'vpc_desc': ($count($subnet_grid.objects) < 8 and $count($subnet_grid) < 2) ? $substring($.*.description, 0, 20) & '...' : $.*.description,
+                    'subnets': $subnet_grid,
+                    'iaas': $dc,
+                    'tenant': $tenant
+                    }
+                }
+
+            );
+            $log($vpc_grid, 'VPC-GRID');
+            $symbols := $vpc_grid.$spread().(
+                      $count($.*.subnets.objects) >= 1 ? ( /* Берем только объекты с содержимым */
+                      $subnets_qty := $count($.*.subnets[objects_qty >= 1]);
+                      $vwidth := $sum($.*.subnets[objects_qty >= 1].swidth) + $subnets_qty*10 + 10;
+                      $vheight := $max($.*.subnets.sheight) + 60;
+                      $vpcobj := $;
+                      $svg_vpc_bound_start := "<svg id=\"" & $.*.vpc_name & "\" width=\"" & $vwidth & "\" height=\"" & $vheight & "\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">"
+                                                     & "<rect fill=\"#AED9E0\" x=\"0\" y=\"0\" width=\"" & $vwidth & "\" height=\"" & $vheight & "\" rx=\"10\" stroke=\"#000\"/>"
+                                                     & "<text fill=\"#000000\" x=\"15\" y=\"20\" text-anchor=\"start\" font-size=\"14\" stroke=\"#000\" stroke-width=\"0\"><tspan font-weight=\"bold\">VPC</tspan>:&nbsp;<tspan fill=\"#0000FF\"><a href=\"/entities/seaf.ta.reverse.cloud_ru.advanced.vpcs/vpcs_diagram\">" & $.*.vpc_name & "</a></tspan></text>"
+                                                     & "<text fill=\"#000000\" x=\"15\" y=\"35\" text-anchor=\"start\" font-size=\"14\" stroke=\"#000\" stroke-width=\"0\"><tspan font-weight=\"bold\">Desc</tspan>:&nbsp;" & $.*.vpc_desc & "</text>";
+                      { $.*.vpc_name: $svg_vpc_bound_start & $join($map($.*.subnets[objects_qty >= 1], function($v, $i, $m) {(
+                                                              $index := $i;
+                                                              $subnet_rows := $count($m) > 3 ? $ceil($count($m)/3) : 1;
+                                                              $cx := ($subnets_qty > 1 and $index > 0) ? ($sum([0..$index-1].($n := $; $m[$n].swidth))+($index+1)*10) : 10;
+                                                              $cy := 1;
+                                                              $columns := $v.columns;
+                                                              $raws := $v.raws;
+                                                              $svg_subnet_bound_start := "<svg id=\"" & $v.subnetname & "\" x=\"" & $cx & "\" y=\"50\" width=\"" & $v.swidth & "\" height=\"" & $v.sheight & "\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">"
+                                                                                           & "<rect fill=\"#fff\" x=\"0\" y=\"0\" width=\"" & $v.swidth & "\" height=\"" & $v.sheight & "\" rx=\"10\" stroke=\"#000\"/>"
+                                                                                           & "<text fill=\"#000000\" x=\"15\" y=\"25\" text-anchor=\"start\" font-size=\"14\" stroke=\"#000\" stroke-width=\"0\"><tspan font-weight=\"bold\">Subnet</tspan>:&nbsp;" & $v.subnetname & "</text>"
+                                                                                           & "<text fill=\"#000000\" x=\"15\" y=\"40\" text-anchor=\"start\" font-size=\"14\" stroke=\"#000\" stroke-width=\"0\"><tspan font-weight=\"bold\">Desc</tspan>:&nbsp;" & $v.subnetdesc & "</text>"
+                                                                                           & "<text fill=\"#000000\" x=\"15\" y=\"55\" text-anchor=\"start\" font-size=\"14\" stroke=\"#000\" stroke-width=\"0\"><tspan font-weight=\"bold\">CIDR</tspan>:&nbsp;" & $v.cidr & "</text>";
+                                                              $svg_subnet_bound_start & $join($map($v.objects, function($v, $i) {(
+                                                                                          $index := $i+1;
+                                                                                          $x := $ceil($index/$columns);
+                                                                                          $y := $index - $columns * ($x - 1);
+                                                                                          $width := 100;
+                                                                                          $height := 100;
+                                                                                          $xcor := $columns = 1 ? 60 + ($y-1)*$width : 10 + ($y-1)*$width;
+                                                                                          $ycor := 100 + ($x-1)*$height;
+                                                                                          $param := {'srv': $v.name, 'ip': $join($v.addresses, ", "), 'href':$v.link, 'x': $xcor, 'y': $ycor};
+                                                                                          $v.type = 'vm' ? (
+                                                                                              $v.internet = true ? $eval($svg_vm_internet, $param) :  $eval($svg_vm, $param)
+                                                                                          ) : (
+                                                                                            $v.type = 'rdb' ? (
+                                                                                                $v.internet = true ? $eval($svg_rdb_internet, $param) :  $eval($svg_rdb, $param)
+                                                                                            ) : (
+                                                                                            $v.type = 'vpngw' ? $eval($svg_vpngw, $param) : (
+                                                                                                  $v.type = 'natgw' ? $eval($svg_natgw, $param) : (
+                                                                                                      $v.type = 'elb' ? $eval($svg_elb, $param) : (
+                                                                                                          $v.type = 'cce' ? $eval($svg_cce, $param) : (
+                                                                                                              $v.type = 'dms' ? $eval($svg_dms, $param)
+                                                                                                          )
+                                                                                                      )
+                                                                                                  ) 
+                                                                                              )
+                                                                                            )
+                                                                                          )
+                                                                                    )}
+                                                              ), "") & "</svg>"
+                                                         )}
+                      ), "") & "</svg>"};
+                    )
+            );
+            $nodes := $vpc_grid.$spread().(
+                $count($.*.subnets.objects) >= 1 ? (
+                  $id := $keys()[0];
+                  {
+                      $id: {
+                          'title': $.*.vpc_name,
+                          'symbol': $.*.vpc_name
+                      }
+                  }
+                )
+            );
+            /* Если есть сервера с интернетом (EIP), то добавляем облачко в ноды */
+            $ext := $vpc_grid.*.subnets.objects[internet = true];
+            $nodes := $ext != null ? ($append((
+                            {
+                                "internet":{
+                                    "title": "internet",
+                                    "symbol": "cloud"
+                                }
+                            }
+                        ), $nodes));
+            /*     END of section    */
+            /* Если есть офисы или ЦОДы с VPN, то добавляем символы в ноды */
+            $branchnodes := $coffices.$spread().(
+              $id := $keys()[0];
+              $vpn := $cvpnconn.*[branch_id=$id];
+              $vpn ? (
+                    $param := {"name": $.*.name, "location": $.*.address, "city": $.*.address, 'cidr': $join($vpn.remote_subnets, ", ")};
+                    $symbol := $eval($svg_branch, $param);
+                    $links := {
+                      "from": $.*.name,
+                      "to": "internet",
+                      "title": "vpn from " & $vpn.remote_gw_ip,
+                      "style": "<-[#2A9D8F]->"
+                    };
+                    {
+                      "nodes":{
+                        $.*.name:{
+                          "title": $.*.name,
+                          "symbol": $.*.name
+                        }
+                      },
+                      "symbols": $symbol,
+                      "links": $links
+                    }
+              )
+            );
+            $dcnodes := $cdcs.$spread().(
+                  $id := $keys()[0];
+                  $vpn := $cvpnconn.*[branch_id=$id];
+                  $vpn ? (
+                        $param := {"name": $.*.dc_name, "location": $.*.dc_address, "city": $.*.dc_address, 'cidr': $join($vpn.remote_subnets, ", ")};
+                        $symbol := $eval($svg_dc, $param);
+                        $links := {
+                          "from": $.*.dc_name,
+                          "to": "internet",
+                          "title": "vpn from " & $vpn.remote_gw_ip,
+                          "style": "<-[#2A9D8F]->"
+                        };
+                        {
+                          "nodes":{
+                            $.*.dc_name:{
+                              "title": $.*.dc_name,
+                              "symbol": $.*.dc_name
+                            }
+                          },
+                          "symbols": $symbol,
+                          "links": $links
+                        }
+                  )
+            );
+            /*     END of section    */
+            $links := $cpeerings.$spread().(
+                $srcid := $.*.request_vpc;
+                $dstid := $.*.accept_vpc;
+                $from := $cvpcs.$spread()[$.*.id = $srcid].(
+                  $vpc_dc := $.*.DC;
+                  $dc := $cdcs.$spread()[$keys()[0] = $vpc_dc].*.dc_name; 
+                  $dc & "." & $.*.tenant & "." & $.*.name
+                );
+                $to := $cvpcs.$spread()[$.*.id = $dstid].(
+                  $vpc_dc := $.*.DC;
+                  $dc := $cdcs.$spread()[$keys()[0] = $vpc_dc].*.dc_name; 
+                  $dc & "." & $.*.tenant & "." & $.*.name
+                );
+                $from in $nodes.$keys() and $to in $nodes.$keys() ? (
+                  {
+                    "from": $from,
+                    "to": $to,
+                    "title": $.*.name,
+                    "style": "->"
+                  }
+                )
+            );
+            $links := $ext != null ?($append($links, (
+                    $distinct($ext).(
+                      $style := $.type = 'vpngw' ? "<-[#2A9D8F]->" : "<-[#ff0000]->";
+                      $title := $.type = 'vpngw' ?  "vpn connections" : "Internet connection";
+                      $vpc := $.vpc;
+                      $from := $cvpcs.$spread()[*.name=$vpc].(
+                          $vpc_dc := $.*.DC;
+                          $dc := $cdcs.$spread()[$keys()[0] = $vpc_dc].*.dc_name; 
+                          $dc & '.' & $.*.tenant & '.' & $.*.name
+                    );
+                      {
+                        "from": $from,
+                        "to": "internet",
+                        "title": $title,
+                        "style": $style
+                      }
+                  )
+                )      
+              )
+            );
+            $nodes := $append($nodes, $distinct($vpc_grid.$spread().(
+                
+                {
+                    'root': $.*.iaas,
+                    'child': $.*.tenant
+                }
+            )).{$.root:{ 'title': 'Iaas Provider - ' & $.root}, $.root & "." & $.child: {'title': 'Tenant - ' & $.child}});
+            $symbols := $append($symbols, $eval($svg_internet, null));
+            $symbols := $append($append($symbols, $branchnodes.symbols), $dcnodes.symbols);
+            $nodes := $append($append($nodes, $branchnodes.nodes), $dcnodes.nodes);
+            $links := $append($append($links, $branchnodes.links), $dcnodes.links);
+            {
+                'nodes': $merge($nodes),
+                'symbols': $merge($symbols),
+                'links': $links
+            }
+          )

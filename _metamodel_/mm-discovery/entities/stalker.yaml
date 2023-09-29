@@ -1,0 +1,127 @@
+entities:
+  mm_discovery.stalker:
+    title: Исследователь метамодели
+    menu: >
+      (
+          [{
+            "link": "/entities/mm_discovery.stalker/map_net", 
+            "location": "Метамодель" 
+          }]
+      )
+    presentations:
+      map_net:
+        title: Карта сущностей метамодели
+        type: network
+        source: >
+          (
+              $scan_props := function($props) {(
+                  $props.$keys().(
+                      $scan($lookup($props, $));
+                  );
+              )};
+
+              $scan := function($schema) {(
+                  $r1 := $schema.type = "object" 
+                      ? $scan_props($merge([$schema.properties, $schema.patternProperties]));
+                  $r2 := $schema.type = "array"
+                      ? $scan($schema.items);
+                  $r3 := $schema."$ref"~>$substring(0, 8) = "#/$rels/" 
+                      ? $schema."$ref"~>$substring(8);
+                  $append($append($r1, $r2), $r3);
+              )};
+
+              $mm_map := entities.$spread()[*.objects].(
+                  $entity_id := $keys()[0];
+                  $append($distinct($scan(*.schema)).{
+                        "entity": $entity_id,
+                        "ref": $~>$split(".")~>$map(
+                                    function($v, $i, $a) {
+                                        $i < $count($a) - 1 ? $v
+                                    }
+                                )~>$join(".")
+                    },
+                    {
+                      "entity": $entity_id
+                    }
+                  );
+              );
+              $manifest := $;
+              {
+                  "nodes": $distinct($mm_map.entity).(
+                    $id := $;
+                    $struct := $split($, ".");
+                    $group := $replace("$." & $, "." & $reverse($struct)[0], "");
+                    $lookup($manifest.entities, $id).{
+                      "id": $id,
+                      "label": title ? title & "\n" & $id : $id,
+                      "group": $group,
+                      "shape": "box",
+                      "scaling": {
+                            "label": true
+                          },
+                      "y": $count($struct) * 1000
+                    }    
+                  ),
+                  "edges": $mm_map[ref]~>$map(function($v, $i){{
+                                   "from": $v.entity,
+                                   "to": $v.ref
+                               }}),
+                  
+                  "options": {
+                      "clickToUse": false
+                  }       
+              };
+          )
+      map:
+        title: Карта сущностей метамодели
+        type: plantuml
+        template: templates/map.puml
+        source: >
+          (
+              $scan_props := function($props) {(
+                  $props.$keys().(
+                      $scan($lookup($props, $));
+                  );
+              )};
+
+              $scan := function($schema) {(
+                  $r1 := $schema.type = "object" 
+                      ? $scan_props($merge([$schema.properties, $schema.patternProperties]));
+                  $r2 := $schema.type = "array"
+                      ? $scan($schema.items);
+                  $r3 := $schema."$ref"~>$substring(0, 8) = "#/$rels/" 
+                      ? $schema."$ref"~>$substring(8);
+                  $append($append($r1, $r2), $r3);
+              )};
+
+              $mm_map := entities.$spread()[*.objects].(
+                  $entity_id := $keys()[0];
+                  $append($distinct($scan(*.schema)).{
+                        "entity": $entity_id,
+                        "ref": $~>$split(".")~>$map(
+                                    function($v, $i, $a) {
+                                        $i < $count($a) - 1 ? $v
+                                    }
+                                )~>$join(".")
+                    },
+                    {
+                      "entity": $entity_id
+                    }
+                  );
+              );
+              $manifest := $;
+              {
+                  "entities": $distinct($mm_map.entity).(
+                    $id := $;
+                    $lookup($manifest.entities, $id).{
+                      "id": $id,
+                      "title": title ? title : $id
+                    }       
+                  ),
+                  "relations": $mm_map[ref]~>$map(function($v, $i){{
+                                   "from": $v.entity,
+                                   "to": $v.ref,
+                                   "direction": ["r", "l"][$i % 2]
+                               }})
+              };
+          )

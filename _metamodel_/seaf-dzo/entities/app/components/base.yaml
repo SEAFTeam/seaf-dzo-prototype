@@ -1,0 +1,249 @@
+# Расширение прикладного компонента SEAF для ДЗО Группы Сбер
+entities:
+  components:
+    schema:
+      $defs:
+        seaf.app.sber.profile:
+          title: Базовое описание компонента
+          type: object
+          properties:
+            id:
+              title: Уникальный идентификатор компонента
+              type: string
+              format: uuid
+          required:
+            - id
+        seaf.app.sber.service:
+          title: Описание автоматизированной системы (АС)
+          type: object
+          $ref: "#/$defs/seaf.app.sber.profile"
+          properties:
+            class:
+              title: Класс
+              enum:
+                - BPM (Business Process Management)
+                - CRM-аналитический
+                - CRM-операционный
+                - ECM (Документооборот)
+                - RPA (Robotic process automation)
+                - Workforce Management
+                - Аналитика данных
+                - Бизнес-планирование
+                - Биллинг
+                - Бухгалтерия и финансы
+                - Бюджетирование и контроль
+                - Взаимоотношения с поставщиками
+                - Гео-информационные системы
+                - Клиентский профиль (Customer Information File)
+                - Контакт-центр
+                - Корпоративная база знаний
+                - Корпоративная отчетность
+                - Корпоративный портал
+                - Маркетинг
+                - Маркетплейс компании
+                - Мессенджеры
+                - Нормативная документация
+                - Обмен данными с контрагентами
+                - Получение сведений о юрлицах
+                - Продуктовая фабрика (основная деятельность)
+                - Продуктовый каталог
+                - Регуляторная отчетность
+                - Сайт компании
+                - Системы принятия решений
+                - Скоринг и рейтинг клиентов
+                - Совместная работа (collaboration)
+                - Управление активами
+                - Управление внутрихозяйственной деятельностью
+                - Управление задачами и проектами
+                - Управление обучением
+                - Управление персоналом
+                - Учет судебных дел
+                - Финансовый мониторинг и AML
+                - CMS (Content Management System)
+                - E-mail
+                - Service Desk
+                - Видеосвязь
+                - Мониторинг
+                - Рассылка SMS/Push
+                - Системы генерации документов
+                - Телефония
+                - Иное
+            role_model:
+              title: Ролевая модель автоматизированной системы
+              type: string
+              enum:
+                - Централизованная
+                - Нецентрализованная
+                - Отсутствует
+            criticality:
+              title: Уровень критичности
+              enum:
+                - Mission Critical
+                - Business Critical
+                - Business Operational
+                - Office Productivity
+            location:
+              title: Размещение
+              enum:
+                - Внутренняя
+                - Внешняя
+            ownership:
+              title: Степень владения
+              enum:
+                - Владеем исходным кодом
+                - Владеем экземпляром
+                - SaaS
+                - Система партнера
+            live_stage:
+              title: Этап жизненного цикла
+              enum:
+                - Эскиз
+                - В разработке / приобретение
+                - Внедрение / Не введена в эксплуатацию
+                - Опытная эксплуатация
+                - Промышленная эксплуатация
+                - Архивная
+            live_stage_target:
+              title: Этап жизненного цикла на горизонт планирования
+              enum:
+                - Эскиз
+                - В разработке / приобретение
+                - Внедрение / Не введена в эксплуатацию
+                - Опытная эксплуатация
+                - Промышленная эксплуатация
+                - Архивная
+            target_status:
+              title: Целевой статус (решение принято)
+              enum:
+                - Целевая
+                - Не целевая
+            change_type:
+              title: Тип изменений
+              enum:
+                - Планируется
+                - Разрабатывается
+                - Модифицируется
+                - Используется
+                - Выводится из эксплуатации
+            rto:
+              title: RTO (мин)
+              type: integer
+            rpo:
+              title: RPO (мин)
+              type: integer
+            sla:
+              title: SLA (%)
+              type: number
+          required:
+            - class
+            - role_model
+            - criticality
+        seaf.app.sber.app_component:
+          title: Описание автоматизированной системы (АС)
+          $ref: "#/$defs/seaf.app.sber.profile"
+          properties:
+            component_type:
+              title: Тип прикладного компонента
+              type: string
+              enum:
+                - Реляционная СУБД
+                - NOSQL СУБД
+                - Иная СУБД
+                - Распределенный (Distributed) Кэш
+                - Сервер Приложений
+                - Web Сервер
+                - Микросервис
+                - Функция/Serverless
+                - Консольное приложение
+                - Скрипт
+                - Фронт (веб приложение)
+                - Фронт (мобильное приложение)
+                - Фронт (десктоп приложение)
+                - Шлюз
+                - Балансировщик
+                - Интеграционный компонент
+                - ETL
+                - Файловый ресурс
+                - Иное
+            scalability:
+              title: Масштабируемость
+              enum:
+                - Нет
+                - Вертикальная
+                - Горизонтальная
+                - Вертикальная и горизонтальная
+            provider:
+              title: Разработчик
+              type: string
+            provider_type:
+              title: Тип разработчика компонента
+              type: string
+              enum:
+                - Собственная разработка
+                - Локальный разработчик
+                - Внешний(Иностранный)
+                - Open Source Community
+            stores_confidential_data:
+              title: Компонент хранит конфиденциальные данные?
+              type: boolean
+            cloud_readiness:
+              title: Уровень облачной зрелости
+              type: string
+              enum:
+                - Монолит на нестандартном аппаратном обеспечении (No Cloud-2)
+                - Монолит на стандартном аппаратном обеспечении (No Cloud-1)
+                - Монолит на виртуализированном аппаратном обеспечении (Cloud Ready 1)
+                - Компоненты в контейнерах на виртуализированном аппаратном обеспечении (Cloud ready 2)
+                - Компоненты в развёрнутом на виртуализированном аппаратном обеспечении оркестраторе контейнеров (Cloud ready 3)
+                - Компоненты в частном облаке с управляемым облачным поставщиком программным обеспечением среды исполнения контейнеров (Cloud Native 4)
+                - Компоненты в гибридном публичном облаке/наборе облаков с управляемыми облачными поставщиками инфраструктурными сервисами (Cloud Native 5)
+                - Бессерверные (serverless) облачные приложения  в публичном облаке/наборе облаков (Cloud Native 6) ]
+            licenses_ids:
+              title: Идентификаторы объектов-лицензий для компонента
+              type: array
+              minItems: 0
+              items:
+                type: string
+            included_in_regulator_registry:
+              title: Компонент включен в реестр регулятора?
+              type: boolean
+            located_in_DMZ:
+              title: Компонент размещен в DMZ?
+              type: boolean
+            access_from_external_networks:
+              title: Есть доступ к ресурсам данного компонента из внешних сетей ?
+              type: boolean
+            escrow:
+              title: Автоматизированная система включена в договор эскроу с вендором?
+              type: boolean
+          required:
+            - component_type
+            - scalability
+            - stores_confidential_data
+            - provider
+            - provider_type
+        seaf.app.sber.component:
+          anyOf:
+            - $ref: "#/$defs/seaf.app.sber.app_component"
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - component
+              required:
+                - type
+            - $ref: "#/$defs/seaf.app.sber.service"
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - service
+              required:
+                - type
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            sber:
+              $ref: "#/$defs/seaf.app.sber.component"
+

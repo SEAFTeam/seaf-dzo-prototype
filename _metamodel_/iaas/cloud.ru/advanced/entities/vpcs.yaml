@@ -1,0 +1,32 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.vpcs:
+    title: VPC (Virtual Private Cloud)
+    objects:
+      vpc:
+        route: "/"
+        title: VPC
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: Идентификатор VPC
+              type: string
+            cidr:
+              title: CIDR сети
+              type: string
+              minLength: 1
+            description:
+              title: Описание
+              type: string
+            name:
+              title: Название VPC
+              type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"

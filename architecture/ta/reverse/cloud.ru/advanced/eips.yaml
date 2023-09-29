@@ -1,0 +1,53 @@
+seaf.ta.reverse.cloud_ru.advanced.eips:
+    sber.berezka.eips.37ee7c4f-75b8-45be-b6f4-42df28771e87:
+        id: 37ee7c4f-75b8-45be-b6f4-42df28771e87
+        type: 5_bgp
+        port_id: 964279e7-a83a-4555-a944-e357699a1b10
+        ext_address: 73.54.34.19
+        int_address: 10.1.1.3
+        limit:
+            type: WHOLE
+            throughput: 20
+            rule_id: ab899959-fe54-4e9d-9795-00d1034e318e
+            rule_name: bandwidth-online
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.eips.44f38b37-9f2f-4c54-a22e-2f224e3d22eb:
+        id: 44f38b37-9f2f-4c54-a22e-2f224e3d22eb
+        type: 5_bgp
+        port_id: b12248ad-9488-4a88-8e7f-0630dae6d776
+        ext_address: 64.23.26.23
+        int_address: 10.1.1.4
+        limit:
+            type: WHOLE
+            throughput: 20
+            rule_id: 9723e6c5-947a-4615-a73e-2426954b3489
+            rule_name: bandwidth-fw-external
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.eips.7785b143-e83f-4466-aa22-05b2419fc670:
+        id: 7785b143-e83f-4466-aa22-05b2419fc670
+        type: 5_bgp
+        port_id: a8ed70f2-ebca-42fc-b059-e8f4e428429c
+        ext_address: 170.170.190.235
+        int_address: 10.10.0.25
+        limit:
+            type: WHOLE
+            throughput: 20
+            rule_id: 9723e6c5-947a-4615-a73e-2426954b3489
+            rule_name: bandwidth-fw-external
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.eips.f7e587f6-293c-4cbe-943a-8b5083ce124b:
+        id: f7e587f6-293c-4cbe-943a-8b5083ce124b
+        type: 5_bgp
+        port_id: e738c120-803f-48d6-ad94-8d116a667698
+        ext_address: 188.31.17.86
+        int_address: 10.1.1.2
+        limit:
+            type: WHOLE
+            throughput: 20
+            rule_id: 9723e6c5-947a-4615-a73e-2426954b3489
+            rule_name: bandwidth-fw-external
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01

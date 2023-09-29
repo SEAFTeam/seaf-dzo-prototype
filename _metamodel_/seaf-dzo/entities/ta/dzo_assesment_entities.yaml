@@ -1,0 +1,258 @@
+entities:
+  seaf.ta.services.base.k8s_dzo:
+    title: Расширение описание кластера K8s для целей проверки станадртов
+    objects:
+      k8s_dzo:
+        route: "/"
+        title: Расширение описание кластера K8s для целей проверки станадртов
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.services.k8s"
+          properties:
+            #Часть 3. TACIR_1-КП-КО-3-01. Платформа контейнерной оркестрации должна иметь в резервных зонах доступности кластер/кластеры обеспечивающие 100% производительности платформы при потере основной зоны.
+            reservation_rate:     #todo добавить проверку. Если reservation_rate <100 или незаполнен, то несоответствие
+              title: Процент резервирования вычислительных ресурсов кластера в другой зоне доступности
+              type: integer
+            #Часть 3. TACIR_1-КП-КО-4-01.
+            az_used:     #todo добавить проверку. Если az_used >=2 или незаполнен, то несоответствие
+              title: Количество зон доступности в которых развёрнут кластер K8s
+              type: integer
+            #Часть 3. TACIR_1-КП-КБ-2-01. #todo Автоматизация
+            ntp_server:     #todo добавить проверку. Если ntp_server не заполнен, то несоответствие
+              title: Адрес NTP сервера с которым синхронизируются все ноды кластера
+              type: string
+            #Часть 3. TACIR_1-КП-КБ-7-01. #todo Автоматизация
+            etcd_encrypted:     #todo добавить проверку. Если etcd_encrypted не заполнен или false, то несоответствие
+              title: Шифрование etcd включено.
+              type: boolean
+            #Часть 3. TACIR_1-КП-КБ-7-01. #todo Автоматизация
+            tls_version:     #todo добавить проверку. Если tls_version не заполнен или <=1.2, то несоответствие
+              title: Версия TLS сертификатов кластера (kubeapi, etc...).
+              type: string
+            #Часть 3. TACIR_1-КП-КБ-13-01. #todo Автоматизация
+            manifests_acl:     #todo добавить проверку. Если manifests_acl не заполнен или значения отличные от 644 или 600, то несоответствие
+              title: Права доступа к файлам конфигурации на нодах кластера.
+              type: string
+            #Часть 3. TACIR_1-КП-КБ-16-01. #todo Автоматизация
+            anonymous_api_connect:     #todo добавить проверку. Если anonymous_api_connect не заполнен или true, то несоответствие
+              title: Анонимное подключение к kubeapi включено
+              type: boolean
+            #Часть 3. TACIR_1-КП-КБ-18-01. #todo Автоматизация
+            https_api_connect:     #todo добавить проверку. Если https_api_connect не заполнен или false, то несоответствие
+              title: HTTPS подключение к kubeapi включено
+              type: boolean
+            #Часть 3. TACIR_1-КП-КБ-20-01. #todo Автоматизация
+            impersonation_rbac:     #todo добавить проверку. Если impersonation_rbac не заполнен или содержит кого-то кроме admin и edit, то несоответствие
+              title: Пользователи с правом User Impersonation в RBAC модели
+              type: array
+            #Часть 3. TACIR_1-КП-КБ-25-01. #todo Автоматизация
+            exec_rbac:     #todo добавить проверку. Если exec_rbac не заполнен или содержит кого-то кроме admin и edit, то несоответствие
+              title: Пользователи с правом подключения к терминалу контейнеров в RBAC модели
+              type: array
+            #Часть 3. TACIR_1-КП-КБ-29-01. #todo Автоматизация
+            pv:     #todo добавить проверку. Если pv не заполнен или true, то несоответствие
+              title: Persistent Volume используются в кластере K8s
+              type: boolean
+            virtual_cluster_id:
+              title: Связь K8s кластера с кластером виртуализации
+              type: string
+          required:
+            - reservation_rate
+            - az_used
+            - ntp_server
+            - etcd_encrypted
+            - tls_version
+            - manifests_acl
+            - anonymous_api_connect
+            - https_api_connect
+            - impersonation_rbac
+            - exec_rbac
+            - pv
+
+  seaf.ta.components.server_metal_dzo:
+    title: Расширение описания физических серверов для целей проверки станадртов
+    objects:
+      server_metal_dzo:
+        route: "/"
+        title: Расширение описание физического сервера для целей проверки станадртов
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.components.server_metal"
+          properties:
+            #Часть 3. TACIR_1-Ч03.02.4-02.
+            power_module_qty:      #todo добавить проверку. Если power_module_qty <2, то несоответствие
+              title: Количество блоков питания
+              type: integer
+            #Часть 3. TACIR_1-Ч03.02.4-02.
+            fan_qty:     #todo добавить проверку. Если fan_qty <= 2, то несоответствие
+              title: Количество кулеров
+              type: integer
+            #Часть 3. TACIR_1-Ч03.02.4-02.
+            raid_level:   #todo добавить проверку. Если raid_level не заполнен, то несоответствие
+              title: Уровени RAID применённые на сервере
+              type: array
+            #Часть 3. TACIR_1-Ч03.02.5-02.
+            raid_spare_disks:   #todo добавить проверку. Если raid_spare_disks не заполнен, то несоответствие
+              title: Количество запасных дисков для RAID массивов
+              type: integer
+            #Часть 3. TACIR_1-Ч03.02.6-02.
+            rack_mount:   #todo добавить проверку. Если rack_mount не заполнен или false, то несоответствие
+              title: Стоечное исполнение сервера
+              type: boolean
+          required:
+            - power_module_qty
+            - fan_qty
+            - raid_level
+            - raid_spare_disks
+            - rack_mount
+
+  seaf.ta.components.hw_storage_dzo:
+    title: Расширение описания физической СХД для целей проверки станадртов
+    objects:
+      hw_storage_dzo:
+        route: "/"
+        title: Расширение описания физической СХД для целей проверки станадртов
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.components.hw_storage"
+          properties:
+            #Часть 4. TACIR_2-Ч04.01.3-01.
+            nvram_amount:      #todo добавить проверку. Если nvram_amount >=1GB, то несоответствие
+              title: Объям NVRAM, Gb
+              type: integer
+            #Часть 4. TACIR_2-Ч04.01.4-01
+            dedup_rate:     #todo добавить проверку. Если dedup_rate <= 1, то несоответствие
+              title: Коэффициент дедупликации
+              type: integer
+            #Часть 4. TACIR_2-Ч04.01.4-01
+            compression_rate:     #todo добавить проверку. Если compression_rate <= 1, то несоответствие
+              title: Коэффициент компрессии
+              type: integer
+            #Часть 4. TACIR_2-Ч04.01.5-01
+            ssd_cache_qty:   #todo добавить проверку. Если ssd_cache_qty <1, то несоответствие
+              title: Количество SSD дисков для кеша
+              type: integer
+            #Часть 4. TACIR_2-Ч04.01.6-01
+            ntp_server:     #todo добавить проверку. Если ntp_server не заполнен, то несоответствие
+              title: Адрес NTP сервера с которым синхронизируется СХД
+              type: string
+            #Часть 4. TACIR_2-Ч04.01.7-01
+            storage_console:     #todo добавить проверку. Если storage_console не заполнен, то несоответствие
+              title: Адрес консоли управления СХД
+              type: string
+            #Часть 4. TACIR_2-Ч04.01.12-03
+            snapshot_lic:     #todo добавить проверку. Если snapshot_lic = false, то несоответствие
+              title: Наличие лицензии snapshot\snapclone
+              type: boolean
+            #Часть 4. TACIR_2-Ч04.01.10-02
+            storage_controller_qty:     #todo добавить проверку. Если storage_controller_qty < 2, то несоответствие
+              title: Количество контроллеров СХД
+              type: integer
+            #Часть 4. TACIR_2-Ч04.01.10-02
+            storage_spare_disk_qty:     #todo добавить проверку. Если storage_spare_disk_qty < 1 , то несоответствие
+              title: Количество запасных дисков в СХД
+              type: integer
+            #Часть 4. TACIR_2-Ч04.01.10-02
+            pwr_supply_qty:     #todo добавить проверку. Если snapshot_lic <= 1 false, то несоответствие
+              title: Количество блоков питания
+              type: integer
+            #Часть 4. TACIR_2-Ч04.01.12.2-03
+            links_qty:     #todo добавить проверку. Если links_qty < 2, то несоответствие
+              title: Количество SAN\LAN подключений для каждого контроллера
+              type: integer
+            #Часть 4. TACIR_2-Ч04.01.15-02
+            reservation_ratio:     #todo добавить проверку. Если reservation_ratio < 50, то несоответствие
+              title: % резервирования объёма в другом ЦОДе
+              type: integer
+          required:
+            - nvram_amount
+            - dedup_rate
+            - compression_rate
+            - ssd_cache_qty
+            - ntp_server
+            - storage_console
+            - snapshot_lic
+            - storage_controller_qty
+            - storage_spare_disk_qty
+            - pwr_supply_qty
+            - links_qty
+            - reservation_ratio
+
+  seaf.ta.services.monitoring_dzo:
+    title: Расширение описания сервиса мониторинга для целей проверки станадртов
+    objects:
+      monitoring_dzo:
+        route: "/"
+        title: Расширение описания сервиса мониторинга для целей проверки станадртов
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.services.monitoring"
+          properties:
+            #Часть 6. TACMN_1-Ч06.01.4-02.
+            monitoring_console:      #todo добавить проверку. Если monitoring_console не заполнен, то несоответствие
+              title: Адрес веб-консоли системы мониторинга
+              type: string
+            #Часть 6. TACMN_1-Ч06.01.7-02.
+            cluster_id:     #todo добавить проверку. Если cluster_id не ссылается на описанный кластер seaf.ta.services.cluster, то несоответствие
+              title: ID кластера мониторинга
+              type: string
+            #Часть 6. TACMN_1-Ч06.01.5-02.
+            alarm_transport:   #todo добавить проверку. Если alarm_transport не заполнен, то несоответствие
+              title: Перечисление транспортов для доставки уведомлений системы мониторинга (почта, телеграм, смс и т.д.)
+              type: array
+            #Часть 6. TACMN_1-Ч06.01.13-02.
+            sber_radar:   #todo добавить проверку. Если sber_radar не заполнен, то несоответствие
+              title: Адрес дашборда СберРадара
+              type: string
+            #Часть 6. TACMN_1-Ч06.01.13-02 и ещё 3 номера
+            history:   #todo добавить проверку. Если history менее 1 года для инфра, 45 для журналирования, 1 месяц для прикладного, 7 дней для трейсинга, то несоответствие
+              title: Длительность хранения метрик в днях
+              type: integer
+            #Часть 6. TACMN_1-Ч06.02.6-01 и ещё 1 номер
+            frequency:   #todo добавить проверку. Если frequency более 60 секунд для инфра, 60 секунд  для прикладного, то несоответствие
+              title: Частота сбора метрик в секундах
+              type: integer
+            #Часть 6. TACMN_1-Ч06.05.1-01
+            pam_anabled:   #todo добавить проверку. Если pam_anabled false или не заполнено, то несоответствие
+              title: Система мониторинга подключена к PAM (priveled access management) системе
+              type: boolean
+            #Часть 6. TACMN_1-Ч06.05.3-01
+            siem_anabled:   #todo добавить проверку. Если siem_anabled false или не заполнено, то несоответствие
+              title: Система мониторинга подключена к SIEM системе
+              type: boolean
+          required:
+            - monitoring_console
+            - cluster_id
+            - alarm_transport
+            - sber_radar
+            - history
+            - frequency
+            - pam_anabled
+            - siem_anabled
+
+  seaf.ta.components.network_dzo:
+    title: Расширение описания сетевых устройств для целей проверки станадртов
+    objects:
+      network_dzo:
+        route: "/"
+        title: Расширение описания сетевых устройств для целей проверки станадртов
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          $ref: "#/$defs/seaf.ta.components.network"
+          properties:
+            auth_type:
+              title: Тип аутентификации
+              type: string
+              enum: [Отсутствует, Пароль и логин, Сертификат, Двухфакторная]
+          required:
+            - auth_type

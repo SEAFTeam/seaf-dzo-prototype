@@ -1,0 +1,136 @@
+# Добавляется виджеты прикладных компонентов SEAF для ДЗО Группы Сбер
+entities:
+  components:
+    presentations:
+      blank:
+        widgets:
+          dzo_summary: # Идентификатор виджета
+            title: Сбер инфо
+            presentation: dzo_summary
+            align: "<"
+            # Порядок расположения
+            order: 15
+            # Определяем стиль виджета
+            style:
+              margin: 4px
+              border: true
+      dzo_summary:
+        params:
+          type: object
+          properties:
+            component:
+              title: Идентификатор компонента
+              type: string
+          required:
+            - component
+        type: markdown
+        template: templates/dzo_summary.md
+        source: >
+          (          
+              $component_id := $params.component;
+              $MANIFEST := $;
+              $lookup(components, $component_id).(
+                  /* Если это прикладной сервис */
+                  $result := sber[type="service"].(
+                    [
+                      {
+                        "title": "Класс",
+                        "content": class
+                      },
+                      {
+                        "title": "Ролевая модель",
+                        "content": role_model
+                      },
+                      {
+                        "title": "Уровень критичности",
+                        "content": criticality
+                      },
+                      location ? {
+                        "title": "Размещение",
+                        "content": location
+                      },
+                      ownership ? {
+                        "title": "Степень владения",
+                        "content": ownership
+                      },
+                      live_stage ? {
+                        "title": "Этап жизненного цикла",
+                        "content": live_stage
+                      },
+                      live_stage_target ? {
+                        "title": "Этап жизненного цикла на горизонт планирования",
+                        "content": live_stage_target
+                      },
+                      target_status ? {
+                        "title": "Целевой статус (решение принято)",
+                        "content": target_status
+                      },
+                      change_type ? {
+                        "title": "Тип изменений",
+                        "content": change_type
+                      },
+                      rto ? {
+                        "title": "RTO (мин)",
+                        "content": rto
+                      },
+                      rpo ? {
+                        "title": "RPO (мин)",
+                        "content": rpo
+                      },
+                      sla ? {
+                        "title": "SLA (%)",
+                        "content": sla
+                      }
+                    ]
+                  );
+                  $result := $result ? $result : sber[type="component"].(
+                     [
+                       {
+                         "title": "Масштабируемость",
+                         "content": scalability
+                       },
+                       {
+                         "title": "Разработчик",
+                         "content": provider
+                       },
+                       {
+                         "title": "Тип разработчика компонента",
+                         "content": provider_type
+                       },
+                       {
+                         "title": "Включен в договор эскроу с вендором",
+                         "content": escrow  ? "Да" : "Нет"
+                       },
+                       {
+                         "title": "Компонент хранит конфиденциальные данные",
+                         "content": stores_confidential_data ? "Да" : "Нет"
+                       },
+                       cloud_readiness ? {
+                         "title": "Уровень облачной зрелости",
+                         "content": cloud_readiness
+                       },
+                       licenses_ids ? {
+                         "title": "Идентификаторы объектов-лицензий для компонента",
+                         "content": $join(licenses_ids, "; ")
+                       },
+                       {
+                         "title": "Компонент включен в реестр регулятора",
+                         "content": included_in_regulator_registry ? "Да" : "Нет"
+                       },
+                       {
+                         "title": "Компонент размещен в DMZ",
+                         "content": located_in_DMZ ? "Да" : "Нет"
+                       },
+                       {
+                         "title": "Ресурсы компонента досутпны из внешних сетей",
+                         "content": access_from_external_networks ? "Да" : "Нет"
+                       }                     ]
+                   );
+          
+                  $result ? $result : (
+                      [{
+                         "title": "Информации нет"
+                      }]      
+                  );
+              )
+          )

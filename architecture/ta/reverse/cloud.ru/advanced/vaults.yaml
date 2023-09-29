@@ -1,0 +1,207 @@
+seaf.ta.reverse.cloud_ru.advanced.vaults:
+    sber.berezka.vaults.25bd50a1-20a3-4ca7-b84a-d9f6dda9a65c:
+        id: 25bd50a1-20a3-4ca7-b84a-d9f6dda9a65c
+        name: Daily_Backups
+        description: null
+        resources:
+            -   id: e5e60a69-0653-4297-8799-ea0df4f0cacc
+                type: OS::Nova::Server
+                name: ecs-prod-someserver1
+                size: 440
+                backup_size: 631900
+                backup_count: 14
+                protect_status: available
+                extra_info: {}
+            -   id: fb77c40e-b1e2-4aa5-89a9-45725b7ccf30
+                type: OS::Nova::Server
+                name: ecs-prod-someserver2
+                size: 50
+                backup_size: 55736
+                backup_count: 14
+                protect_status: available
+                extra_info: {}
+            -   id: 729d3b73-350c-4987-86ed-01d36b719c57
+                type: OS::Nova::Server
+                name: ecs-auth-server
+                size: 30
+                backup_size: 64992
+                backup_count: 16
+                protect_status: available
+                extra_info: {}
+            -   id: d33114ee-70d6-4444-9457-e142216b95aa
+                type: OS::Nova::Server
+                name: ecs-test-nginx
+                size: 80
+                backup_size: 41668
+                backup_count: 14
+                protect_status: available
+                extra_info: {}
+            -   id: 62f713a4-1139-461f-8053-1df267861aef
+                type: OS::Nova::Server
+                name: ecs-prod-nginx
+                size: 400
+                backup_size: 367168
+                backup_count: 14
+                protect_status: available
+                extra_info: {}
+            -   id: 82935ed6-9c65-4e73-a1ad-1511e21f50b0
+                type: OS::Nova::Server
+                name: ecs-prod-app1
+                size: 150
+                backup_size: 220092
+                backup_count: 14
+                protect_status: available
+                extra_info: {}
+            -   id: 9c84c9c0-58b8-40b1-84e8-c165535d9c33
+                type: OS::Nova::Server
+                name: ecs-test-app
+                size: 150
+                backup_size: 386816
+                backup_count: 15
+                protect_status: available
+                extra_info: {}
+            -   id: 113c84ac-c328-4119-8057-402b96a7c06c
+                type: OS::Nova::Server
+                name: ecs-prod-zabbix
+                size: 30
+                backup_size: 43784
+                backup_count: 16
+                protect_status: available
+                extra_info: {}
+            -   id: ab37d178-869f-49ff-bb7c-25e6730a5c61
+                type: OS::Nova::Server
+                name: ecs-prod-dochub
+                size: 50
+                backup_size: 42432
+                backup_count: 14
+                protect_status: available
+                extra_info: {}
+            -   id: f86bc8e3-8187-48fc-9973-4bd4c35370fe
+                type: OS::Nova::Server
+                name: ecs-prod-app2
+                size: 150
+                backup_size: 225696
+                backup_count: 14
+                protect_status: available
+                extra_info: {}
+            -   id: ea0e59a3-02c0-43dc-aacf-58d8d7dd9e8a
+                type: OS::Nova::Server
+                name: ecs-fw-external
+                size: 150
+                backup_size: 75984
+                backup_count: 14
+                protect_status: available
+                extra_info: {}
+            -   id: 6196ae7c-ef37-4f2a-b1b3-33983e30d128
+                type: OS::Nova::Server
+                name: ecs-prod-app3
+                size: 150
+                backup_size: 396472
+                backup_count: 14
+                protect_status: available
+                extra_info: {}
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01
+    sber.berezka.vaults.b25cffcc-b485-4c7b-9f92-6acb6e736e66:
+        id: b25cffcc-b485-4c7b-9f92-6acb6e736e66
+        name: Weekly_Backup
+        description: null
+        resources:
+            -   id: e5e60a69-0653-4297-8799-ea0df4f0cacc
+                type: OS::Nova::Server
+                name: ecs-prod-someserver1
+                size: 50
+                backup_size: 47700
+                backup_count: 7
+                protect_status: available
+                extra_info: {}
+            -   id: fb77c40e-b1e2-4aa5-89a9-45725b7ccf30
+                type: OS::Nova::Server
+                name: ecs-prod-someserver2
+                size: 50
+                backup_size: 42136
+                backup_count: 5
+                protect_status: available
+                extra_info: {}
+            -   id: 729d3b73-350c-4987-86ed-01d36b719c57
+                type: OS::Nova::Server
+                name: ecs-auth-server
+                size: 150
+                backup_size: 64844
+                backup_count: 5
+                protect_status: available
+                extra_info: {}
+            -   id: d33114ee-70d6-4444-9457-e142216b95aa
+                type: OS::Nova::Server
+                name: ecs-test-nginx
+                size: 30
+                backup_size: 35448
+                backup_count: 4
+                protect_status: available
+                extra_info: {}
+            -   id: 62f713a4-1139-461f-8053-1df267861aef
+                type: OS::Nova::Server
+                name: ecs-prod-nginx
+                size: 30
+                backup_size: 54480
+                backup_count: 4
+                protect_status: available
+                extra_info: {}
+            -   id: 82935ed6-9c65-4e73-a1ad-1511e21f50b0
+                type: OS::Nova::Server
+                name: ecs-prod-app1
+                size: 40
+                backup_size: 45960
+                backup_count: 6
+                protect_status: available
+                extra_info: {}
+            -   id: 9c84c9c0-58b8-40b1-84e8-c165535d9c33
+                type: OS::Nova::Server
+                name: ecs-test-app
+                size: 150
+                backup_size: 76860
+                backup_count: 5
+                protect_status: available
+                extra_info: {}
+            -   id: 113c84ac-c328-4119-8057-402b96a7c06c
+                type: OS::Nova::Server
+                name: ecs-prod-zabbix
+                size: 220
+                backup_size: 73176
+                backup_count: 5
+                protect_status: available
+                extra_info: {}
+            -   id: ab37d178-869f-49ff-bb7c-25e6730a5c61
+                type: OS::Nova::Server
+                name: ecs-prod-dochub
+                size: 40
+                backup_size: 110108
+                backup_count: 6
+                protect_status: available
+                extra_info: {}
+            -   id: f86bc8e3-8187-48fc-9973-4bd4c35370fe
+                type: OS::Nova::Server
+                name: ecs-prod-app2
+                size: 100
+                backup_size: 151164
+                backup_count: 8
+                protect_status: available
+                extra_info: {}
+            -   id: ea0e59a3-02c0-43dc-aacf-58d8d7dd9e8a
+                type: OS::Nova::Server
+                name: ecs-fw-external
+                size: 240
+                backup_size: 112120
+                backup_count: 7
+                protect_status: available
+                extra_info: {}
+            -   id: 6196ae7c-ef37-4f2a-b1b3-33983e30d128
+                type: OS::Nova::Server
+                name: ecs-prod-app3
+                size: 100
+                backup_size: 343636
+                backup_count: 6
+                protect_status: available
+                extra_info: {}
+        tenant: 9f7dcs8823ed23e9cwe223ecwe22236
+        DC: sber.berezka.dc.01

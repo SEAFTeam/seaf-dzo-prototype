@@ -1,0 +1,9 @@
+articles:
+
+  ba_main:
+    # location: SEAF Business Architecture (Hexagon)
+    description: SEAF Business Architecture
+    type: markdown
+    source: ../README.md
+
+

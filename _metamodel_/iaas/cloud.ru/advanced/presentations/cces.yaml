@@ -1,0 +1,88 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.cces:
+    presentations:
+      table_view:
+        type: table
+        headers:
+          - value: name
+            text: Имя кластера
+            width: 200
+            sortable: true
+            link: link
+          - value: flavor
+            text: Flavor
+          - value: ha
+            text: Высокая досуптность
+          - value: addresses
+            text: IP адреса
+          - value: container_network
+            text: Сеть контейнеров
+          - value: service_network
+            text: Сервисная сеть
+          - value: authentication
+            text: Аутентификация
+          - value: endpoints
+            text: Endpoints
+          - value: supportistio
+            text: Support Istio
+          - value: subnet
+            text: Подсеть
+            width: 200
+          - value: vpc
+            text: VPC
+            width: 150
+          - value: masters_az
+            text: Зоны доступности
+            width: 200
+          - value: dc
+            text: DC/IaaS
+            width: 150
+        source: >
+          (
+              $ccces := $."seaf.ta.reverse.cloud_ru.advanced.cces";
+              $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+              $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+              $cdcs := $."seaf.ta.services.dc";
+              $ccces.$spread().(
+                  $ha := $count($.*.masters_az) > 1 ? 'Да' : 'Нет';
+                  $subnet_id := $.*.subnet_id;
+                  $vpc_id := $.*.vpc_id;
+                  $id := $keys()[0];
+                  $cce_dc := $.*.DC;
+                  $dc := $cdcs.$spread()[$keys()[0] = $cce_dc].*.dc_name;
+                  {
+                      'name': $.*.name,
+                      'flavor': $.*.flavor,
+                      'ha': $ha,
+                      'addresses': $join($.*.addresses, ', '),
+                      'subnet': $csubnets.$spread()[$.*.id = $subnet_id].*.name,
+                      'vpc': $cvpcs.$spread()[$.*.id = $vpc_id].*.name,
+                      'container_network': $.*.container_network,
+                      'service_network': $.*.service_network,
+                      'authentication': $.*.authentication,
+                      'endpoints': $join($.*.endpoints.url, ', '),
+                      'masters_az': $join($.*.masters_az, ', '),
+                      'supportistio': $.*.supportistio,
+                      'dc': $dc,
+                      'link': '/entities/seaf.ta.reverse.cloud_ru.advanced.cces/cce_md?id=' & $id
+                  }
+              )
+          )
+      cce_md:
+        type: markdown
+        template: templates/cce.md
+        source: >
+          (
+              $ctx := $params;
+              $cce := $."seaf.ta.reverse.cloud_ru.advanced.cces".$spread()[$keys()[0] = $ctx.id];
+              $csubnets := $."seaf.ta.reverse.cloud_ru.advanced.subnets";
+              $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
+              $subnet_id := $cce.*.subnet_id;
+              $vpc_id := $cce.*.vpc_id;
+              $subnet := $csubnets.$spread()[$.*.id = $subnet_id].*.name;
+              $vpc := $csubnets.$spread()[$.*.id = $subnet_id].*.name;
+              $ha := $count($cce.*.masters_az);
+              $array := $cce.$spread().($.*);
+              $dc := $."seaf.ta.services.dc".$spread()[$keys()[0] = $cce.*.DC].*.dc_name;
+              $array := $array ~> | $ |{'DC': $dc, 'subnet': $subnet, 'vpc': $vpc, 'ha': $ha}|;
+          )

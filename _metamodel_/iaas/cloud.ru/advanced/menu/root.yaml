@@ -1,0 +1,11 @@
+imports:
+  - cces.yaml
+  - dmss.yaml
+  - elbs.yaml
+  - nat_gateways.yaml
+  - rdss.yaml
+  - ecss.yaml
+  - subnets.yaml
+  - vpcs.yaml
+  - vpn_gateways.yaml
+  - systems.yaml

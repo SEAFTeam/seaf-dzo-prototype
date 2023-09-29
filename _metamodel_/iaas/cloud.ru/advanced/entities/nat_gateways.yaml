@@ -1,0 +1,73 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.nat_gateways:
+    title: Nat Gateways
+    objects:
+      nat_gateway:
+        route: "/"
+        title: Nat Gateway
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: Id Nat Gateway
+              type: string
+            name:
+              title: Имя Nat Gateway
+              type: string
+            description:
+              title: Описание хранилища РК
+              type: string
+            subnet_id:
+              title: Идентификатор подсети
+              type: string
+            status:
+              title: Статус шлюза
+              type: string
+            address:
+              title: Внутренний IP адрес
+              type: string
+            snat_rules:
+              title: Правила SNAT
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    title: Идентификатор правила SNAT
+                    type: string
+                  eip_id:
+                    title: Идентификаторы Elastic IP
+                    type: array
+                    items:
+                      type: string
+                  eip_address:
+                    title: Адреса Elastic IP
+                    type: array
+                    items:
+                      type: string
+                  status:
+                    title: Статус правила SNAT
+                    type: string
+                  subnet_id:
+                    title: Идентификатор подсети источника
+                    type: string
+                  cidr:
+                    title: CIDR сети или VPC
+                    type: string
+                  source_type:
+                    title: Тип источника подключения
+                    type: integer
+            dnat_rules:
+              title: Правила DNAT
+              type: array
+              items:
+                type: string # заглушка
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"

@@ -1,0 +1,7 @@
+# Контексты прикладной архитектуры
+contexts:
+  overview:
+    title: Прикладные сервисы
+    location: Прикладные сервисы
+    components:
+      - sber.berezka.**

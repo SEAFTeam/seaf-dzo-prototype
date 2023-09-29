@@ -1,0 +1,4 @@
+imports:
+  - _metamodel_/ba/metamodel.yaml
+  - _metamodel_/ba/menu.yaml
+  - articles/articles.yaml

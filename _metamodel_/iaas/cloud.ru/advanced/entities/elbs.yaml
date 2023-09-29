@@ -1,0 +1,106 @@
+entities:
+  seaf.ta.reverse.cloud_ru.advanced.elbs:
+    title: Elastic Load Balancers
+    objects:
+      elb:
+        route: "/"
+        title: Elastic Load Balancer
+    schema:
+      type: object
+      patternProperties:
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+          type: object
+          properties:
+            id:
+              title: ELB ID
+              type: string
+            name:
+              title: Имя Elastic Load Balancer
+              type: string
+            description:
+              title: Описание ELB
+              type: string
+            subnet_id:
+              title: Идентификатор подсети
+              type: string
+            port_id:
+              title: Идентификатор порта
+              type: string
+            operating_status:
+              title: Статус ELB (Online или Offline)
+              type: string
+            provisioning_status:
+              title: Статус ELB (включен или выключен)
+              type: string
+            address:
+              title: Внутренний IP адрес
+              type: string
+            listeners:
+              title: LB Listeners
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    title: Идентификатор прослушивателя
+                    type: string
+                  name:
+                    title: Название прослушивателя
+                    type: string
+                  default_pool_id:
+                    title: Идентификатор пула по-умолчанию
+                    type: string
+                  protocol_port:
+                    title: Порт прослушивателя
+                    type: string
+                  protocol:
+                    title: Протокол прослушивателя
+                    type: string
+            pools:
+              title: Пулы балансировки
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    title: Идентификатор пула балансировки
+                    type: string
+                  name:
+                    title: Название пула балансировки
+                    type: string
+                  lb_algorithm:
+                    title: Тип балансировки
+                    type: string
+                  members:
+                    title: Балансируемые компоненты
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          title: Идентификатор компонента
+                          type: string
+                        address:
+                          title: Адрес компонента
+                          type: string
+                        name:
+                          title: Имя компонента
+                          type: string
+            tags:
+              title: Тэги
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    title: Имя ключа
+                    type: string
+                  value:
+                    title: Значение ключа
+                    type: string
+            tenant:
+              title: Тенант в облаке
+              type: string
+            DC:
+              title: Датацентр/IaaS провайдер
+              $ref: "#/$rels/seaf.ta.services.dc.dc"
