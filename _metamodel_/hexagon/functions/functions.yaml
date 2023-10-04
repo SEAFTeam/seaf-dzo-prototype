@@ -24,7 +24,7 @@ hexF:
   nodes: >
     (
       $nativeTTL:= $$."seaf.ba.ttl"; 
-      $nativeTTL:= $mergedeep([$nativeTTL, $$.components]);
+      $nativeTTL:= $mergedeep([$nativeTTL, $$.components[$entity="component"]]);
       $nodes:= $each($nativeTTL, function($v, $k) {
                       {"id": $k, "body": $v~>|$|{}, ["hex", "hexQ", "hexV"]|}
                     }
