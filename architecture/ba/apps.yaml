@@ -14,4 +14,4 @@ components:
     title: Каталог фильмов
     description: Каталог фильмов
     processes:
-      - berezka.brows_cat
+      - sber.berezka.brows_cat
