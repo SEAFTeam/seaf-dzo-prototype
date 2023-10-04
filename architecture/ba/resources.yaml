@@ -1,6 +1,6 @@
 seaf.ba.ttl:
 
-  berezka.media_assets:
+  sber.berezka.media_assets:
     title: Медиа-активы
     hex:
       =>map:
@@ -8,17 +8,17 @@ seaf.ba.ttl:
       =>type:
         mm.resource.data:
       =>:
-        berezka.access_upload:
+        sber.berezka.access_upload:
 
-  berezka.media_content:
+  sber.berezka.media_content:
     title: Медиа-контент
     hex:
       =>map:
         mm.resource:
       =>:
-        berezka.play:
+        sber.berezka.play:
       <=:
-        berezka.streaming_ondemand:
+        sber.berezka.streaming_ondemand:
       =>type:
         mm.resource.data:
 
@@ -29,7 +29,7 @@ seaf.ba.ttl:
       =>map:
         mm.resource:
       =>:
-        bank.aquiring:
+        sber.bank.aquiring:
       =>type:
         mm.resource.money:
 
@@ -39,19 +39,19 @@ seaf.ba.ttl:
       =>map:
         mm.resource:
       =>:
-        bank.registartion:
+        sber.bank.registartion:
         =>type:
         mm.resource.data:
 
-  berezka.fl_authorization:
+  sber.berezka.fl_authorization:
     title: Авторизация ФЛ
     hex:
       =>map:
         mm.resource:
       <=:
-        berezka.access_management:
+        sber.berezka.access_management:
       =>:
-        berezka.streaming_ondemand:
+        sber.berezka.streaming_ondemand:
       =>type:
         mm.resource.access:
 
@@ -61,46 +61,46 @@ seaf.ba.ttl:
       =>map:
         mm.resource:
       <=:
-        bank.registartion:
+        sber.bank.registartion:
       =>:
-        bank.sign_in:
+        sber.bank.sign_in:
       =>type:
         mm.resource.data:
 
-  bank.fl_authentication:
+  sber.bank.fl_authentication:
     title: Аутентификация ФЛ
     hex:
       =>map:
         mm.resource:
       <=:
-        bank.sign_in:
+        sber.bank.sign_in:
       =>:
-        berezka.brows_cat:
-        berezka.access_management:
+        sber.berezka.brows_cat:
+        sber.berezka.access_management:
       =>type:
         mm.resource.access:
 
-  bank.payment_notification:
+  sber.bank.payment_notification:
     title: Уведомление о платеже
     hex:
       =>map:
         mm.resource:
       <=:
-        bank.aquiring:
+        sber.bank.aquiring:
       =>:
-        berezka.access_management:
+        sber.berezka.access_management:
       =>type:
         mm.resource.data:
 
-  berezka.video_content.metadata:
+  sber.berezka.video_content.metadata:
     title: Мета-данные
     hex:
       =>map:
         mm.resource:
       =>:
-        berezka.access_management:
+        sber.berezka.access_management:
       <=:
-        berezka.access_upload:
+        sber.berezka.access_upload:
       =>type:
         mm.resource.data:
 
