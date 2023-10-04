@@ -20,9 +20,6 @@ imports:
   # Расширение для создания метамоделей без использования JSONata
   - _metamodel_/hexagon/dochub.yaml
 
-  # Метамодель БА на Hexagon
-  - _metamodel_/ba/dochub.yaml
-
   # Пакет расширения для отображения технической архитектуры основанной на данных получаемых по API от IaaS провайдеров
   - _metamodel_/iaas/dochub.yaml
 
