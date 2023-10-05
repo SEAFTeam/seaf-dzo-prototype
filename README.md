@@ -28,20 +28,6 @@
 
 ```
 
-```plantuml
-@startwbs
-* Компоненты
-** [[/entities/components/blank?dh-component-id=sber Сбер]]
-*** [[/entities/components/blank?dh-component-id=sber.berezka Березка]]
-**** [[/entities/components/blank?dh-component-id=sber.berezka.home_cinema Домашний кинотеатр]]
-***** [[/entities/components/blank?dh-component-id=sber.berezka.home_cinema.auth Аутентификация]]
-***** [[/entities/components/blank?dh-component-id=sber.berezka.home_cinema.canals ТВ-Каналы]]
-***** [[/entities/components/blank?dh-component-id=sber.berezka.home_cinema.catalog Каталог фильмов]]
-***** [[/entities/components/blank?dh-component-id=sber.berezka.home_cinema.payments Платежи]]
-*** [[/entities/components/blank?dh-component-id=sber.sberbank Сбербанк]]
-@endwbs
-```
-
 ## Лицензия
 
 Распространяется под лицензией Apache License 2.0 Open source license.
