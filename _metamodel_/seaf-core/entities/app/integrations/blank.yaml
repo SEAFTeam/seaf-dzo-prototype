@@ -1,6 +1,6 @@
 # Бланк архитектурного компонента
 entities:
-  seaf.integrations:
+  seaf.app.integrations:
     presentations:
       blank:
         title: Карточка интеграции
@@ -17,9 +17,9 @@ entities:
         source: >
           (
               $components := components; 
-              $specifications := $."seaf.integration_specifications";
+              $specifications := $."seaf.app.integration_specifications";
               $id := $params."seaf-integration-id";
-              $lookup($."seaf.integrations", $id).(
+              $lookup($."seaf.app.integrations", $id).(
                   $from_id := from ? from : "$unknown$"; 
                   $to_id := to ? to : "$unknown$";
                   $from := $lookup($components, $from_id);

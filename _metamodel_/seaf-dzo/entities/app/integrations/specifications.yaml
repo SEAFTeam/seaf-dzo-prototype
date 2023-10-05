@@ -1,6 +1,6 @@
 # Расширение спецификаций по интеграциям для SEAF ДЗО Группы Сбер
 entities:
-  seaf.integration_specifications:
+  seaf.app.integration_specifications:
     schema:
       type: object
       patternProperties:
