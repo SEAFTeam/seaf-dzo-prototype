@@ -1,6 +1,6 @@
 # Бланк архитектурного компонента
 entities:
-  seaf.integration_specifications:
+  seaf.app.integration_specifications:
     presentations:
       blank:
         title: Карточка спецификации
@@ -17,9 +17,9 @@ entities:
         source: >
           (
               $components := components; 
-              $specifications := $."seaf.integration_specifications";
+              $specifications := $."seaf.app.integration_specifications";
               $id := $params."seaf-int-spec-id";
-              $lookup($."seaf.integration_specifications", $id).(
+              $lookup($."seaf.app.integration_specifications", $id).(
                   $merge([
                       { "title": $id },
                       $,
