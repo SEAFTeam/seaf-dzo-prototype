@@ -264,7 +264,7 @@ entities:
           )
 
 hexNav:
-  - title: Dashboards
+  - title: Материалы/Dashboards
     link: 
     params:
     includes:

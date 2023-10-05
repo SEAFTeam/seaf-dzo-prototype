@@ -7,7 +7,7 @@ seaf.ba.ttl:
         mm.capability:
 
   common_L1.banking:
-    title: Банковские операции
+    title: Центровские операции
     hex:
       =>map:
         mm.capability:

@@ -1,94 +1,94 @@
 seaf.ba.ttl:
 
-  berezka.streaming_ondemand:
+  sber.berezka.streaming_ondemand:
     title: Стриминг по запросу
     hex:
       =>map:
         mm.process:
       =>:
-        berezka.media_platform_self:
-        berezka.play:
+        sber.berezka.media_platform_self:
+        sber.berezka.play:
         media_L2.content_delivery:
 
-  berezka.access_management:
+  sber.berezka.access_management:
     title: Управление доступами
     hex:
       =>map:
         mm.process:
       =>:
-        berezka.media_platform_self:
-        berezka.streaming_ondemand:
+        sber.berezka.media_platform_self:
+        sber.berezka.streaming_ondemand:
         common_L1.content_management:
 
-  berezka.access_upload:
+  sber.berezka.access_upload:
     title: Загрузки
     hex:
       =>map:
         mm.process:
       
       =>:
-        berezka.media_platform_self:
-        berezka.streaming_ondemand:
+        sber.berezka.media_platform_self:
+        sber.berezka.streaming_ondemand:
         common_L1.content_management:
 
-  bank.registartion:
+  sber.center.registartion:
     title: Регистрация
     hex:
       =>map:
         mm.process:
       =>:
-        bank.fl_auth:
-        bank.sign_in:
+        sber.center.fl_auth:
+        sber.center.sign_in:
         common_L1.user_management:
 
-  bank.sign_in:
+  sber.center.sign_in:
     title: Логин
     hex:
       =>map:
         mm.process:
       =>:
-        bank.fl_auth:
-        berezka.brows_cat:
+        sber.center.fl_auth:
+        sber.berezka.brows_cat:
         common_L1.user_management:
 
 
-  bank.aquiring:
+  sber.center.aquiring:
     title: Оплата онлайн
     hex:
       =>map:
         mm.process:
       =>:
-        bank.payments:
-        berezka.access_management:
-        common_L1.banking:
+        sber.center.payments:
+        sber.berezka.access_management:
+        common_L1.sber.centering:
 
   
-  berezka.brows_cat:
+  sber.berezka.brows_cat:
     title: Выбор фильма
     hex:
       =>map:
         mm.process:
       =>:
-        berezka.home_cinema:
-        berezka.streaming_ondemand:
+        sber.berezka.home_cinema:
+        sber.berezka.streaming_ondemand:
         common_L2.categories_management:
 
-  berezka.play:
+  sber.berezka.play:
     title: Просмотр фильмов
     hex:
       =>map:
         mm.process:
       =>:
-        berezka.home_cinema:
+        sber.berezka.home_cinema:
         media_L2.content_delivery:
 
-  # berezka.rate:
+  # sber.berezka.rate:
   #   title: Поставить оценку
   #   hex:
   #     =>map:
-  #       berezka.home_cinema:
+  #       sber.berezka.home_cinema:
 
-  # berezka.ordering:
+  # sber.berezka.ordering:
   #   title: Поставить оценку
   #   hex:
   #     =>map:

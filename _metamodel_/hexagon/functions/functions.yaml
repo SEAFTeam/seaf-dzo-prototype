@@ -24,7 +24,7 @@ hexF:
   nodes: >
     (
       $nativeTTL:= $$."seaf.ba.ttl"; 
-      $nativeTTL:= $mergedeep([$nativeTTL, $$.components]);
+      $nativeTTL:= $mergedeep([$nativeTTL, $$.components[$entity="component"]]);
       $nodes:= $each($nativeTTL, function($v, $k) {
                       {"id": $k, "body": $v~>|$|{}, ["hex", "hexQ", "hexV"]|}
                     }
@@ -216,7 +216,7 @@ hexF:
                 )}), $append);
 
                 $edgesToNest:= $landscapeEdges[$substringBefore($.label, ".") in $rules.rule];
-                $nestChunks:= $eval($$.hexF.traverse, {"edges": $reduce($edgesToNest, $append)});
+                $nestChunks:= $edgesToNest ? $eval($$.hexF.traverse, {"edges": $reduce($edgesToNest, $append)});
                 $nestChunks:= $map($nestChunks, function($v){
                     $v.path[1] ? ($rules[$.rule = $v.path[1]].nest = "source" ? $v : {"path": $reverse($v.path)}) : $v
                 });
