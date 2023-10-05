@@ -26,14 +26,14 @@ seaf.ba.ttl:
       <=:
         sber.berezka.media_platform_self:
 
-  sber.bank.payments:
+  sber.center.payments:
     title: Прием платежей
     hex:
       =>map:
         mm.product:
       =>:
         sber.berezka.home_cinema:
-        sber.bank:
+        sber.center:
 
 
   sber.berezka.media_platform_saas:
@@ -48,15 +48,15 @@ seaf.ba.ttl:
       =>map:
         mm.product:
 
-  sber.bank:
-    title: Банк
+  sber.center:
+    title: Центр
     hex:
       =>map:
         mm.party:
       <=:
-        sber.bank.fl_auth:
+        sber.center.fl_auth:
 
-  sber.bank.fl_auth:
+  sber.center.fl_auth:
     title: Аутентификация пользователей
     hex:
       =>map:

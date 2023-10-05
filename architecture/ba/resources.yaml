@@ -29,7 +29,7 @@ seaf.ba.ttl:
       =>map:
         mm.resource:
       =>:
-        sber.bank.aquiring:
+        sber.center.aquiring:
       =>type:
         mm.resource.money:
 
@@ -39,7 +39,7 @@ seaf.ba.ttl:
       =>map:
         mm.resource:
       =>:
-        sber.bank.registartion:
+        sber.center.registartion:
         =>type:
         mm.resource.data:
 
@@ -61,32 +61,32 @@ seaf.ba.ttl:
       =>map:
         mm.resource:
       <=:
-        sber.bank.registartion:
+        sber.center.registartion:
       =>:
-        sber.bank.sign_in:
+        sber.center.sign_in:
       =>type:
         mm.resource.data:
 
-  sber.bank.fl_authentication:
+  sber.center.fl_authentication:
     title: Аутентификация ФЛ
     hex:
       =>map:
         mm.resource:
       <=:
-        sber.bank.sign_in:
+        sber.center.sign_in:
       =>:
         sber.berezka.brows_cat:
         sber.berezka.access_management:
       =>type:
         mm.resource.access:
 
-  sber.bank.payment_notification:
+  sber.center.payment_notification:
     title: Уведомление о платеже
     hex:
       =>map:
         mm.resource:
       <=:
-        sber.bank.aquiring:
+        sber.center.aquiring:
       =>:
         sber.berezka.access_management:
       =>type:

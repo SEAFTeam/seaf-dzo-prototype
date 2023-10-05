@@ -5,8 +5,8 @@ components:
     title: Аутентификация
     description: Аутентификация пользователей
     processes:
-      - sber.bank.registartion
-      - sber.bank.sign_in
+      - sber.center.registartion
+      - sber.center.sign_in
 
 
   sber.berezka.home_cinema.catalog:
