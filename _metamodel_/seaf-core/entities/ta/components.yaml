@@ -256,7 +256,9 @@ entities:
               type: integer
             availabilityzone_id:
               title: В какие зоны доступности входит DC
-              $ref: "#/$rels/seaf.ta.services.dc_az.dc_az"
+              type: array
+              items:
+                $ref: "#/$rels/seaf.ta.services.dc_az.dc_az"
             virtualization_id:
               title: ID кластера виртуализации
               $ref: "#/$rels/seaf.ta.services.cluster_virtualization.cluster_virtualization"
@@ -392,7 +394,9 @@ entities:
               type: integer
             kubernetes_id:
               title: Kubernetes cluster ID
-              $ref: "#/$rels/seaf.ta.services.k8s.k8s"
+              type: array
+              items:
+                $ref: "#/$rels/seaf.ta.services.k8s.k8s"
             description:
               title: Описание использования
               type: string
@@ -458,7 +462,9 @@ entities:
               type: boolean
             kubernetes_id:
               title: Kubernetes cluster ID
-              $ref: "#/$rels/seaf.ta.services.k8s.k8s"
+              type: array
+              items:
+                $ref: "#/$rels/seaf.ta.services.k8s.k8s"
           required:
             - name
             - update_strategy

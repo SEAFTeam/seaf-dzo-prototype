@@ -1,3 +1,4 @@
 imports:
   - reverse/root.yaml
   - home_cinema.yaml
+  - SchFuncNetwArch.yaml
