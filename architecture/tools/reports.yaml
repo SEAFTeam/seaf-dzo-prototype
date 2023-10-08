@@ -1,0 +1,5 @@
+docs:
+  sber.berezka.mm_discovery.docs.overciew:
+    location: Метамодель
+    type: markdown
+    source: templates/overview.md
