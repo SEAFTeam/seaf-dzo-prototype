@@ -231,19 +231,36 @@ entities:
     #       )
 
   observable:
+    # menu: >
+    #   (
+    #     $treePaths:= function($nested, $items, $i, $path) {(
+    #       $path:= $nested[$i] ? $path & "/" & $nested[$i].title; $log($path, $i);
+    #       $items:= $nested[$i].link ? $append($items, {"location": $path, "link": $nested[$i].link}): $items;
+    #       $items:= $count($nested[$i].includes) > 0 ?
+    #         $append($items, $treePaths($nested[$i].includes, [], 0, $path)): 
+    #         $append( $items, {"location": $path, "link":$nested[$i].link});
+    #       $i<$count($nested)-1 ? $treePaths($nested, $items, $i+1, $substringBefore($path, "/" & $nested[$i].title)) : $items
+    #     )}; 
+    #     $log($$.hexNav);
+    #     $menu:= $treePaths($$.hexNav, [], 0, "Hexagon");
+    #   )
+
     menu: >
       (
         $treePaths:= function($nested, $items, $i, $path) {(
-          $path:= $nested[$i] ? $path & "/" & $nested[$i].title; $log($path, $i);
+          $path:= $path!="" and $nested[$i] ? $path & "/" & $nested[$i].title : $path="" and $nested[$i] ? $nested[$i].title; $log($path, $i);
           $items:= $nested[$i].link ? $append($items, {"location": $path, "link": $nested[$i].link}): $items;
           $items:= $count($nested[$i].includes) > 0 ?
             $append($items, $treePaths($nested[$i].includes, [], 0, $path)): 
-            $append( $items, {"location": $path, "link":$nested[$i].link});
+            $items;
           $i<$count($nested)-1 ? $treePaths($nested, $items, $i+1, $substringBefore($path, "/" & $nested[$i].title)) : $items
         )}; 
-        $log($$.hexNav);
-        $menu:= $treePaths($$.hexNav, [{"location": "Hexagon", "link": "/entities/docs/blank?dh-doc-id=hex_main"}], 0, "Hexagon");
+
+        $menu:= $reduce($map($$.hexNav, function($v) {(
+          $distinct($treePaths($v, [], 0, ""))
+        )}), $append)
       )
+
 
 
     presentations:
@@ -264,10 +281,13 @@ entities:
           )
 
 hexNav:
-  - title: Материалы/Dashboards
-    link: 
-    params:
+  - title: Hexagon
+    link: "/entities/docs/blank?dh-doc-id=hex_main"
     includes:
-      - title: Bages Icons
-        link: "entities/observable/bages"
+      - title: Dashboards
+        link: 
+        params:
+        includes:
+          - title: Bages Icons
+            link: "entities/observable/bages"
 
