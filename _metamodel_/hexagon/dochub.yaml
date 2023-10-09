@@ -1,6 +1,6 @@
 imports:
   - entities/hex_core.yaml
-  - articles/articles.yaml
+  - docs/docs.yaml
   - functions/functions.yaml  
   - entities/templates/bages.yaml    
 
