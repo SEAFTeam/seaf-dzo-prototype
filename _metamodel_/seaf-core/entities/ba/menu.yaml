@@ -1,6 +1,6 @@
 hexNav:
   - title: SEAF Business Architecture (Hexagon)
-    link: "/entities/articles/blank?id=ba_main"
+    link: "/entities/docs/blank?dh-doc-id=ba_main"
     includes:
       - title: Экосистема
         link: "/entities/hexV/view?id=ecosystem"

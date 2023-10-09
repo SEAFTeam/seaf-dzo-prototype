@@ -8,4 +8,4 @@ imports:
   # hexagon menu items
   - menu.yaml
   # hexagon articles
-  - docs/articles.yaml
+  - docs/docs.yaml
