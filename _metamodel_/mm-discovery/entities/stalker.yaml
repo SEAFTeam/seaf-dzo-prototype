@@ -1,9 +1,10 @@
 entities:
+  # Инструмент анализа и визуализации метамодели
   mm_discovery.stalker:
     title: Исследователь метамодели
     menu: >
       (
-          [$."mm_discovery.stalker".$spread().(
+          [$."mm_discovery.stalker".$spread()[*.location].(
               {
                   "link": "/entities/mm_discovery.stalker/map_smartants?id=" & $keys()[0], 
                   "location": *.location 
