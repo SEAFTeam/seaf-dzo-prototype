@@ -2,7 +2,7 @@
 mm_discovery.stalker:
   overview:
     title: Общая карта
-    location: Метамодель
+    location: Документы/Метамодель/Общая
     nodes:
       seaf:
         title: SEAF
@@ -51,7 +51,7 @@ mm_discovery.stalker:
         )
   applcation:
     title: Прикладная архитектура
-    location: Метамодель/Прикладная
+    location: Документы/Метамодель/Прикладная
     nodes:
       seaf:
         title: SEAF
@@ -64,7 +64,7 @@ mm_discovery.stalker:
       - seaf.app.**
   technical:
     title: Техническая архитектура
-    location: Метамодель/Техническая
+    location: Документы/Метамодель/Техническая
     nodes:
       seaf:
         title: SEAF
@@ -80,7 +80,5 @@ mm_discovery.stalker:
         title: Реверс из SberCloud
       seaf.ta.reverse.cloud_ru.advanced:
         title: Зона Advanced
-      seaf.app:
-        title: Прикладная архитектура
     domains:
       - seaf.ta.**
