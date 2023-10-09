@@ -3,24 +3,28 @@ Sber Enterprise Architecture Framework (SEAF) - открытый и развив
 архитектурный фреймворк в своей основе использующий подход "Архитектура как код".
 
 ## Архитектура фреймворка
+```mermaid
+flowchart TB
+    subgraph "Sber Enterprise Architect Framework (SEAF)"
+        subgraph 1. Философия
+        id2(2. Подходы и принципы)
+        id3(3. Ценности)
+        id4(4. Протомодель)
+        end
+        subgraph 5. Поставка
+            id6(6. Референсный инструмент)
+            id7(7. Методология)
+            id8(8. Практики/кейсы)
+            id9(9. Базовая метамодель)
+            id10(10. Документация)
+        end
+        subgraph 11.Сообщество
+            id12(12. Репозиторий фреймворка)
+            id13(13. Проф. гуруппы и каналы)
+            id14(14. Статьи, воркшопы, митапы)
+        end
+    end
 ```
-
-|--------------------------- 1. ФИЛОСОФИЯ ----------------------------|
-|                                                                     |
-|      [2. Подходы и принципы] [3. Ценности] [4. Протомодель]         |
-|                                                                     |
-| |-------- 5. ПОСТАВКА --------|  |-------- 11.СООБЩЕСТВО ---------| |
-| | [6. Референсный инструмент] |  |  [12. Репозиторий фреймворка]  | |
-| |      [7. Методология]       |  |  [13. Проф. гуруппы и каналы]  | |
-| |    [8. Практики/кейсы]      |  | [14. Статьи, воркшопы, митапы] | |
-| |  [9. Базовая метамодель]    |  |--------------------------------| |
-| |     [10. Документация]      |                                     |
-| |-----------------------------|                                     |
-|                                                                     |
-|---------------------------------------------------------------------|
-
-```
-
 * (1, 2, 3, 4) Философия фреймворка выражается в [манифесте](#манифест);
 * (5) Под поставкой понимается выпуск очередного релиза фреймворка в форме repo;
 * (6) В качестве референсного инструмента предлагается [DocHub](https://github.com/RabotaRu/DocHub);
@@ -31,7 +35,7 @@ Sber Enterprise Architecture Framework (SEAF) - открытый и развив
 * (9) Входит в поставку;
 * (10) Входит в поставку;
 * (11) Сообщество обеспечивает развитие фреймворка и генерирует поставку;
-* (12) [Репозиторий фреймворка])(https://github.com/RabotaRu/DocHub);
+* (12) [Репозиторий фреймворка](https://github.com/RabotaRu/DocHub);
 * (13) Группа сообщества развивающего подход управления архитектуры кодом [DocHubTeam](https://t.me/archascode);
 * (14) [Статьи о развитии подхода](https://habr.com/ru/users/rpiontik/) и видео
   c [воркшопами и митапами](https://www.youtube.com/@user-eq5pj3zk6w).
@@ -162,37 +166,30 @@ ru.yandex.app.search
 Для удобства разработчиков, архкод развиваемый командой, допускается расположить непосредственно в 
 репозиториях микросервисов.
 
-```plantuml
-@startuml
-title Управление сегментами архкода
-actor "Team 1" as team_a
-actor "Team 2" as team_b
-participant "[[https://dochub.info/ DocHub]]" as dochub
-database "Repo\nTeam 1" as repo_a
-database "Repo\nTeam 2" as repo_b
-database "Repo\nMetamodel" as metamodel
-database "Repo\nGeneral" as repo_main
+```mermaid
+sequenceDiagram
+    actor Team 1
+    actor Team 2
+    participant DocHub
+    participant Repo Metamodel
+    participant Repo Main
+    participant Repo 1
+    participant Repo 2
 
-group Обзор архитектуры
-    dochub <- repo_main: General
-    dochub <- metamodel: Метамодель
-    dochub <- repo_b: Архкод
-    dochub <- repo_a: Архкод
-    team_a <- dochub: Артефакты
-    team_b <- dochub: Артефакты
-end
+    alt Обзор архитектуры
+        Repo Metamodel->>DocHub: Метамодель
+        Repo Main->>DocHub: Концептуальная архитектура
+        Repo 1->>DocHub: Детальная архитектура
+        Repo 2->>DocHub: Детальная архитектура
+        DocHub->>Team 1: Артефакты
+        DocHub->>Team 2: Артефакты
+    end
 
-group Фокус на своем сегменте
-    dochub <- metamodel: Метамодель
-    dochub <- repo_a: Архкод
-    team_a <- dochub: Артефакты
-    dochub <- metamodel: Метамодель
-    dochub <- repo_b: Архкод
-    team_b <- dochub: Артефакты
-end
-
-@enduml
-
+    alt Фокус на свой домен
+        Repo Metamodel->>DocHub: Метамодель
+        Repo 1->>DocHub: Детальная архитектура
+        DocHub->>Team 1: Артефакты
+    end
 ```
 
 Связать репозитории и представить их в едином интерфейсе позволит референсный инструмент -
@@ -330,28 +327,26 @@ SEAF рассматривает федеративное управление а
 
 #### Процесс
 
-```plantuml
-@startuml
-title Процесс управления федерацией
-participant "Owner" as Master
-participant "Domain1" as Domain1
-participant "Domain2" as Domain2
-participant "Domain2.subdomain1" as subdomain1
-participant "Domain2.subdomain1" as subdomain2
+```mermaid
+sequenceDiagram
+    participant Owner
+    participant Domain1
+    participant Domain2
+    participant Domain2.subdomain1
+    participant Domain2.subdomain2
 
-group Контракт
-    Master -> Domain1: Данные о федерации
-    Master <- Domain1: Данные о домене
-    Master -> Domain2: Данные о федерации
-    Master <- Domain2: Данные о домене
-    Domain2 -> subdomain1: Данные о федерации
-    Domain2 <- subdomain1: Данные о домене
-    Domain2 -> subdomain2: Данные о федерации
-    Domain2 <- subdomain2: Данные о домене
-end
+    Owner->>Domain1: Информация о федерации
+    Domain1->>Owner: Информация о домене
 
-@enduml
+    Owner->>Domain2: Информация о федерации
 
+    Domain2->>Domain2.subdomain1: Информация о федерации
+    Domain2->>Domain2.subdomain2: Информация о федерации
+
+    Domain2.subdomain1->>Domain2: Информация о домене
+    Domain2.subdomain2->>Domain2: Информация о домене
+
+    Domain2->>Owner: Информация о домене
 ```
 
 ## Развитие фремворка
@@ -382,7 +377,7 @@ end
 
 ### Развитие кодовой базы фреймворка
 
-При развитии фреймворка мы используем следующий процесс:     
+Управляет релизным циклом команда развития SEAF. Мы используем следующий процесс:     
 
 ```mermaid
 gitGraph
@@ -407,7 +402,17 @@ gitGraph
     commit id: "Hotfix" tag: "v1.0.1"
 ```
 
-### Как сделать вклад в развитие
+### Как сделать вклад 
+
+Сделайте форк данного репозитория под своей учетной записью в GitHub. 
+Внесите изменения и оформите Pull Request в ветку master.
+
+Pull Request будет рассмотрен командой развития. В случае успешного ревью он 
+автоматически войдет в следующий релиз.
+
+При наличии замечаний, они будут оформлены как комментарии в Pull Request. 
+
+При необходимости команда развития свяжется с вами для уточнений.
 
 ## Лицензия
 
