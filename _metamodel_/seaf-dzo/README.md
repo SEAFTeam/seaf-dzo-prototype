@@ -14,7 +14,7 @@ sber.[компания].**
 
 Примеры:
 ```
-sber.okko.server_virtual.server1
+sber.sberauto.server_virtual.server1
 sber.enablers.component.sberid
 sber.rabotaru.component.media_platform
 ```

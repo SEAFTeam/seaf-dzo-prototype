@@ -26,6 +26,8 @@ datasets:
               ) : (
                   $scan_area($entity_id, false);
               );
+      
+              $distinct($objects);
           )          
       )
 docs:

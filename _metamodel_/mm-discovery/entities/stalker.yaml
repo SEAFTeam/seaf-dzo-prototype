@@ -83,19 +83,40 @@ entities:
                   );
               )};
           
+              $expand := function($schema) {(
+                  $schema."$ref"~>$substring(0, 8) = "#/$defs/"
+                      ? $merge([
+                            $expand($lookup($defs, $schema."$ref"~>$substring(8))),
+                            $schema,
+                            {"$ref": ""}
+                        ])
+                      : $schema;
+              )};
+          
+              $scanOf := function($schema) {(
+                  $r1 := $schema.anyOf ? $schema.anyOf : [];
+                  $r2 := $schema.anyOf ? $schema.allOf : [];
+                  $r3 := $schema.anyOf ? $schema.oneOf : [];
+                  $append($r1, $append($r2, $r3)).($scan($));
+              )};   
+          
               $scan := function($schema) {(
-                  $r1 := $schema.type = "object" 
-                      ? $scan_props($merge([$schema.properties, $schema.patternProperties]));
-                  $r2 := $schema.type = "array"
-                      ? $scan($schema.items);
-                  $r3 := $schema."$ref"~>$substring(0, 8) = "#/$rels/" 
-                      ? $schema."$ref"~>$substring(8);
-                  $r4 := $schema."$ref"~>$substring(0, 8) = "#/$defs/"
-                      ? $scan($lookup($defs, $schema."$ref"~>$substring(8)));
-                  $append(
-                      $append($r1, $r2),
-                      $append($r3, $r4)
-                  );
+                  $deep := $expand($schema);
+          
+                  $r0 := $scanOf($deep);
+          
+                  $r0 ? $r0 : (
+                    $r1 := $deep.type = "object" 
+                        ? $scan_props($merge([$deep.properties, $deep.patternProperties]));
+                    $r2 := $deep.type = "array"
+                        ? $scan($deep.items);
+                    $r3 := $deep."$ref"~>$substring(0, 8) = "#/$rels/" 
+                        ? $deep."$ref"~>$substring(8);
+                    $append(
+                        $append($r1, $r2),
+                        $r3
+                    );
+                  )
               )};
           
               $mm_map := $data.entities.$spread()[*.objects].(
@@ -115,24 +136,29 @@ entities:
               );
               $isFetch := function($domain) {(
                   ($context.domains.$wcard($domain, $))[$]
-              )};   
+              )};
+          
               $result := {
                   "header": {
                       "title": $context.title 
                   },   
                   "nodes": $merge([
                     $context.nodes,
-                    $merge($distinct($mm_map.entity).(
+                    $merge($distinct($append($mm_map.entity, $mm_map.ref)).(
                       $id := $;
                       $isFetch($id) ? (
-                        $struct := $split($, ".");
-                        $group := $replace("$." & $, "." & $reverse($struct)[0], "");
-                        $lookup($data.entities, $id).{
+                        $result := $lookup($data.entities, $id).{
                           $id: {
                             "title": title ? title : $id,
                             "symbol": "system"
                           }
-                        }
+                        };
+                       $result ? $result : {
+                          $id: {
+                            "title": "LOST: "  & $id,
+                            "symbol": "component"
+                          }
+                       }               
                       )
                     ))
                   ]),
@@ -149,6 +175,7 @@ entities:
                       "trackWidth": 16
                   }      
               };
+          
               $context.hooks.after ? $eval($context.hooks.after, {
                   "result" : $result,
                   "data": $data,
