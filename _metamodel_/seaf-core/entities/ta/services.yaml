@@ -242,7 +242,7 @@ entities:
             - availabilityzone_id
 
   seaf.ta.services.cluster:
-    title: Datacenter
+    title: Cluster
     objects:
       cluster:
         route: "/"
