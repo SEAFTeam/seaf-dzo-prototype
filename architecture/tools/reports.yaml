@@ -1,6 +1,6 @@
 docs:
   sber.berezka.mm_discovery.docs.overciew:
-    location: Метамодель
+    location: /Документация/Метамодель
     type: markdown
     template: templates/overview.md
     origin: mm_discovery.statistic
