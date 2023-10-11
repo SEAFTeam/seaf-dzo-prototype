@@ -2,4 +2,18 @@ docs:
   sber.berezka.mm_discovery.docs.overciew:
     location: Метамодель
     type: markdown
-    source: templates/overview.md
+    template: templates/overview.md
+    origin: mm_discovery.statistic
+    source: >
+      (
+          $objects := $count($.count);
+          $entities := $count($);
+          $ent_dec := $count($[declarated]);
+          $ent_undec := $entities - $count($[declarated]);
+          {
+              "objects": $objects,
+              "entities": $entities,
+              "ent_dec": $ent_dec,
+              "ent_undec": $ent_undec
+          }
+      )
