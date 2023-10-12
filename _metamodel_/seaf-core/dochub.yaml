@@ -11,7 +11,7 @@ $package:
     version: 1.0.0
     # Зависимости от других пакетов
     dependencies:
-      dochub: 3.6.0
+      dochub: 3.7.0
 
 docs:
   seaf.welcome:
