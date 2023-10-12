@@ -3,3 +3,4 @@ imports:
   - app/root.yaml
   - ba/root.yaml
   - tools/root.yaml
+  - interface/root.yaml

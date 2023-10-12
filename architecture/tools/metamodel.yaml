@@ -2,7 +2,7 @@
 mm_discovery.stalker:
   overview:
     title: Общая карта
-    location: Документы/Метамодель/Общая
+    location: Документация/Метамодель/Общая
     nodes:
       seaf:
         title: SEAF
@@ -51,7 +51,7 @@ mm_discovery.stalker:
         )
   applcation:
     title: Прикладная архитектура
-    location: Документы/Метамодель/Прикладная
+    location: Документация/Метамодель/Прикладная
     nodes:
       seaf:
         title: SEAF
@@ -64,7 +64,7 @@ mm_discovery.stalker:
       - seaf.app.**
   technical:
     title: Техническая архитектура
-    location: Документы/Метамодель/Техническая
+    location: Документация/Метамодель/Техническая
     nodes:
       seaf:
         title: SEAF
