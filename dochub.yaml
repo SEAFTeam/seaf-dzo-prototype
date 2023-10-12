@@ -12,8 +12,10 @@ imports:
   - _metamodel_/seaf-core/dochub.yaml
   # Расширенная метамодель SEAF для ДЗО
   - _metamodel_/seaf-dzo/dochub.yaml
-  # Меню для пользователя для навигации по метамодели
-  - _metamodel_/root.yaml
+
+  # Меню для пользователя для навигации
+  - architecture/interface/root.yaml
+
   # Пример описания архитектуры
   - architecture/root.yaml
 
