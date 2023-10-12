@@ -4,13 +4,31 @@ entities:
       (
           [{
                       /* Размещение в пользовательском меню */
-                      "location": "Документы/Техническая архитектура/Реверс/README",
+                      "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS",
+                      /* URI представления context см. ниже.*/
+                      "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru.advanced&txt=Расширение IAAS"
+          },
+          {
+                      /* Размещение в пользовательском меню */
+                      "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru",
+                      /* URI представления context см. ниже.*/
+                      "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru&txt=Cloud.ru"
+          }, 
+          {
+                      /* Размещение в пользовательском меню */
+                      "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced",
+                      /* URI представления context см. ниже.*/
+                      "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru.advanced&txt=Advanced"
+          }, 
+          {
+                      /* Размещение в пользовательском меню */
+                      "location": "Документация/SEAF-CORE/Техническая архитектура/Расширение IAAS",
                       /* URI представления context см. ниже.*/
                       "link": "entities/seaf.ta.reverse.general/readme"
           },
           {
                       /* Размещение в пользовательском меню */
-                      "location": "Документы/Техническая архитектура/Реверс/Cloud.ru/Advanced/README",
+                      "location": "Документация/SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced",
                       /* URI представления context см. ниже.*/
                       "link": "entities/seaf.ta.reverse.general/readme_cloud_advanced"
           }];

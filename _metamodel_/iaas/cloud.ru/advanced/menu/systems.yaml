@@ -2,9 +2,9 @@ entities:
   seaf.ta.reverse.cloud_ru.advanced.systems:
     menu: >
       (
-          $systems := $.components.$spread()[*.sber.type = 'service'];
-          $components := $.components.$spread()[*.sber.type = 'component'];
-          $links := $."seaf.ta.reverse.cloud_ru.advanced.links";
+          $systems := $$.components.$spread()[*.sber.type = 'service'];
+          $components := $$.components.$spread()[*.sber.type = 'component'];
+          $links := $$."seaf.ta.reverse.cloud_ru.advanced.links";
           $available_systems := $distinct($links.$spread().(
               $app_id := $.*.app_id;
               $system_path := $split($app_id, '.')[-2];
@@ -13,6 +13,6 @@ entities:
           ));
           [$available_systems.({
               "link": "/entities/seaf.ta.reverse.cloud_ru.advanced.systems/systems_ta?id=" & $keys()[0],
-              "location": "Документы/Техническая архитектура/Реверс/Системы/" & $.*.title
+              "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Системы/" & $.*.title
           })]
       )

@@ -2,9 +2,9 @@ entities:
   seaf.ta.reverse.cloud_ru.advanced.elbs:
     menu: >
       (
-          $count($."seaf.ta.reverse.cloud_ru.advanced.elbs") > 0 ? [{
+          $count($$."seaf.ta.reverse.cloud_ru.advanced.elbs") > 0 ? [{
                       /* Размещение в пользовательском меню */
-                      "location": "Документы/Техническая архитектура/Реверс/Cloud.ru/Advanced/Реестры/Elastic Load Balancers",
+                      "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced/Реестры/Elastic Load Balancers",
                       /* URI представления context см. ниже.*/
                       "link": "entities/seaf.ta.reverse.cloud_ru.advanced.elbs/table_view"
           }];
