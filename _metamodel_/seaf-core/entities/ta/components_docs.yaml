@@ -1,6 +1,6 @@
 docs:
   ta_tables:
-    location: Техническая архитектура/Технологичесие компоненты
+    location: SEAF-CORE/Техническая архитектура/Реализация на ММ DocHub/Технические компоненты
     source: components.md
     type: markdown
 

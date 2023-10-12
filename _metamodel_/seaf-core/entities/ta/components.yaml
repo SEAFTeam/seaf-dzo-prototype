@@ -177,6 +177,14 @@ entities:
             office_id:
               title: Офис
               $ref: "#/$rels/seaf.ta.components.office.office"
+            network_connection:
+              title: Перечисление связанных сетей
+              type: array
+              items:
+                anyOf:
+                  - $ref: "#/$rels/seaf.ta.services.lan.lan"
+                  - $ref: "#/$rels/seaf.ta.services.wan.wan"
+                  - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
           required:
             - vendor
             - model
@@ -262,6 +270,14 @@ entities:
             virtualization_id:
               title: ID кластера виртуализации
               $ref: "#/$rels/seaf.ta.services.cluster_virtualization.cluster_virtualization"
+            network_connection:
+              title: Перечисление связанных сетей
+              type: array
+              items:
+                anyOf:
+                  - $ref: "#/$rels/seaf.ta.services.lan.lan"
+                  - $ref: "#/$rels/seaf.ta.services.wan.wan"
+                  - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
           required:
             - fqdn_name
             - os
@@ -307,6 +323,14 @@ entities:
             office_id:
               title: Офис
               $ref: "#/$rels/seaf.ta.components.office.office"
+            network_connection:
+              title: Перечисление связанных сетей
+              type: array
+              items:
+                anyOf:
+                  - $ref: "#/$rels/seaf.ta.services.lan.lan"
+                  - $ref: "#/$rels/seaf.ta.services.wan.wan"
+                  - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
           required:
             - vendor
             - volume
@@ -357,6 +381,14 @@ entities:
             office_id:
               title: Офис
               $ref: "#/$rels/seaf.ta.components.office.office"
+            network_connection:
+              title: Перечисление связанных сетей
+              type: array
+              items:
+                anyOf:
+                  - $ref: "#/$rels/seaf.ta.services.lan.lan"
+                  - $ref: "#/$rels/seaf.ta.services.wan.wan"
+                  - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
           required:
             - name
             - model
@@ -465,6 +497,11 @@ entities:
               type: array
               items:
                 $ref: "#/$rels/seaf.ta.services.k8s.k8s"
+            deployment_id:
+              title: В каких деплойментах задействован
+              type: array
+              items:
+                $ref: "#/$rels/seaf.ta.components.k8s_deployment.k8s_deployment"
           required:
             - name
             - update_strategy
@@ -538,6 +575,11 @@ entities:
             container_cpu:
               title: Размер CPU, millicore
               type: integer
+            pod_k8s_id:
+              title: В каких подах задействован
+              type: array
+              items:
+                $ref: "#/$rels/seaf.ta.components.k8s_pod.k8s_pod"
           required:
             - name
             - container_type
@@ -573,6 +615,11 @@ entities:
             description:
               title: Описание использования
               type: string
+            container_id:
+              title: В каких контейнерах задействован
+              type: array
+              items:
+                $ref: "#/$rels/seaf.ta.components.k8s_container.k8s_container"
           required:
             - name
             - repo_path
@@ -599,7 +646,14 @@ entities:
             device_type:
               title: Тип устройства относительно среды использования
               type: string
-              enum: [Внешнее устройство, Внутреннее устройство]
+            network_connection:
+              title: Подключение к сетям
+              type: array
+              items:
+                anyOf:
+                 - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
+                 - $ref: "#/$rels/seaf.ta.services.lan.lan"
+                 - $ref: "#/$rels/seaf.ta.services.wan.wan"
           required:
             - name
             - device_type
@@ -623,6 +677,14 @@ entities:
             address:
               title: Адрес офиса или местоположения
               type: string
+            network_connection:
+              title: Перечисление связанных сетей
+              type: array
+              items:
+                anyOf:
+                  - $ref: "#/$rels/seaf.ta.services.lan.lan"
+                  - $ref: "#/$rels/seaf.ta.services.wan.wan"
+                  - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
           required:
             - name
             - address
