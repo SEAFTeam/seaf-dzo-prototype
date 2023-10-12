@@ -2,6 +2,9 @@ hexNav:
   - title: SEAF-CORE/Бизнес-архитектура/Реализация на Add-on Hexagon
     link: "/entities/docs/blank?dh-doc-id=ba_main"
     includes:
+      - title: Мотивация(TBD)
+        link: "/entities/hexV/view?id=motivation"
+
       - title: Экосистема
         link: "/entities/hexV/view?id=ecosystem"
       - title: Процессы

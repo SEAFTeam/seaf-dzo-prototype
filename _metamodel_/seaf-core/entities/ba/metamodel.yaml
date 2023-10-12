@@ -19,7 +19,7 @@ seaf.ba.ttl:
     hex:
       =>владелец:
         mm.party:
-      =>используется в:
+      <=использует:
         mm.product:
       <=относится к:
         processes:
@@ -46,52 +46,58 @@ seaf.ba.ttl:
             mm.product.hexQ:
             hexR:
               nest:
-                - <=используется в:
+                - <=использует:
 
 
 # Motivations _________________________________________________________________________________________________________
 
-  goal_need:
+  mm.goal_need:
     title: Цель (потребность)
     bage: rocket
     hex:
-      <=устанавливают:
-        parties:
+      <=устанавливает:
+        mm.party:
     hexQ:
       seaf.ba.ttl:
         EVERY=>map:
-          goal_need:
+          mm.goal_need:
 
 
-  driver:
+  mm.driver:
     title: Драйвер
     bage: hurricane
     hex:
       =>обуславливают:
-        goals_n_needs:
-      =>воздействуют:
-        parties:
+        mm.goal_need:
+      =>воздействует:
+        mm.party:
     hexQ:
       seaf.ba.ttl:
         EVERY=>map:
-          driver:
+          mm.driver:
 
 
-  value:
+  mm.value:
     title: Ценность
     bage: chat_heart
     hex:
-      =>закрывает:
-        goals_n_needs:
-      <=представляет:
-        products:
+      =>способствует достижению:
+        mm.goal_need:
       <=оценивает:
-        parties:
+        mm.party:
     hexQ:
       seaf.ba.ttl:
         EVERY=>map:
-          value:
+          mm.value:
 
+  motivation:
+    title: Мотивация
+    
+    hexV:
+      mm.party.hexQ:
+      mm.driver.hexQ:
+      mm.goal_need.hexQ:
+      mm.value.hexQ:
 
 
 # Process Map _________________________________________________________________________________________________________
@@ -102,7 +108,7 @@ seaf.ba.ttl:
     hex:
       =>реализует:
         mm.product:
-      =>enables:
+      =>предшествует:
         mm.process:
     hexQ:
       seaf.ba.ttl:
@@ -112,14 +118,11 @@ seaf.ba.ttl:
   # event:
   #   title: Событие
   #   bage: bulb_red
-
-  # events:
-  #   title: События
-  #   bage: bulb_red
   #   hexQ:
   #     seaf.ba.ttl:
   #       EVERY=>map:
   #         event:
+
 
 
   
@@ -220,13 +223,13 @@ seaf.ba.ttl:
     title: Ресурс
     bage: box_sealed_grey
     hex:
-      =>потребляется:
+      =>требуется:
         mm.party:
         mm.process:
-      <=передает:
+      <=производит:
         mm.party:
         mm.process:
-      =>type:
+      =>тип:
         mm.resource:
     hexQ:
       seaf.ba.ttl:
