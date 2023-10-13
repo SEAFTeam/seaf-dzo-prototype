@@ -4,7 +4,7 @@
 
 **IaaS провайдер** - оператор услуг виртуальной частной или публичной инфраструктуры, предоставляющий вычислительные ресурсы.
 
-## [Cloud.ru - регион Advanced](/entities/seaf.ta.reverse.general/readme_cloud_advanced)
+## Cloud.ru - платформа Advanced
 Описание услуг предоставляемых провайдером Cloud.ru в "регионе" **Advanced**. Регион **Advanced** - AWS-like инфраструктура на базе решений Huawei Cloud.
 
-Подробнее о модуле [тут](/entities/seaf.ta.reverse.general/readme_cloud_advanced)
+Подробнее о модуле [тут](cloud.ru/advanced/README.md)
