@@ -2,9 +2,9 @@ entities:
   seaf.ta.reverse.cloud_ru.advanced.subnets:
     menu: >
       (
-          $count($."seaf.ta.reverse.cloud_ru.advanced.subnets") > 0 ? [{
+          $count($$."seaf.ta.reverse.cloud_ru.advanced.subnets") > 0 ? [{
                       /* Размещение в пользовательском меню */
-                      "location": "Документы/Техническая архитектура/Реверс/Cloud.ru/Advanced/Реестры/VPC Subnets", 
+                      "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced/Реестры/VPC Subnets", 
                       /* URI представления context см. ниже.*/
                       "link": "entities/seaf.ta.reverse.cloud_ru.advanced.subnets/table_view"
           }];
