@@ -19,7 +19,7 @@ seaf.ba.ttl:
     hex:
       =>владелец:
         mm.party:
-      =>используется в:
+      <=использует:
         mm.product:
       <=относится к:
         processes:
@@ -28,38 +28,6 @@ seaf.ba.ttl:
         EVERY=>map:
           mm.product:
 
-  # mm.products_targeted:
-  #   title: Предлагаемые продукты
-  #   bage: box_heart
-  #   hex:
-  #     =>провайдер:
-  #       mm.parties_providers:
-  #   hexQ:
-  #     mm.product.hexQ:
-  #       EVERY<=:
-  #         mm.party.hexQ:
-  #       EVERY=>:
-  #         mm.party.hexQ:
-
-  # mm.parties_interested:
-  #   title: Заинтересованные стороны
-  #   bage: people_magenta
-  #   hex:
-  #     =>заинтересованы:
-  #       mm.products_targeted:
-  #   hexQ:
-  #     mm.party.hexQ:
-  #       EVERY=>:
-  #         mm.product.hexQ:
-
-  # mm.parties_providers:
-  #   title: Провайдеры
-  #   bage: people_green
-  #   hex:
-  #   hexQ:
-  #     mm.party.hexQ:
-  #       EVERY<=:
-  #        mm.product.hexQ:
           
   ecosystem:
     title: Экосистема
@@ -78,71 +46,58 @@ seaf.ba.ttl:
             mm.product.hexQ:
             hexR:
               nest:
-                - <=используется в:
+                - <=использует:
 
 
 # Motivations _________________________________________________________________________________________________________
 
-  # goal_need:
-  #   title: Цель (потребность)
-  #   bage: rocket
-
-  # goals_n_needs:
-  #   title: Цели (потребности)
-  #   bage: rocket
-  #   hex:
-  #     <=устанавливают:
-  #       parties:
-  #   hexQ:
-  #     seaf.ba.ttl:
-  #       EVERY=>map:
-  #         goal_need:
-
-  # driver:
-  #   title: Драйвер
-  #   bage: hurricane
-
-  # drivers:
-  #   title: Драйверы
-  #   bage: hurricane
-  #   hex:
-  #     =>обуславливают:
-  #       goals_n_needs:
-  #     =>воздействуют:
-  #       parties:
-  #   hexQ:
-  #     seaf.ba.ttl:
-  #       EVERY=>map:
-  #         driver:
-
-  # evaluation:
-  #   title: Ценность
-  #   bage: chat_heart
-
-  # evaluations:
-  #   title: Ценность
-  #   bage: chat_heart
-  #   hex:
-  #     =>закрывает:
-  #       goals_n_needs:
-  #     <=представляет:
-  #       products:
-  #     <=оценивает:
-  #       parties:
-  #   hexQ:
-  #     seaf.ba.ttl:
-  #       EVERY=>map:
-  #         evaluation:
+  mm.goal_need:
+    title: Цель (потребность)
+    bage: rocket
+    hex:
+      <=устанавливает:
+        mm.party:
+    hexQ:
+      seaf.ba.ttl:
+        EVERY=>map:
+          mm.goal_need:
 
 
-  # motivations:
-  #   title: Мотивации Участников
-  #   hexV:
-  #     goals_n_needs.hexQ:
-  #     drivers.hexQ:
-  #     parties.hexQ:
-  #     evaluations.hexQ:
-  #     products.hexQ:
+  mm.driver:
+    title: Драйвер
+    bage: hurricane
+    hex:
+      =>обуславливают:
+        mm.goal_need:
+      =>воздействует:
+        mm.party:
+    hexQ:
+      seaf.ba.ttl:
+        EVERY=>map:
+          mm.driver:
+
+
+  mm.value:
+    title: Ценность
+    bage: chat_heart
+    hex:
+      =>способствует достижению:
+        mm.goal_need:
+      <=оценивает:
+        mm.party:
+    hexQ:
+      seaf.ba.ttl:
+        EVERY=>map:
+          mm.value:
+
+  motivation:
+    title: Мотивация
+    
+    hexV:
+      mm.party.hexQ:
+      mm.driver.hexQ:
+      mm.goal_need.hexQ:
+      mm.value.hexQ:
 
 
 # Process Map _________________________________________________________________________________________________________
@@ -153,7 +108,7 @@ seaf.ba.ttl:
     hex:
       =>реализует:
         mm.product:
-      =>enables:
+      =>предшествует:
         mm.process:
     hexQ:
       seaf.ba.ttl:
@@ -163,34 +118,11 @@ seaf.ba.ttl:
   # event:
   #   title: Событие
   #   bage: bulb_red
-
-  # events:
-  #   title: События
-  #   bage: bulb_red
   #   hexQ:
   #     seaf.ba.ttl:
   #       EVERY=>map:
   #         event:
 
-
-  # io:
-  #   title: Вход-выход
-  #   bage: box_sealed
-
-  # ios:
-  #   title: Входы-выходы
-  #   bage: box_sealed
-  #   hex:
-  #     =>является входом:
-  #       processes:
-  #     <=имеет на выходе:
-  #       processes:
-  #     =>представляют:
-  #       evaluations:
-  #   hexQ:
-  #     seaf.ba.ttl:
-  #       EVERY=>map:
-  #         io:
 
 
   
@@ -291,13 +223,13 @@ seaf.ba.ttl:
     title: Ресурс
     bage: box_sealed_grey
     hex:
-      =>потребляется:
+      =>требуется:
         mm.party:
         mm.process:
-      <=передает:
+      <=производит:
         mm.party:
         mm.process:
-      =>type:
+      =>тип:
         mm.resource:
     hexQ:
       seaf.ba.ttl:
@@ -401,22 +333,20 @@ seaf.ba.ttl:
 
 
   # OrgUnits ____________________________________________________
-  # org_unit:
-  #   title: Оргединица
-  #   bage: people_yellow
+  org_unit:
+    title: Оргединица
+    bage: people_yellow
+    hex:
+      =>используется в:
+        processes:
+      =>относится к:
+        capabilities:
+    hexQ:
+      seaf.ba.ttl:
+        EVERY=>map:
+          org_unit:
 
-  # org_units:
-  #   title: Человеческие ресурсы
-  #   bage: people_yellow
-  #   hex:
-  #     =>используется в:
-  #       processes:
-  #     =>относится к:
-  #       capabilities:
-  #   hexQ:
-  #     seaf.ba.ttl:
-  #       EVERY=>map:
-  #         org_unit:
+
 
 
 
