@@ -31,5 +31,11 @@ entities:
                       "location": "Документация/SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced",
                       /* URI представления context см. ниже.*/
                       "link": "entities/seaf.ta.reverse.general/readme_cloud_advanced"
+          },
+          {
+                      /* Размещение в пользовательском меню */
+                      "location": "Документация/SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru",
+                      /* URI представления context см. ниже.*/
+                      "link": "entities/seaf.ta.reverse.general/readme_cloud_ru"
           }];
       )

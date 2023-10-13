@@ -5,6 +5,10 @@ entities:
         type: markdown
         template: ../../README.md
 
+      readme_cloud_ru:
+        type: markdown
+        template: ../../cloud.ru/README.md
+
       readme_cloud_advanced:
         type: markdown
         template: ../../cloud.ru/advanced/README.md
