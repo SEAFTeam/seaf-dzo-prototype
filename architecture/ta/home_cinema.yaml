@@ -77,6 +77,7 @@ seaf.ta.components.office:
     ta_component_type: Офис
     address: Берёзовый бульвар, д.14
 
+
 #### Создаём сервис виртуализации
 seaf.ta.services.cluster_virtualization:
   sber.berezka.cluster_virtualization.cloud.01:
@@ -91,8 +92,8 @@ seaf.ta.services.cluster_virtualization:
     drs_support: true
     sdrs_support: true
     name: Кластер виртуализации в облаке Cloud
-    server_id:
-      - Неизвестно
+
+
 
   sber.berezka.cluster_virtualization.cloud.02:
     cluster_description: Собственный кластер виртуализации в облаке Cloud
@@ -110,12 +111,12 @@ seaf.ta.services.cluster_virtualization:
     hypervisor: ESX
     oversubscription_rate: 1
     server_id:
-      - server_metal.01
-      - server_metal.02
-      - server_metal.03
-      - server_metal.04
-      - server_metal.05
-      - server_metal.06
+      - sber.berezka.server_metal.01
+      - sber.berezka.server_metal.02
+      - sber.berezka.server_metal.03
+      - sber.berezka.server_metal.04
+      - sber.berezka.server_metal.05
+      - sber.berezka.server_metal.06
     name: Собственный кластер виртуализации в облаке Cloud
 
   sber.berezka.cluster_virtualization.vk.01:
@@ -130,8 +131,6 @@ seaf.ta.services.cluster_virtualization:
     drs_support: true
     sdrs_support: true
     name: Кластер виртуализации в облаке VK
-    server_id:
-      - Неизвестно
 
 #### Создаём описание сетевых устройств
 seaf.ta.components.network:
@@ -305,8 +304,6 @@ seaf.ta.services.wan:
     ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
-    dc_id:
-      - Нет
     office_id: sber.berezka.office.hq
 
 #### Создаём описание пограничных сетей
@@ -341,8 +338,9 @@ seaf.ta.services.network_links:
     bandwidth: 100
 
   sber.berezka.network_links.cloud_hq:
-    network_appliance_id1: sber.berezka.network.cisco.01
-    network_appliance_id2: sber.berezka.network.cisco.03
+    network_appliance_id:
+      - sber.berezka.network.cisco.01
+      - sber.berezka.network.cisco.03
     type: VPN Site-to-site
     sitelinks_id: network_links.cloud_hq
     ta_services_type: Сеть Каналы передачи данных
@@ -351,8 +349,9 @@ seaf.ta.services.network_links:
     bandwidth: 100
 
   sber.berezka.network_links.cloud_laptop:
-    network_appliance_id1: sber.berezka.user_device.laptop
-    network_appliance_id2: sber.berezka.network.cisco.03
+    network_appliance_id:
+      - sber.berezka.user_device.laptop
+      - sber.berezka.network.cisco.03
     type: SSL VPN
     sitelinks_id: network_links.cloud_laptop
     ta_services_type: Сеть Каналы передачи данных
@@ -630,7 +629,7 @@ seaf.ta.services.obj_storage:
     app_components:
       - sber.berezka.home_cinema.catalog
 
-      #### Создаём описание физических серверов
+#### Создаём описание физических серверов
 seaf.ta.components.server_metal:
   sber.berezka.server_metal.01:
     server_id: server_metal.01
@@ -883,8 +882,8 @@ seaf.ta.services.k8s:
       - sber.berezka.server_virtual.10
     app_components:
       - sber.berezka.home_cinema.auth
-      #### Создаём описание сервиса мониторинга
 
+#### Создаём описание сервиса мониторинга
 seaf.ta.services.monitoring:
   sber.berezka.monitoring.01:
     name: Zabbix
@@ -983,6 +982,7 @@ seaf.ta.components.k8s_pod:
     ml: false
     description: Бекенд под
     priorityclass: 5
+
 
   seaf.ta.services.k8s_pod.payments:
     tmp_storage: 100
