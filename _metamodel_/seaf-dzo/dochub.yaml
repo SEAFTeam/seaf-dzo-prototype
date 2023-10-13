@@ -17,7 +17,7 @@ docs:
   seaf.dzo.welcome:
     title: Sber Enterprise Architect Framework (SEAF)
     type: markdown
-    location: SEAF/ДЗО
+    location: /Документация/SEAF-DZO
     source: README.md
 
 imports:

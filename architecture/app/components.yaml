@@ -6,6 +6,7 @@ components:
     description: Авторизация пользователей
     aspects:
       - sber.berezka.home_cinema.auth
+
     sber:
       type: component
       component_type: Интеграционный компонент

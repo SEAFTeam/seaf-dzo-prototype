@@ -5,7 +5,7 @@ components:
     entity: package
     description: ООО Березка
 
-aspects:
-  sber:
-    title: Сбер
+#aspects:
+#  sber:
+#    title: Сбер
 

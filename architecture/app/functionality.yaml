@@ -1,11 +1,14 @@
 # Прикладная функциональность
-aspects:
+seaf.app.aspects:
   sber.berezka:
     title: ООО Березка
+    location: /SEAF-CORE/Прикладная архитектура/Реализация на ММ DocHub/Аспекты
   sber.berezka.home_cinema:
     title: Домашний кинотеатр
+    location: /SEAF-CORE/Прикладная архитектура/Реализация на ММ DocHub/Аспекты
   sber.berezka.home_cinema.auth:
     title: Аутентификация
+    location: /SEAF-CORE/Прикладная архитектура/Реализация на ММ DocHub/Аспекты
     type: functionality
     sber:
       id: 062207a6-adc1-487d-a061-03592cc0ea1a
@@ -13,6 +16,7 @@ aspects:
       state: Используется
   sber.berezka.home_cinema.payments:
     title: Платежи
+    location: /SEAF-CORE/Прикладная архитектура/Реализация на ММ DocHub/Аспекты
     type: functionality
     sber:
       id: 65561c11-cd2f-4dad-8ab4-c63816b4f92c
@@ -20,10 +24,13 @@ aspects:
       state: Используется
   sber.berezka.home_cinema.catalog:
     title: Каталог фильмов
+    location: /SEAF-CORE/Прикладная архитектура/Реализация на ММ DocHub/Аспекты
   sber.berezka.home_cinema.catalog.multiplex:
     title: ТВ-каналы
+    location: /SEAF-CORE/Прикладная архитектура/Реализация на ММ DocHub/Аспекты
   sber.berezka.home_cinema.catalog.multiplex.c1:
     title: ТВ-каналы первый мультиплекс
+    location: /SEAF-CORE/Прикладная архитектура/Реализация на ММ DocHub/Аспекты
     type: functionality
     sber:
       description: Трансляция каналов
@@ -31,6 +38,7 @@ aspects:
       state: Используется
   sber.berezka.home_cinema.catalog.multiplex.c2:
     title: ТВ-каналы второй мультиплекс
+    location: /SEAF-CORE/Прикладная архитектура/Реализация на ММ DocHub/Аспекты
     type: functionality
     sber:
       description: Трансляция каналов

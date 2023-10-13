@@ -44,6 +44,6 @@ entities:
       (
         [{
             "link": "/entities/seaf.app.integrations/registry", 
-            "location": "Архитектура/Интеграции" 
+            "location": "SEAF-CORE/Прикладная архитектура/Реализация на ММ DocHub/Интеграции" 
         }]
       )

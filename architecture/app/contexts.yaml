@@ -2,6 +2,6 @@
 contexts:
   overview:
     title: Прикладные сервисы
-    location: Прикладные сервисы
+    location: /SEAF-CORE/Прикладная архитектура/Реализация на ММ DocHub #/SEAF-CORE/Прикладная архитектура/Реализация на ММ DocHub
     components:
       - sber.berezka.**

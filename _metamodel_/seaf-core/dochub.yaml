@@ -17,8 +17,14 @@ docs:
   seaf.welcome:
     title: Sber Enterprise Architect Framework (SEAF)
     type: markdown
-    location: SEAF
+    location: /Документация/SEAF
     source: README.md
+  seaf.core.welcome:
+    title: SEAF CORE
+    type: markdown
+    location: /Документация/SEAF-CORE
+    source: docs/README_SEAFCORE.md
+
 
 imports:
   - entities/root.yaml

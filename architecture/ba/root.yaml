@@ -6,3 +6,10 @@ imports:
 
   # Application layer manifest example (to be detached before release)
 #  - apps.yaml
+
+docs:
+  seaf.welcome.ba.mmdochub:
+    title: Реализация описания бизнес-архитектуры на ММ DocHub
+    type: markdown
+    location: /SEAF-CORE/Бизнес-архитектура/Реализация на ММ DocHub (TBD)
+    source: README.md
