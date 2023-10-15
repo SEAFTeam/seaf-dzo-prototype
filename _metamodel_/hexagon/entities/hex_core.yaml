@@ -258,7 +258,7 @@ entities:
 # todo Нужно привести в соответствие с соглашением по идентификации
 # todo Должна быть декларирована сущность
 hexNav:
-  - title: Документация/Hexagon
+  - title: Документы/Hexagon
     link: "/entities/docs/blank?dh-doc-id=hex_main"
     includes:
       - title: Dashboards

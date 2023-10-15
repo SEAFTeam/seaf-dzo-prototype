@@ -6,23 +6,26 @@ entities:
   contexts:
     config:
       root_menu: Архитектура/Прикладная/Контексты  # Переопределяем вывод контекстов
+  components:
+    config:
+      root_menu: Архитектура/Прикладная            # Переопределяем вывод компонентов
   # Основное меню
   sber.berezka.main_menu:
     menu: >
       (
         [
           {  
-            "location": "Документация",
+            "location": "Документы",
             "order": 100
           },
       
           {
-            "location": "Документация/SEAF",
-            "order": 101
+            "location": "Документы/SEAF",
+            "order": 110
           },            
       
           {
-            "location": "Документация/SEAF.DZO",
+            "location": "Документы/SEAF.DZO",
             "order": 120
           },
       
@@ -32,28 +35,29 @@ entities:
           },
       
           {
-            "location": "SEAF-CORE",
+            "location": "Архитектура",
             "order": 300
           },
       
           {
-            "location": "SEAF-CORE/Бизнес-архитектура",
+            "location": "Архитектура/Бизнес-архитектура/Hexagon",
             "order": 310
-          },
-            
-          {
-            "location": "Архитектура/Бизнес-архитектура/Реализация на Add-on Hexagon",
-            "order": 320
           },      
      
           {
             "location": "Архитектура/Прикладная",
-            "order": 400
+            "order": 320
           },
       
           {
             "location": "Архитектура/Техническая",
-            "order": 500
+            "order": 330
+          },
+
+          {
+            "location": "Архитектура/IAAS",
+            "order": 340
           }
+      
         ];
       )

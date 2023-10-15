@@ -6,19 +6,19 @@ docs:
     source: ../README.md
 
   hex_declare:
-    location: /Документация/Hexagon/Декларирование объектов и отношений
+    location: Hexagon/Декларирование объектов и отношений
     description: Objects and relations declaring
     type: markdown
     source: hex_declare.md
 
   hex_queries:
-    location: /Документация/Hexagon/hex запросы
+    location: Hexagon/hex запросы
     description: Quering hex
     type: markdown
     source: hex_queries.md
 
   hex_views:
-    location: /Документация/Hexagon/Представления (views)
+    location: Hexagon/Представления (views)
     description: hexV usage
     type: markdown
     source: hex_views.md
