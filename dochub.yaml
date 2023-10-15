@@ -2,7 +2,6 @@ docs:
   dochub.welcome:
     title: Sber Enterprise Architect Framework (SEAF)
     type: markdown
-    location: SEAF
     source: README.md
 
 imports:
@@ -27,6 +26,9 @@ imports:
 
   # Пример описания архитектуры
   - architecture/root.yaml
+
+  # Пример репозитория документации
+  - docs/root.yaml
 
 
 

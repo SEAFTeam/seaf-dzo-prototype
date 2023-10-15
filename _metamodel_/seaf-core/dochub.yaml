@@ -13,12 +13,5 @@ $package:
     dependencies:
       dochub: 3.7.0
 
-docs:
-  seaf.welcome:
-    title: Sber Enterprise Architect Framework (SEAF)
-    type: markdown
-    location: SEAF
-    source: README.md
-
 imports:
   - entities/root.yaml

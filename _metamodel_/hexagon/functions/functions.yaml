@@ -2,6 +2,7 @@
 hexF:
 
   # Translation app layer objects links into hex
+  # todo Каждый раз, когда ты оставляешь $log в консоль высыпается куча текста, что тормозит всю систему
   dh_componentsToHex: >
     (
       $components:= $$.components.$spread()[$.*.entity="component"];$log($components);

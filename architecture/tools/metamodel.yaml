@@ -1,8 +1,8 @@
 # Конфигурация рендеринга матемодели репозитория
 mm_discovery.stalker:
-  overview:
+  sber.berezka.overview:
     title: Общая карта
-    location: Документация/Метамодель/Общая
+    location: Метамодель/Общая
     nodes:
       seaf:
         title: SEAF
@@ -49,9 +49,9 @@ mm_discovery.stalker:
         
             ]);
         )
-  applcation:
+  sber.berezka.applcation:
     title: Прикладная архитектура
-    location: Документация/Метамодель/Прикладная
+    location: Метамодель/Прикладная
     nodes:
       seaf:
         title: SEAF
@@ -62,9 +62,9 @@ mm_discovery.stalker:
       - components
       - seaf.requirements
       - seaf.app.**
-  technical:
+  sber.berezka.technical:
     title: Техническая архитектура
-    location: Документация/Метамодель/Техническая
+    location: Метамодель/Техническая
     nodes:
       seaf:
         title: SEAF

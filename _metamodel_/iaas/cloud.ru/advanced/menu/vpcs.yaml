@@ -4,13 +4,13 @@ entities:
       (
         $count($$."seaf.ta.reverse.cloud_ru.advanced.vpcs") > 0 ? [{
                     /* Размещение в пользовательском меню */
-                    "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced/Схемы/Virtual Private Clouds",
+                    "location": entities."seaf.ta.reverse".config.main_menu & "/Cloud.ru/Advanced/Схемы/Virtual Private Clouds",
                     /* URI представления context см. ниже.*/
                     "link": "entities/seaf.ta.reverse.cloud_ru.advanced.vpcs/vpcs_diagram"
         },
         {
                     /* Размещение в пользовательском меню */
-                    "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced/Схемы/Network Schema",
+                    "location": entities."seaf.ta.reverse".config.main_menu & "/Cloud.ru/Advanced/Схемы/Network Schema",
                     /* URI представления context см. ниже.*/
                     "link": "entities/seaf.ta.reverse.cloud_ru.advanced.vpcs/vpcs_diagram_full"
         }];
