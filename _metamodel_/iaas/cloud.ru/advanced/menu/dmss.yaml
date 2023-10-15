@@ -4,7 +4,7 @@ entities:
       (
           $count($$."seaf.ta.reverse.cloud_ru.advanced.dmss") > 0 ? [{
                       /* Размещение в пользовательском меню */
-                      "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced/Реестры/Distributed Message Services",
+                      "location": entities."seaf.ta.reverse".config.main_menu & "/Cloud.ru/Advanced/Реестры/Distributed Message Services",
                       /* URI представления context см. ниже.*/
                       "link": "entities/seaf.ta.reverse.cloud_ru.advanced.dmss/table_view"
           }];

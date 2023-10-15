@@ -1,6 +1,6 @@
 docs:
   ta_services_tables:
-    location: /SEAF-CORE/Техническая архитектура/Реализация на ММ DocHub/Технические сервисы
+    location: /Архитектура/Техническая/Технические сервисы
     source: services.md
     type: markdown
 

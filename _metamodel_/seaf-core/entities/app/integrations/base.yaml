@@ -3,6 +3,8 @@ entities:
   seaf.app.integrations:
     title: Интеграции
     description: Интеграция между компонентами, автоматизированными системами
+    config:
+      root_menu: Архитектура/Прикладная
     objects:
       integrations:
         route: "/"
@@ -42,8 +44,9 @@ entities:
             - to
     menu: >
       (
+        $root_menu := entities."seaf.app.integrations".config.root_menu;
         [{
             "link": "/entities/seaf.app.integrations/registry", 
-            "location": "Архитектура/Интеграции" 
+            "location": $root_menu & "/Интеграции" 
         }]
       )

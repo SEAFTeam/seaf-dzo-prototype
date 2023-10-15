@@ -1,41 +1,31 @@
 entities:
-  seaf.ta.reverse.general:
+    # Структура меню
     menu: >
       (
+          $config := entities."seaf.ta.reverse.general".config;
           [{
-                      /* Размещение в пользовательском меню */
-                      "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS",
-                      /* URI представления context см. ниже.*/
+                      "location": $config.arch_menu & "/IAAS",
                       "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru.advanced&txt=Расширение IAAS"
           },
           {
-                      /* Размещение в пользовательском меню */
-                      "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru",
-                      /* URI представления context см. ниже.*/
+                      "location": $config.arch_menu & "/IAAS/Cloud.ru",
                       "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru&txt=Cloud.ru"
           }, 
           {
-                      /* Размещение в пользовательском меню */
-                      "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced",
-                      /* URI представления context см. ниже.*/
+                      "location": $config.arch_menu & "/IAAS/Cloud.ru/Advanced1",
                       "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru.advanced&txt=Advanced"
           }, 
           {
-                      /* Размещение в пользовательском меню */
-                      "location": "Документация/SEAF-CORE/Техническая архитектура/Расширение IAAS",
-                      /* URI представления context см. ниже.*/
+                      "location": $config.doc_menu &  "/IAAS",
                       "link": "entities/seaf.ta.reverse.general/readme"
           },
           {
-                      /* Размещение в пользовательском меню */
-                      "location": "Документация/SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced",
-                      /* URI представления context см. ниже.*/
-                      "link": "entities/seaf.ta.reverse.general/readme_cloud_advanced"
+                      "location": $config.doc_menu &  "/IAAS/Cloud.ru",
+                      "link": "entities/seaf.ta.reverse.general/readme_cloud_ru"
           },
           {
-                      /* Размещение в пользовательском меню */
-                      "location": "Документация/SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru",
-                      /* URI представления context см. ниже.*/
-                      "link": "entities/seaf.ta.reverse.general/readme_cloud_ru"
-          }];
+                      "location": $config.doc_menu &  "/IAAS/Cloud.ru/Advanced2",
+                      "link": "entities/seaf.ta.reverse.general/readme_cloud_advanced"
+          }
+        ];
       )

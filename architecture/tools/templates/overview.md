@@ -2,7 +2,7 @@
 
 ## Структура и связи 
 
-![Структура и связи метамодели](@entity/mm_discovery.stalker/map_smartants?id=overview)
+![Структура и связи метамодели](@entity/mm_discovery.stalker/map_smartants?id=sber.berezka.overview)
 
 ## Общая статистика
 
