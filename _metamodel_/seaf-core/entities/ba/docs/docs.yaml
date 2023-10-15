@@ -1,8 +1,15 @@
 docs:
 
+  ba_entry:
+    location: /SEAF-CORE/Бизнес-архитектура
+    description: SEAF Business Architecture motivation
+    type: markdown
+    source: ba.md
+
+
   ba_main:
     # location: SEAF Business Architecture (Hexagon)
-    description: SEAF Business Architecture
+    description: SEAF Business Architecture with Hexagon
     type: markdown
     source: ../README.md
 
