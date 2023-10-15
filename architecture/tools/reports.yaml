@@ -1,6 +1,7 @@
 docs:
+  # Выводит общую информацию о метамодели и статистику
   sber.berezka.mm_discovery.docs.overciew:
-    location: /Документация/Метамодель
+    location: /Метамодель
     type: markdown
     template: templates/overview.md
     origin: mm_discovery.statistic

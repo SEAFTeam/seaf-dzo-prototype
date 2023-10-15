@@ -13,13 +13,6 @@ $package:
     dependencies:
       seaf: 1.0.0
 
-docs:
-  seaf.dzo.welcome:
-    title: Sber Enterprise Architect Framework (SEAF)
-    type: markdown
-    location: SEAF/ДЗО
-    source: README.md
-
 imports:
   - entities/root.yaml
   - architecture/root.yaml

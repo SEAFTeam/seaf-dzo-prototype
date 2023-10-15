@@ -5,13 +5,13 @@ entities:
           $count($$."seaf.ta.reverse.cloud_ru.advanced.ecss") > 0 ? [
             {
               /* Размещение в пользовательском меню */
-              "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced/Реестры/Elastic Cloud Servers",
+              "location": entities."seaf.ta.reverse".config.main_menu & "/Cloud.ru/Advanced/Реестры/Elastic Cloud Servers",
               /* URI представления context см. ниже.*/
               "link": "entities/seaf.ta.reverse.cloud_ru.advanced.ecss/table_view"
             },
             {
               /* Размещение в пользовательском меню */
-              "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced/Схемы/Servers in VPC",
+              "location": entities."seaf.ta.reverse".config.main_menu & "/Cloud.ru/Advanced/Схемы/Servers in VPC",
               /* URI представления context см. ниже.*/
               "link": "entities/seaf.ta.reverse.cloud_ru.advanced.ecss/servers_diagram"
             }

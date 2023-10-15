@@ -1,0 +1,18 @@
+docs:
+  # Публикация документации по SEAF
+  sber.berezka.documentations:
+    location: /Документация
+    type: markdown
+    source: ../README.md
+
+  # Публикация документации по SEAF
+  sber.berezka.documentations.seaf:
+    location: /Документация/SEAF
+    type: markdown
+    source: ../_metamodel_/seaf-core/README.md
+
+  # Публикация документации по SEAF.DZO
+  sber.berezka.documentations.seaf.dzo:
+    location: /Документация/SEAF.DZO
+    type: markdown
+    source: ../_metamodel_/seaf-dzo/README.md

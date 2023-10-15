@@ -1,7 +1,4 @@
-  
-
 entities:
-
   seaf.ba.ttl:
     schema:
       type: object
@@ -18,9 +15,8 @@ entities:
               type: string
           required:
             - title
-
+  # todo Необходимо привести в соответствие с соглашением по идентификации
   hexV:
-
     # menu: >
     #   ( /*
     #     $seaf.ba.ttlMenu:= []; /*placeholder for seaf.ba.ttl control menu items*/
@@ -37,7 +33,6 @@ entities:
     #     $append($seaf.ba.ttlMenu, $menu)
     #     */
     #   )
-
     presentations:
       view:
         type: markdown
@@ -112,27 +107,6 @@ entities:
             $str:= $params.data;
             $data:= $eval($decodeUrl($str));
           )
-          
-  articles:
-    title: Articles
-    menu: |
-      (
-        $append([
-            {
-              "title": 'Articles',
-              "location": 'Hexagon/Материалы',
-              "expand": true,
-              "icon": ''
-            }
-          ],
-          $$.docs.$spread().(
-              *.hex_location ? {
-                  "location": "Hexagon/Материалы/" & *.hex_location,
-                  "link": "entities/docs/blank?dh-doc-id=" & $keys()[0]
-              }
-          )
-        )
-      )
     # schema:
     #   type: object
     #   patternProperties:
@@ -230,6 +204,7 @@ entities:
     #         )])
     #       )
 
+  # todo Необходимо привести в соответствие с соглашением по идентификации
   observable:
     # menu: >
     #   (
@@ -264,7 +239,6 @@ entities:
 
 
     presentations:
-
       bages:
         type: markdown
         template: templates/bages.md
@@ -280,8 +254,11 @@ entities:
             }
           )
 
+
+# todo Нужно привести в соответствие с соглашением по идентификации
+# todo Должна быть декларирована сущность
 hexNav:
-  - title: Hexagon
+  - title: Документация/Hexagon
     link: "/entities/docs/blank?dh-doc-id=hex_main"
     includes:
       - title: Dashboards

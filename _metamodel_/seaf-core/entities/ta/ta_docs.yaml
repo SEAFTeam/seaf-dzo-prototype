@@ -2,5 +2,5 @@ docs:
   ta_main:
     description: Общее описание технической архитектуры
     type: markdown
-    location: /SEAF-CORE/Техническая архитектура
+    location: /Архитектура/Техническая
     source: README.md

@@ -4,7 +4,7 @@ entities:
       (
           $count($$."seaf.ta.reverse.cloud_ru.advanced.vpn_gateways") > 0 ? [{
                       /* Размещение в пользовательском меню */
-                      "location": "SEAF-CORE/Техническая архитектура/Расширение IAAS/Cloud.ru/Advanced/Реестры/VPN Gateways",
+                      "location": entities."seaf.ta.reverse".config.main_menu & "/Cloud.ru/Advanced/Реестры/VPN Gateways",
                       /* URI представления context см. ниже.*/
                       "link": "entities/seaf.ta.reverse.cloud_ru.advanced.vpn_gateways/table_view"
           }];
