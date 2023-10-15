@@ -7,7 +7,7 @@ docs:
     origin: mm_discovery.statistic
     source: >
       (
-          $objects := $count($.count);
+          $objects := $sum($.count);
           $entities := $count($);
           $ent_dec := $count($[declarated]);
           $ent_undec := $entities - $count($[declarated]);
