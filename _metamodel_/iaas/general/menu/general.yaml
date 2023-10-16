@@ -13,7 +13,7 @@ entities:
                       "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru&txt=Cloud.ru"
           }, 
           {
-                      "location": $config.arch_menu & "/Cloud.ru/Advanced1",
+                      "location": $config.arch_menu & "/Cloud.ru/Advanced",
                       "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru.advanced&txt=Advanced"
           }, 
           {
@@ -25,7 +25,7 @@ entities:
                       "link": "entities/seaf.ta.reverse.general/readme_cloud_ru"
           },
           {
-                      "location": $config.doc_menu &  "/Cloud.ru/Advanced2",
+                      "location": $config.doc_menu &  "/Cloud.ru/Advanced",
                       "link": "entities/seaf.ta.reverse.general/readme_cloud_advanced"
           }
         ];
