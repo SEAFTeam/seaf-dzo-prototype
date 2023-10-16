@@ -780,7 +780,7 @@ entities:
               type: string
               enum: [Основной, Резервный]
           required:
-            - network_appliance_id1
+            - network_appliance_id
             - type
             - ch_type
       type: object
