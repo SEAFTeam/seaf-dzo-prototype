@@ -1,14 +1,47 @@
 entities:
   seaf.ta.reverse.general:
+    # Конфигурация размещения меню
+    config:
+      doc_menu: Документы/IAAS
+      arch_menu: Архитектура/IAAS
     presentations:
       readme:
         type: markdown
         template: ../../README.md
 
+      readme_cloud_ru:
+        type: markdown
+        template: ../../cloud.ru/README.md
+
       readme_cloud_advanced:
         type: markdown
-        template: ../README_CLOUD_ADVANCED.md
+        template: ../../cloud.ru/advanced/README.md
 
       metamodel:
         type: mermaid
         template: templates/schema.mmd
+
+      loc:
+        type: markdown
+        template: templates/list_of_contents.md
+        source: >
+          (
+              $id := $params.id;
+              $txt := $params.txt;
+              $matcher := $eval("/^seaf\\.ta\\." & $id & ".*$/");
+              $functions := $.entities.$spread()[$matcher($keys()[0])].*.menu;
+              $menu := $functions.(
+                  $item := $;
+                  $matcher := $eval("/.*(" & $txt & ".*)$/");
+                  $items := $eval($item)[location ~> $matcher];
+                  $items.({
+                    'location': $matcher($.location).groups[0],
+                    'link': $.link
+                  })
+              );
+              {
+                  'txt': $txt,
+                  'menu': $menu
+              }
+          
+          )

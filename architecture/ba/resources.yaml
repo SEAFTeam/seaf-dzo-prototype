@@ -1,0 +1,112 @@
+seaf.ba.ttl:
+
+  sber.berezka.media_assets:
+    title: Медиа-активы
+    hex:
+      =>map:
+        mm.resource:
+      =>type:
+        mm.resource.data:
+      =>:
+        sber.berezka.access_upload:
+
+  sber.berezka.media_content:
+    title: Медиа-контент
+    hex:
+      =>map:
+        mm.resource:
+      =>:
+        sber.berezka.play:
+      <=:
+        sber.berezka.streaming_ondemand:
+      =>type:
+        mm.resource.data:
+
+
+  fl.payment:
+    title: Платеж
+    hex:
+      =>map:
+        mm.resource:
+      =>:
+        sber.center.aquiring:
+      =>type:
+        mm.resource.money:
+
+  fl.identity:
+    title: Данные ФЛ
+    hex:
+      =>map:
+        mm.resource:
+      =>:
+        sber.center.registartion:
+        =>type:
+        mm.resource.data:
+
+  sber.berezka.fl_authorization:
+    title: Авторизация ФЛ
+    hex:
+      =>map:
+        mm.resource:
+      <=:
+        sber.berezka.access_management:
+      =>:
+        sber.berezka.streaming_ondemand:
+      =>type:
+        mm.resource.access:
+
+  fl.credentials:
+    title: ФЛ кредлы
+    hex:
+      =>map:
+        mm.resource:
+      <=:
+        sber.center.registartion:
+      =>:
+        sber.center.sign_in:
+      =>type:
+        mm.resource.data:
+
+  sber.center.fl_authentication:
+    title: Аутентификация ФЛ
+    hex:
+      =>map:
+        mm.resource:
+      <=:
+        sber.center.sign_in:
+      =>:
+        sber.berezka.brows_cat:
+        sber.berezka.access_management:
+      =>type:
+        mm.resource.access:
+
+  sber.center.payment_notification:
+    title: Уведомление о платеже
+    hex:
+      =>map:
+        mm.resource:
+      <=:
+        sber.center.aquiring:
+      =>:
+        sber.berezka.access_management:
+      =>type:
+        mm.resource.data:
+
+  sber.berezka.video_content.metadata:
+    title: Мета-данные
+    hex:
+      =>map:
+        mm.resource:
+      =>:
+        sber.berezka.access_management:
+      <=:
+        sber.berezka.access_upload:
+      =>type:
+        mm.resource.data:
+
+  # placeholder in case to enrich apps relations from BA side
+  sber.berezka.home_cinema.auth:
+    hex:
+
+  sber.berezka.home_cinema.catalog:
+    hex:

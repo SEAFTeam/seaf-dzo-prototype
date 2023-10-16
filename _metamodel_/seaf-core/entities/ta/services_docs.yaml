@@ -1,6 +1,6 @@
 docs:
-  ta_dc_tables:
-    location: Техническая архитектура/Технологичесие сервисы
+  ta_services_tables:
+    location: /Архитектура/Техническая/Технические сервисы
     source: services.md
     type: markdown
 

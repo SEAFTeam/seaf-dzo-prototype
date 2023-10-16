@@ -10,7 +10,7 @@
 
 ## Спецификации
 {{#specifications}}
-* [{{title}}](/entities/seaf.integration_specifications/blank?seaf-int-spec-id={{$id}})
+* [{{title}}](/entities/seaf.app.integration_specifications/blank?seaf-int-spec-id={{$id}})
 {{/specifications}}
 
 

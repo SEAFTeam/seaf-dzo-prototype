@@ -2,9 +2,9 @@ entities:
   seaf.ta.reverse.cloud_ru.advanced.nat_gateways:
     menu: >
       (
-          $count($."seaf.ta.reverse.cloud_ru.advanced.nat_gateways") > 0 ? [{
+          $count($$."seaf.ta.reverse.cloud_ru.advanced.nat_gateways") > 0 ? [{
                       /* Размещение в пользовательском меню */
-                      "location": "Документы/Техническая архитектура/Реверс/Cloud.ru/Advanced/Реестры/NAT Gateways",
+                      "location": entities."seaf.ta.reverse".config.main_menu & "/Cloud.ru/Advanced/Реестры/NAT Gateways",
                       /* URI представления context см. ниже.*/
                       "link": "entities/seaf.ta.reverse.cloud_ru.advanced.nat_gateways/table_view"
           }];

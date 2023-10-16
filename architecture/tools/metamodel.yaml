@@ -1,0 +1,84 @@
+# Конфигурация рендеринга матемодели репозитория
+mm_discovery.stalker:
+  sber.berezka.overview:
+    title: Общая карта
+    location: Метамодель/Общая
+    nodes:
+      seaf:
+        title: SEAF
+      seaf.ta:
+        title: Техническая архитектура
+      seaf.ta.components:
+        title: Компоненты технической архитектуры
+      seaf.ta.services:
+        title: Сервисы технической архитектуры
+      seaf.ta.reverse:
+        title: Реверс из облаков
+      seaf.ta.reverse.cloud_ru:
+        title: Реверс из SberCloud
+      seaf.ta.reverse.cloud_ru.advanced:
+        title: Зона Advanced
+      seaf.app:
+        title: Прикладная архитектура
+    domains:
+      - "**" # Отражаем все домены
+    hooks:
+      after: >
+        (
+            $result := result;
+            $translateId := function($id) {( 
+                $result := $lookup({
+                    "aspects": "seaf.app.aspects",
+                    "components": "seaf.app.components"
+                }, $id);
+                $result ? $result : $id;
+            )};  
+            $merge([
+                $result,
+                {
+                    "nodes": $merge($result.nodes.$spread().(
+                        $id := $keys()[0];
+                        {
+                            $translateId($id): $.*    
+                        }       
+                    )),
+                    "links": [$result.links.(
+                        $merge([$, {"from": $translateId(from), "to": $translateId(to)}]);
+                    )]       
+                }       
+        
+            ]);
+        )
+  sber.berezka.applcation:
+    title: Прикладная архитектура
+    location: Метамодель/Прикладная
+    nodes:
+      seaf:
+        title: SEAF
+      seaf.app:
+        title: Прикладная архитектура
+    domains:
+      - aspects
+      - components
+      - seaf.requirements
+      - seaf.app.**
+  sber.berezka.technical:
+    title: Техническая архитектура
+    location: Метамодель/Техническая
+    nodes:
+      seaf:
+        title: SEAF
+      seaf.ta:
+        title: Техническая архитектура
+      seaf.ta.components:
+        title: Компоненты технической архитектуры
+      seaf.ta.services:
+        title: Сервисы технической архитектуры
+      seaf.ta.reverse:
+        title: Реверс из облаков
+      seaf.ta.reverse.cloud_ru:
+        title: Реверс из SberCloud
+      seaf.ta.reverse.cloud_ru.advanced:
+        title: Зона Advanced
+    domains:
+      - seaf.ta.**

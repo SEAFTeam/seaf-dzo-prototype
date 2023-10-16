@@ -1,6 +1,6 @@
-seaf:
-  domain: koko
 imports:
   - ta/root.yaml
   - app/root.yaml
-  - ba/beryozka/root.yaml
+  - ba/root.yaml
+  - tools/root.yaml
+  - interface/root.yaml

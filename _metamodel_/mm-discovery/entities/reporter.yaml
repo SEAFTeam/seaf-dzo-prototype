@@ -1,0 +1,73 @@
+# Инструмент сбора статистики по метамодели и DataLake
+datasets:
+  # Датасет для получения общей статистики
+  mm_discovery.statistic:
+    source: >
+      (
+          $data := $;
+          entities.$spread().(
+              $entity_id := $keys()[0];
+              $entity_title := *.title;
+      
+              $scan_area := function($area_id, $declarated){(
+                  $area := $lookup($data, $area_id);
+                  {
+                      "declarated": $declarated,
+                      "entity_id": $entity_id,
+                      "entity_title": $entity_title,
+                      "object_id": $keys()[0],
+                      "object_title": *.title,
+                      "count": $count($area.$keys())
+                  }
+              )};
+      
+              $objects := *.objects ? *.objects.$spread().(
+                  $scan_area(($entity_id & *.route~>$split("/"))[$]~>$join("."), true);
+              ) : (
+                  $scan_area($entity_id, false);
+              );
+      
+              $distinct($objects);
+          )          
+      )
+docs:
+  mm_discovery.entities.list:
+    title: Общая информация по метамодели и объектах
+    type: table
+    headers:
+      - value: entity_id
+        text: ID сущности
+        sortable: true
+        align: left
+        width: 15%
+      - value: entity_title
+        text: Название сущности
+        sortable: true
+        align: left
+        width: 30%
+      - value: object_id
+        text: Идентификатор объекта
+        sortable: true
+        align: left
+        width: 15%
+      - value: object_title
+        text: Название объекта
+        sortable: true
+        align: left
+        width: 30%
+      - value: declarated
+        text: Объекты декларированы
+        sortable: true
+        align: left
+        width: 5%
+      - value: count
+        text: Количество объектов
+        align: right
+        width: 5%
+    origin: mm_discovery.statistic
+    source: >
+      (
+          $.(
+              $merge([$, { "declarated": declarated ? "Да" : "Нет" }])
+          )^(entity_id)   
+      )

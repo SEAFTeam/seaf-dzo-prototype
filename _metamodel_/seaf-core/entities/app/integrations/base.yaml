@@ -1,8 +1,10 @@
 # Интеграции SEAF
 entities:
-  seaf.integrations:
+  seaf.app.integrations:
     title: Интеграции
     description: Интеграция между компонентами, автоматизированными системами
+    config:
+      root_menu: Архитектура/Прикладная
     objects:
       integrations:
         route: "/"
@@ -34,7 +36,7 @@ entities:
               minItems: 1
               items:
                 title: Идентификатор спецификации
-                $ref: "#/$rels/seaf.integration_specifications.specification"
+                $ref: "#/$rels/seaf.app.integration_specifications.specification"
           required:
             - title
             - description
@@ -42,8 +44,9 @@ entities:
             - to
     menu: >
       (
+        $root_menu := entities."seaf.app.integrations".config.root_menu;
         [{
-            "link": "/entities/seaf.integrations/registry", 
-            "location": "Архитектура/Интеграции" 
+            "link": "/entities/seaf.app.integrations/registry", 
+            "location": $root_menu & "/Интеграции" 
         }]
       )

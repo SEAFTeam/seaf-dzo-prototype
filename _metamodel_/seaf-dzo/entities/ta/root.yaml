@@ -1,2 +1,3 @@
 imports:
-  - integrations.yaml
+  - dzo_assesment_entities.yaml
+  - sbercloud_revers_entities.yaml

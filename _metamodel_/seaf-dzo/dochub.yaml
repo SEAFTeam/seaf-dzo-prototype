@@ -1,25 +1,17 @@
-# Метаданные пакета
+## Метаданные пакета
 $package:
-  # Идентификатор пакета
-  id: seaf-dzo
-  # Краткое название пакета
-  name: SEAF.DZO
-  # Поставщик
-  vendor: Sber
-  # Описание
-  description: Sber Enterprise Architect Framework for DZO
-  # Версия
-  version: 1.0.0
-  # Зависимости от других пакетов
-  dependencies:
-    seaf: 1.0.0
-
-docs:
-  seaf.dzo.welcome:
-    title: Sber Enterprise Architect Framework (SEAF)
-    type: markdown
-    location: SEAF/ДЗО
-    source: README.md
+  seaf-dzo: # Идентификатор пакета
+    # Краткое название пакета
+    name: SEAF.DZO
+    # Поставщик
+    vendor: Sber
+    # Описание
+    description: Sber Enterprise Architect Framework for DZO
+    # Версия
+    version: 1.0.0
+    # Зависимости от других пакетов
+    dependencies:
+      seaf: 1.0.0
 
 imports:
   - entities/root.yaml

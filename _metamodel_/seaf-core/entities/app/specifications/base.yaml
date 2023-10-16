@@ -1,6 +1,6 @@
 # Интеграции SEAF
 entities:
-  seaf.integration_specifications:
+  seaf.app.integration_specifications:
     title: Интеграционные спецификации
     objects:
       specification:

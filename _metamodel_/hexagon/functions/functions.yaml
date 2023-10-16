@@ -2,10 +2,11 @@
 hexF:
 
   # Translation app layer objects links into hex
+  # todo Каждый раз, когда ты оставляешь $log в консоль высыпается куча текста, что тормозит всю систему
   dh_componentsToHex: >
     (
-      $components:= $$.components;
-      $reduce($map($spread($components), function($v) {(
+      $components:= $$.components.$spread()[$.*.entity="component"];$log($components);
+      $reduce($map($components, function($v) {(
         $maps:= [
           {"source": $keys($v), "target": "mm.resource", "label": "map"},
           {"source": $keys($v), "target": "mm.resource.app_service", "label": "type"}];
@@ -24,7 +25,7 @@ hexF:
   nodes: >
     (
       $nativeTTL:= $$."seaf.ba.ttl"; 
-      $nativeTTL:= $mergedeep([$nativeTTL, $$.components]);
+      $nativeTTL:= $mergedeep([$nativeTTL, $$.components.$spread()[$.*.entity="component"]]);
       $nodes:= $each($nativeTTL, function($v, $k) {
                       {"id": $k, "body": $v~>|$|{}, ["hex", "hexQ", "hexV"]|}
                     }
@@ -216,7 +217,7 @@ hexF:
                 )}), $append);
 
                 $edgesToNest:= $landscapeEdges[$substringBefore($.label, ".") in $rules.rule];
-                $nestChunks:= $eval($$.hexF.traverse, {"edges": $reduce($edgesToNest, $append)});
+                $nestChunks:= $edgesToNest ? $eval($$.hexF.traverse, {"edges": $reduce($edgesToNest, $append)});
                 $nestChunks:= $map($nestChunks, function($v){
                     $v.path[1] ? ($rules[$.rule = $v.path[1]].nest = "source" ? $v : {"path": $reverse($v.path)}) : $v
                 });

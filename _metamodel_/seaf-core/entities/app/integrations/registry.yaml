@@ -1,6 +1,6 @@
 # Бланк архитектурного компонента
 entities:
-  seaf.integrations:
+  seaf.app.integrations:
     presentations:
       registry:
         title: Реестр интеграций
@@ -28,7 +28,7 @@ entities:
         source: >
           (
               $components := components;
-              [$."seaf.integrations".$spread().(
+              [$."seaf.app.integrations".$spread().(
                   $id := $keys()[0];
                   $from_id := *.from ? *.from : "$unknown$";
                   $to_id := *.to ? *.to : "$unknown$";
@@ -36,7 +36,7 @@ entities:
                   $to := $lookup($components, $to_id);
                   $merge([$.*, {
                       "$id": $id,
-                      "link": "/entities/seaf.integrations/blank?seaf-integration-id=" & $id,
+                      "link": "/entities/seaf.app.integrations/blank?seaf-integration-id=" & $id,
                       "from": $from ? ($from.title ? $from.title : $from_id) : $from_id,
                       "from_link": $from ? "/entities/components/blank?dh-component-id=" & $from_id,
                       "to": $to ? ($to.title ? $to.title : $to_id) : $to_id,
