@@ -1,5 +1,6 @@
 # Структура меню
 entities:
+
   # Настройка меню метамодели DocHub
   aspects:
     config:
