@@ -3,7 +3,7 @@
 ---
 **Зависимости:**
 
-В SEAF 1.0 слой Бизнес-архитектуры реализован с помощью расширения [Hexagon](/entities/articles/blank?id=hex_main)
+В SEAF 1.0 слой Бизнес-архитектуры реализован с помощью расширения [Hexagon](/entities/docs/blank?dh-doc-id=hex_main)
 
 Для использования данной метамодели необходимо дополнительно подключить манифест SEAF/\_metamodel\_/hexagon/dochub.yaml
 
