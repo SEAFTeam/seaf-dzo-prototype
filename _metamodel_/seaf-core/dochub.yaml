@@ -11,7 +11,7 @@ $package:
     version: 1.0.0
     # Зависимости от других пакетов
     dependencies:
-      dochub: 3.7.0
+      dochub: 3.8.0
 
 imports:
   - entities/root.yaml
