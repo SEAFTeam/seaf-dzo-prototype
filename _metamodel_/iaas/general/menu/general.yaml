@@ -1,30 +1,31 @@
 entities:
-    # Структура меню
+  # Структура меню
+  seaf.ta.reverse.general:
     menu: >
       (
           $config := entities."seaf.ta.reverse.general".config;
           [{
-                      "location": $config.arch_menu & "/IAAS",
+                      "location": $config.arch_menu,
                       "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru.advanced&txt=Расширение IAAS"
           },
           {
-                      "location": $config.arch_menu & "/IAAS/Cloud.ru",
+                      "location": $config.arch_menu & "/Cloud.ru",
                       "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru&txt=Cloud.ru"
           }, 
           {
-                      "location": $config.arch_menu & "/IAAS/Cloud.ru/Advanced1",
+                      "location": $config.arch_menu & "/Cloud.ru/Advanced1",
                       "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru.advanced&txt=Advanced"
           }, 
           {
-                      "location": $config.doc_menu &  "/IAAS",
+                      "location": $config.doc_menu,
                       "link": "entities/seaf.ta.reverse.general/readme"
           },
           {
-                      "location": $config.doc_menu &  "/IAAS/Cloud.ru",
+                      "location": $config.doc_menu &  "/Cloud.ru",
                       "link": "entities/seaf.ta.reverse.general/readme_cloud_ru"
           },
           {
-                      "location": $config.doc_menu &  "/IAAS/Cloud.ru/Advanced2",
+                      "location": $config.doc_menu &  "/Cloud.ru/Advanced2",
                       "link": "entities/seaf.ta.reverse.general/readme_cloud_advanced"
           }
         ];
