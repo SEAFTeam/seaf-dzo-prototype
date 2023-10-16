@@ -1,7 +1,7 @@
 docs:
 
   ba_entry:
-    location: /SEAF-CORE/Бизнес-архитектура
+    location: /Архитектура/Бизнес-архитектура
     description: SEAF Business Architecture motivation
     type: markdown
     source: ba.md
