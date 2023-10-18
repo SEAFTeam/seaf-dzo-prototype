@@ -2,22 +2,17 @@ docs:
   dochub.welcome:
     title: Sber Enterprise Architect Framework (SEAF)
     type: markdown
-    location: SEAF
     source: README.md
 
 imports:
   # Расширение для исследования метамодели
   - _metamodel_/mm-discovery/dochub.yaml
+
   # Базовая метамодель SEAF
   - _metamodel_/seaf-core/dochub.yaml
+
   # Расширенная метамодель SEAF для ДЗО
   - _metamodel_/seaf-dzo/dochub.yaml
-
-  # Меню для пользователя для навигации
-  - architecture/interface/root.yaml
-
-  # Пример описания архитектуры
-  - architecture/root.yaml
 
   # Расширение для создания метамоделей без использования JSONata
   - _metamodel_/hexagon/dochub.yaml
@@ -25,8 +20,14 @@ imports:
   # Пакет расширения для отображения технической архитектуры основанной на данных получаемых по API от IaaS провайдеров
   - _metamodel_/iaas/dochub.yaml
 
+  # Меню для пользователя для навигации
+  - architecture/interface/root.yaml
+
   # Пример описания архитектуры
   - architecture/root.yaml
+
+  # Пример репозитория документации
+  - docs/root.yaml
 
 
 

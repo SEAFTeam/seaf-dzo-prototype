@@ -1,5 +1,9 @@
 entities:
   seaf.ta.reverse.general:
+    # Конфигурация размещения меню
+    config:
+      doc_menu: Документы/IAAS
+      arch_menu: Архитектура/IAAS
     presentations:
       readme:
         type: markdown

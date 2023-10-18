@@ -1,12 +1,13 @@
 docs:
+  # Выводит общую информацию о метамодели и статистику
   sber.berezka.mm_discovery.docs.overciew:
-    location: /Документация/Метамодель
+    location: /Метамодель
     type: markdown
     template: templates/overview.md
     origin: mm_discovery.statistic
     source: >
       (
-          $objects := $count($.count);
+          $objects := $sum($.count);
           $entities := $count($);
           $ent_dec := $count($[declarated]);
           $ent_undec := $entities - $count($[declarated]);

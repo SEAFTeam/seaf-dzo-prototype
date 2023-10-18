@@ -1,5 +1,5 @@
 entities:
-  seaf.ta.services.base.k8s_dzo:
+  seaf.ta.services.k8s_dzo:
     title: Расширение описание кластера K8s для целей проверки станадртов
     objects:
       k8s_dzo:

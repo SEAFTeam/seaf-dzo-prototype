@@ -1,4 +1,5 @@
 imports:
+  - main.yaml
   - cces.yaml
   - dmss.yaml
   - elbs.yaml
