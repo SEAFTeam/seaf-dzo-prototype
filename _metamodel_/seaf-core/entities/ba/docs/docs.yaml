@@ -4,7 +4,7 @@ docs:
     location: /Архитектура/Бизнес-архитектура/Реализация на Hexagon
     description: SEAF Business Architecture motivation
     type: markdown
-    source: ba_method.md
+    source: ba_method_one_page.md
 
 
   ba_entry:
@@ -14,3 +14,8 @@ docs:
     source: ../README.md
 
 
+  ecosystem_main:
+    # location: /Архитектура/Бизнес-архитектура
+    description: Ecosystem ecosystemness
+    type: markdown
+    source: ecosystem.md
