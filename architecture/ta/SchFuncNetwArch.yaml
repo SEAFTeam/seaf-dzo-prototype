@@ -1,0 +1,2077 @@
+#### Создаём клиентских устройств
+seaf.ta.components.user_device:
+  sber.berezka.user_device.wifiarm:
+    user_device_id: user_device.laptop
+    name: Беспроводные подключения АРМ Сотрудников
+    ta_component_type: Клиентское устройство
+    device_type: Внутреннее устройство
+    description: Клиентский ноутбук сотрудника
+  sber.berezka.user_device.guest:
+    user_device_id: user_device.laptop
+    name: Clients/Guests Access to Intrernet в гостевой сети WiFi
+    ta_component_type: Клиентское устройство
+    device_type: Внешнее устройство
+    description: Гостевой ноутбук или мобильное устройство
+  sber.berezka.user_device.wiredarm:
+    user_device_id: user_device.laptop3
+    name: Проводные подключения АРМ Сотрудников
+    ta_component_type: Клиентское устройство
+    device_type: Внутреннее устройство
+    description: Ноутбук сотрудника подключённый по проводу
+  sber.berezka.user_device.wiredarmadmin:
+    user_device_id: user_device.laptop4
+    name: АРМ Администраторов
+    ta_component_type: Клиентское устройство
+    device_type: Внутреннее устройство
+    description: Ноутбук администратора подключённый по проводу
+
+#### Создаём Регион
+seaf.ta.services.dc_region:
+  sber.berezka.dc_region.russia:
+    region_id: dc_region.russia
+    ta_services_type: Регион
+    region_name: Регион Россия
+    title: Регион доступности Россия ООО Березка
+    app_components:
+      - sber.berezka.home_cinema.auth
+      - sber.berezka.home_cinema.catalog
+      - sber.berezka.home_cinema.canals
+      - sber.berezka.home_cinema.payments
+
+#### Создаём AZ
+seaf.ta.services.dc_az:
+  sber.berezka.dc_az.moscow:
+    az_name: Зона доступности Москва
+    region_id: sber.berezka.dc_region.russia
+    az_vendor: Березка
+    availabilityzone_id: dc_az.moscow
+    ta_services_type: Зона доступности
+    app_components:
+      - sber.berezka.home_cinema.auth
+      - sber.berezka.home_cinema.catalog
+      - sber.berezka.home_cinema.canals
+      - sber.berezka.home_cinema.payments
+
+#### Создаём ЦОД
+seaf.ta.services.dc:
+  sber.berezka.dc.01:
+    dc_id: dc.01
+    dc_name: Sber Cloud DC
+    dc_vendor: Sber
+    dc_type: Основной
+    dc_address: Огородный проезд
+    dc_rack_qty: 5
+    dc_tier: '3'
+    ta_services_type: ЦОД
+    dc_ownership: Аренда
+    availabilityzone_id: sber.berezka.dc_az.moscow
+    app_components:
+      - sber.berezka.home_cinema.auth
+      - sber.berezka.home_cinema.catalog
+
+#### Создаём офис
+seaf.ta.services.office:
+  sber.berezka.office.hq:
+    office_id: sber.berezka.office.hq
+    name: Головной офис
+    ta_component_type: Офис
+    address: Берёзовый бульвар, д.14
+
+### Создаём описание сетевых устройств
+seaf.ta.components.network:
+#### Офисные устройства
+  sber.berezka.network.cisco.01:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    office_id: sber.berezka.office.hq
+    network_appliance_id: cisco.01
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.1.1
+  sber.berezka.network.cisco.02:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    office_id: sber.berezka.office.hq
+    network_appliance_id: cisco.02
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.1.2
+  sber.berezka.network.cisco.03:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    office_id: sber.berezka.office.hq
+    network_appliance_id: cisco.03
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.1.3
+  sber.berezka.network.cisco.04:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    office_id: sber.berezka.office.hq
+    network_appliance_id: cisco.04
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.1.4
+  sber.berezka.network.checkpoint.01:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.01
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.1
+  sber.berezka.network.checkpoint.02:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.02
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.2
+  sber.berezka.network.checkpoint.03:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.03
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.3
+  sber.berezka.network.checkpoint.04:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.04
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.4
+  sber.berezka.network.checkpoint.04_2:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW IDFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.04_2
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.42
+  sber.berezka.network.checkpoint.05:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.05
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.5
+  sber.berezka.network.checkpoint.06:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.06
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.6
+  sber.berezka.network.checkpoint.07:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.07
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.7
+  sber.berezka.network.checkpoint.08:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.08
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.8
+  sber.berezka.network.checkpoint.09:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.09
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.9
+  sber.berezka.network.checkpoint.10:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.10
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.10
+  sber.berezka.network.checkpoint.11:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.11
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.11
+  sber.berezka.network.checkpoint.12:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.12
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.12
+  sber.berezka.network.checkpoint.13:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.13
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.13
+  sber.berezka.network.checkpoint.14:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.14
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.14
+  sber.berezka.network.checkpoint.15:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    office_id: sber.berezka.office.hq
+    network_appliance_id: checkpoint.15
+    placement_type: Периметр
+    purpose: NGFW
+    address: 192.168.2.15
+  sber.berezka.network.printer.01:
+    name: Принтеры, МФУ
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: AnyModel
+    office_id: sber.berezka.office.hq
+    network_appliance_id: printer.01
+    placement_type: Периметр
+    purpose: Printer
+    address: 192.168.7.1
+  sber.berezka.network.iot.01:
+    name: iOT Устройства
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: IoT Device
+    office_id: sber.berezka.office.hq
+    network_appliance_id: iot.01
+    placement_type: Периметр
+    purpose: IoT Device
+    address: 192.168.8.1
+  sber.berezka.network.ipphone.01:
+    name: IP TA
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: IP TA
+    office_id: sber.berezka.office.hq
+    network_appliance_id: ipphone.01
+    placement_type: Периметр
+    purpose: IP TA
+    address: 192.168.9.1
+  sber.berezka.network.ipcamera.01:
+    name: IP Камера
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: IP Камера
+    office_id: sber.berezka.office.hq
+    network_appliance_id: ipcamera.01
+    placement_type: Периметр
+    purpose: IP Камера
+    address: 192.168.11.1
+#### ЦОД1 устройства
+  sber.berezka.network.cisco.05:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: cisco.05
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.2.5
+  sber.berezka.network.cisco.06:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: cisco.06
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.2.6
+  sber.berezka.network.cisco.07:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: cisco.07
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.2.7
+  sber.berezka.network.cisco.08:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: cisco.08
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.2.8
+  sber.berezka.network.cisco.09:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: cisco.09
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.2.9
+  sber.berezka.network.cisco.10:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: cisco.10
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.2.10
+  sber.berezka.network.waf.01:
+    name: WAF
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: Fortigate
+    network_appliance_id: waf.01
+    dc_id: sber.berezka.dc.01
+    purpose: Web App Firewall
+    placement_type: Периметр
+    address: 192.168.2.11
+  sber.berezka.network.waf.02:
+    name: WAF
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: Fortigate
+    network_appliance_id: waf.02
+    dc_id: sber.berezka.dc.01
+    purpose: Web App Firewall
+    placement_type: Периметр
+    address: 192.168.2.12
+  sber.berezka.network.fpsu.01:
+    name: FPSU
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: FPSU X-100
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: fpsu.01
+    placement_type: Периметр
+    purpose: ГОСТ Шифрование каналов
+    address: 192.168.2.13
+  sber.berezka.network.vpn.01:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: vpn.01
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.2.14
+  sber.berezka.network.vpn.02:
+    name: Cisco ASR
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: ASR 1001-X
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: vpn.02
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.2.15
+  sber.berezka.network.nlb.01:
+    name: NLB
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: Fortigate
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: nlb.01
+    placement_type: Периметр
+    purpose: Балансировщик сетевой
+    address: 192.168.2.16
+  sber.berezka.network.checkpoint.16:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.16
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT1/NGFW1
+    address: 192.168.2.17
+  sber.berezka.network.checkpoint.17:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.17
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT1/NGFW2
+    address: 192.168.2.18
+#  sber.berezka.network.checkpoint.18:
+#    name: Checkpoint
+#    realization_type: Физический
+#    ta_component_type: Сетевое устройство
+#    model: 6200 NGFW
+#    dc_id: sber.berezka.dc.01
+#    network_appliance_id: checkpoint.18
+#    placement_type: Периметр
+#    purpose: NGFW
+#    description: CNTXT2/NGFW1
+#    address: 192.168.2.19
+#  sber.berezka.network.checkpoint.19:
+#    name: Checkpoint
+#    realization_type: Физический
+#    ta_component_type: Сетевое устройство
+#    model: 6200 NGFW
+#    dc_id: sber.berezka.dc.01
+#    network_appliance_id: checkpoint.19
+#    placement_type: Периметр
+#    purpose: NGFW
+#    description: CNTXT2/NGFW2
+#    address: 192.168.2.20
+  sber.berezka.network.checkpoint.20:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.20
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT19/NGFW1
+    address: 192.168.2.21
+  sber.berezka.network.checkpoint.21:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.21
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT19/NGFW2
+    address: 192.168.2.22
+  sber.berezka.network.checkpoint.22:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.22
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT2/NGFW1
+    address: 192.168.2.23
+  sber.berezka.network.checkpoint.23:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.23
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT2/NGFW2
+    address: 192.168.2.24
+  sber.berezka.network.checkpoint.24:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.24
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT3/NGFW1
+    address: 192.168.2.25
+  sber.berezka.network.checkpoint.25:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.25
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT3/NGFW2
+    address: 192.168.2.26
+  sber.berezka.network.checkpoint.26:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.26
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT4/NGFW1
+    address: 192.168.2.27
+  sber.berezka.network.checkpoint.27:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.27
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT4/NGFW2
+    address: 192.168.2.28
+  sber.berezka.network.checkpoint.28:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.28
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT5/NGFW1
+    address: 192.168.2.29
+  sber.berezka.network.checkpoint.29:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.29
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT5/NGFW2
+    address: 192.168.2.30
+  sber.berezka.network.checkpoint.30:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.30
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT6/NGFW1
+    address: 192.168.2.31
+  sber.berezka.network.checkpoint.31:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.31
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT6/NGFW2
+    address: 192.168.2.32
+  sber.berezka.network.checkpoint.32:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.32
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT7/NGFW1
+    address: 192.168.2.33
+  sber.berezka.network.checkpoint.33:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.33
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT7/NGFW2
+    address: 192.168.2.34
+  sber.berezka.network.checkpoint.34:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.34
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT8/NGFW1
+    address: 192.168.2.35
+  sber.berezka.network.checkpoint.35:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.35
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT8/NGFW2
+    address: 192.168.2.36
+  sber.berezka.network.checkpoint.36:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.36
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT9/NGFW1
+    address: 192.168.2.37
+  sber.berezka.network.checkpoint.37:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.37
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT9/NGFW2
+    address: 192.168.2.38
+  sber.berezka.network.checkpoint.38:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.38
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT10/NGFW1
+    address: 192.168.2.39
+  sber.berezka.network.checkpoint.39:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.39
+    placement_type: Периметр
+    purpose: NGFW
+    description: CNTXT10/NGFW2
+    address: 192.168.2.40
+  sber.berezka.network.checkpoint.40:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.40
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT1/NGFW3
+    address: 192.168.2.41
+  sber.berezka.network.checkpoint.41:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.41
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT1/NGFW4
+    address: 192.168.2.42
+  sber.berezka.network.checkpoint.42:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.42
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT2/NGFW3
+    address: 192.168.2.43
+  sber.berezka.network.checkpoint.43:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.43
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT2/NGFW4
+    address: 192.168.2.44
+  sber.berezka.network.checkpoint.44:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.44
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT3/NGFW3
+    address: 192.168.2.45
+  sber.berezka.network.checkpoint.45:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.45
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT3/NGFW4
+    address: 192.168.2.46
+  sber.berezka.network.checkpoint.46:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.46
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT4/NGFW3
+    address: 192.168.2.47
+  sber.berezka.network.checkpoint.47:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.47
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT4/NGFW4
+    address: 192.168.2.48
+  sber.berezka.network.checkpoint.48:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.48
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT5/NGFW3
+    address: 192.168.2.49
+  sber.berezka.network.checkpoint.49:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.49
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT5/NGFW4
+    address: 192.168.2.50
+  sber.berezka.network.checkpoint.50:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.50
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT6/NGFW3
+    address: 192.168.2.51
+  sber.berezka.network.checkpoint.51:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.51
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT6/NGFW4
+    address: 192.168.2.52
+  sber.berezka.network.checkpoint.52:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.52
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT7/NGFW3
+    address: 192.168.2.53
+  sber.berezka.network.checkpoint.53:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.53
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT7/NGFW4
+    address: 192.168.2.54
+  sber.berezka.network.checkpoint.54:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.54
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT8/NGFW3
+    address: 192.168.2.55
+  sber.berezka.network.checkpoint.55:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.55
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT8/NGFW4
+    address: 192.168.2.56
+  sber.berezka.network.checkpoint.56:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.56
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT9/NGFW3
+    address: 192.168.2.57
+  sber.berezka.network.checkpoint.57:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.57
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT9/NGFW4
+    address: 192.168.2.58
+  sber.berezka.network.checkpoint.58:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.58
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT10/NGFW3
+    address: 192.168.2.59
+  sber.berezka.network.checkpoint.59:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.59
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT10/NGFW4
+    address: 192.168.2.60
+  sber.berezka.network.checkpoint.60:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.60
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT11/NGFW3
+    address: 192.168.2.61by
+  sber.berezka.network.checkpoint.61:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.61
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT11/NGFW4
+    address: 192.168.2.62
+  sber.berezka.network.checkpoint.62:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.62
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT1/NGFW5
+    address: 192.168.2.63
+  sber.berezka.network.checkpoint.63:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.63
+    placement_type: Сеть ЦОД
+    purpose: NGFWw
+    description: CNTXT1/NGFW6
+    address: 192.168.2.64
+  sber.berezka.network.checkpoint.64:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.64
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT2/NGFW5
+    address: 192.168.2.65
+  sber.berezka.network.checkpoint.65:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.65
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT2/NGFW6
+    address: 192.168.2.66
+  sber.berezka.network.checkpoint.66:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.66
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT3/NGFW5
+    address: 192.168.2.67
+  sber.berezka.network.checkpoint.67:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.67
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT3/NGFW6
+    address: 192.168.2.68
+  sber.berezka.network.checkpoint.68:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.68
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT4/NGFW5
+    address: 192.168.2.69
+  sber.berezka.network.checkpoint.69:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.69
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT4/NGFW6
+    address: 192.168.2.70
+  sber.berezka.network.checkpoint.70:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.70
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT5/NGFW5
+    address: 192.168.2.71
+  sber.berezka.network.checkpoint.71:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.71
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT6/NGFW6
+    address: 192.168.2.72
+  sber.berezka.network.checkpoint.72:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.72
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT7/NGFW5
+    address: 192.168.2.73
+  sber.berezka.network.checkpoint.73:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.73
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT7/NGFW5
+    address: 192.168.2.74
+  sber.berezka.network.checkpoint.74:
+    name: Checkpoint
+    realization_type: Физический
+    ta_component_type: Сетевое устройство
+    model: 6200 NGFW
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: checkpoint.74
+    placement_type: Сеть ЦОД
+    purpose: NGFW
+    description: CNTXT5/NGFW6
+    address: 192.168.2.71
+
+#### Создаём описание внешних сетей
+seaf.ta.services.wan:
+#### Офисные WAN сети
+  sber.berezka.wan.1:
+    wideareanetwork_id: wan.1
+    provider: ISP Guest
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.01
+    wan_ip: 1.1.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    office_id: sber.berezka.office.hq
+  sber.berezka.wan.2:
+    wideareanetwork_id: wan.2
+    provider: ISP1
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.01
+    wan_ip: 1.2.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    office_id: sber.berezka.office.hq
+  sber.berezka.wan.3:
+    wideareanetwork_id: wan.3
+    provider: ISP2
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.02
+    wan_ip: 1.3.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    office_id: sber.berezka.office.hq
+  sber.berezka.wan.4:
+    wideareanetwork_id: wan.4
+    provider: SP1
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.03
+    wan_ip: 1.4.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    office_id: sber.berezka.office.hq
+  sber.berezka.wan.5:
+    wideareanetwork_id: wan.5
+    provider: SP2
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.04
+    wan_ip: 1.5.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    office_id: sber.berezka.office.hq
+#### ЦОД1 WAN сети
+  sber.berezka.wan.6:
+    wideareanetwork_id: wan.6
+    provider: ISP 1
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.05
+      - sber.berezka.network.fpsu.01
+    wan_ip: 1.6.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    dc_id: 
+      - sber.berezka.dc.01
+  sber.berezka.wan.7:
+    wideareanetwork_id: wan.7
+    provider: ISP 2
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.06
+    wan_ip: 1.7.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.wan.8:
+    wideareanetwork_id: wan.8
+    provider: SP1
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.09
+    wan_ip: 1.8.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.wan.9:
+    wideareanetwork_id: wan.9
+    provider: SP2
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.10
+    wan_ip: 1.9.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.wan.10:
+    wideareanetwork_id: wan.10
+    provider: SP3
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.07
+    wan_ip: 1.10.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.wan.11:
+    wideareanetwork_id: wan.11
+    provider: SP4
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.08
+    wan_ip: 1.11.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.wan.12:
+    wideareanetwork_id: wan.12
+    provider: SP5
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.09
+    wan_ip: 1.12.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.wan.13:
+    wideareanetwork_id: wan.13
+    provider: SP6
+    bandwidth: 100
+    network_appliance_id:
+      - sber.berezka.network.cisco.10
+    wan_ip: 1.13.1.0/28
+    type: Выделенный
+    ta_services_type: Сеть WAN
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    dc_id:
+      - sber.berezka.dc.01
+
+#### Создаём описание внутренних сетей
+seaf.ta.services.lan:
+#### Офисные LAN сети
+  sber.berezka.lan.0:
+    localareanetwork_id: LAN_Wi-Fi Guests
+    type: Беспроводная
+    ipnetowrk: 192.168.0.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.01
+    description: Wi-Fi Guests
+    office_id: sber.berezka.office.hq
+    vlan: 100
+  sber.berezka.lan.1:
+    localareanetwork_id: LAN_OF-EXT LAN
+    type: Проводная
+    ipnetowrk: 192.168.1.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.02
+      - sber.berezka.network.checkpoint.03
+      - sber.berezka.network.checkpoint.05
+      - sber.berezka.network.checkpoint.04
+    description: OF-EXT LAN
+    office_id: sber.berezka.office.hq
+    vlan: 101
+  sber.berezka.lan.2:
+    localareanetwork_id: LAN_OF-Security
+    type: Проводная
+    ipnetowrk: 192.168.2.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.04
+    description: OF-Security
+    office_id: sber.berezka.office.hq
+    vlan: 102
+  sber.berezka.lan.3:
+    localareanetwork_id: LAN_OF-INT LAN
+    type: Проводная
+    ipnetowrk: 192.168.3.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.05
+      - sber.berezka.network.checkpoint.06
+      - sber.berezka.network.checkpoint.07
+      - sber.berezka.network.checkpoint.08
+      - sber.berezka.network.checkpoint.09
+      - sber.berezka.network.checkpoint.10
+      - sber.berezka.network.checkpoint.11
+      - sber.berezka.network.checkpoint.12
+      - sber.berezka.network.checkpoint.13
+      - sber.berezka.network.checkpoint.14
+      - sber.berezka.network.checkpoint.16
+    description: OF-INT LAN
+    office_id: sber.berezka.office.hq
+    vlan: 103
+  sber.berezka.lan.4:
+    localareanetwork_id: LAN_Wi-Fi АРМ
+    type: Беспроводная
+    ipnetowrk: 192.168.4.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.06
+    description: Wi-Fi АРМ
+    office_id: sber.berezka.office.hq
+    vlan: 104
+  sber.berezka.lan.5:
+    localareanetwork_id: LAN_Wired АРМ
+    type: Проводная
+    ipnetowrk: 192.168.5.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.07
+    description: Wired АРМ
+    office_id: sber.berezka.office.hq
+    vlan: 105
+  sber.berezka.lan.6:
+    localareanetwork_id: LAN_APM Admin
+    type: Проводная
+    ipnetowrk: 192.168.6.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.08
+    description: APM Admin
+    office_id: sber.berezka.office.hq
+    vlan: 106
+  sber.berezka.lan.7:
+    localareanetwork_id: LAN_Printers
+    type: Проводная
+    ipnetowrk: 192.168.7.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.09
+    description: Printers
+    office_id: sber.berezka.office.hq
+    vlan: 107
+  sber.berezka.lan.8:
+    localareanetwork_id: LAN_Wi-Fi iOT
+    type: Беспроводная
+    ipnetowrk: 192.168.8.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.10
+    description: Wi-Fi iOT
+    office_id: sber.berezka.office.hq
+    vlan: 108
+  sber.berezka.lan.9:
+    localareanetwork_id: LAN_IP-Phones
+    type: Проводная
+    ipnetowrk: 192.168.9.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.11
+    description: IP-Phones
+    office_id: sber.berezka.office.hq
+    vlan: 109
+  sber.berezka.lan.10:
+    localareanetwork_id: LAN_PR-Security
+    type: Проводная
+    ipnetowrk: 192.168.10.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.12
+    description: PR-Security
+    office_id: sber.berezka.office.hq
+    vlan: 110
+  sber.berezka.lan.11:
+    localareanetwork_id: LAN_IP Cams
+    type: Проводная
+    ipnetowrk: 192.168.11.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.15
+    description: IP CamsВнутренняя сеть офиса (ЛВС)
+    office_id: sber.berezka.office.hq
+    vlan: 111
+  sber.berezka.lan.12:
+    localareanetwork_id: LAN_OF-MGMT
+    type: Проводная
+    ipnetowrk: 192.168.12.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.13
+    description: OF-MGMT
+    office_id: sber.berezka.office.hq
+    vlan: 112
+  sber.berezka.lan.13:
+    localareanetwork_id: LAN_OF-IT Services
+    type: Проводная
+    ipnetowrk: 192.168.13.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.14
+    description: OF-IT Services
+    office_id: sber.berezka.office.hq
+    vlan: 113
+#### ЦОД1 LAN Сети
+  sber.berezka.lan.14:
+    localareanetwork_id: LAN_INT-CORE
+    type: Проводная
+    ipnetowrk: 192.168.114.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.40
+      - sber.berezka.network.checkpoint.41
+      - sber.berezka.network.checkpoint.42
+      - sber.berezka.network.checkpoint.43
+      - sber.berezka.network.checkpoint.44
+      - sber.berezka.network.checkpoint.45
+      - sber.berezka.network.checkpoint.46
+      - sber.berezka.network.checkpoint.47
+      - sber.berezka.network.checkpoint.48
+      - sber.berezka.network.checkpoint.49
+      - sber.berezka.network.checkpoint.50
+      - sber.berezka.network.checkpoint.51
+      - sber.berezka.network.checkpoint.52
+      - sber.berezka.network.checkpoint.53
+      - sber.berezka.network.checkpoint.62
+      - sber.berezka.network.checkpoint.63
+    description: INT-CORE
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 114
+  sber.berezka.lan.15:
+    localareanetwork_id: LAN_INT-Security
+    type: Проводная
+    ipnetowrk: 192.168.115.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.42
+      - sber.berezka.network.checkpoint.43
+    description: INT-Security
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 115
+  sber.berezka.lan.16:
+    localareanetwork_id: LAN_INT-IT Services
+    type: Проводная
+    ipnetowrk: 192.168.116.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.44
+      - sber.berezka.network.checkpoint.45
+    description: INT-IT Services
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 116
+  sber.berezka.lan.17:
+    localareanetwork_id: LAN_INT-USERS
+    type: Проводная
+    ipnetowrk: 192.168.117.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.48
+      - sber.berezka.network.checkpoint.49
+      - sber.berezka.network.checkpoint.58
+      - sber.berezka.network.checkpoint.59
+      - sber.berezka.network.checkpoint.60
+      - sber.berezka.network.checkpoint.61
+    description: INT-USERS
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 117
+  sber.berezka.lan.18:
+    localareanetwork_id: LAN_INT-ВАРМ-Admins
+    type: Проводная
+    ipnetowrk: 192.168.118.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.58
+      - sber.berezka.network.checkpoint.59
+    description: INT-ВАРМ-Admins
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 118
+  sber.berezka.lan.19:
+    localareanetwork_id: LAN_ INT-ВАРМ-Users
+    type: Проводная
+    ipnetowrk: 192.168.119.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.60
+      - sber.berezka.network.checkpoint.61
+    description:  INT-ВАРМ-Users
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 119
+  sber.berezka.lan.20:
+    localareanetwork_id: LAN_INT-MGMT
+    type: Проводная
+    ipnetowrk: 192.168.120.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.46
+      - sber.berezka.network.checkpoint.47
+    description: INT-MGMT
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 120
+  sber.berezka.lan.21:
+    localareanetwork_id: LAN_INT-Backup&Recovery
+    type: Проводная
+    ipnetowrk: 192.168.121.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.48
+      - sber.berezka.network.checkpoint.49
+    description: INT-Backup&Recovery
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 121
+  sber.berezka.lan.22:
+    localareanetwork_id: LAN_INT-PROD
+    type: Проводная
+    ipnetowrk: 192.168.122.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.52
+      - sber.berezka.network.checkpoint.53
+      - sber.berezka.network.checkpoint.54
+      - sber.berezka.network.checkpoint.55
+      - sber.berezka.network.checkpoint.56
+      - sber.berezka.network.checkpoint.57
+    description: INT-PROD
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 122
+  sber.berezka.lan.23:
+    localareanetwork_id: LAN_VLAN PROD INT (FRONT-END)
+    type: Проводная
+    ipnetowrk: 192.168.123.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.52
+      - sber.berezka.network.checkpoint.53
+      - sber.berezka.network.checkpoint.54
+      - sber.berezka.network.checkpoint.55
+      - sber.berezka.network.checkpoint.56
+      - sber.berezka.network.checkpoint.57
+    description: VLAN PROD INT (FRONT-END)
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 123
+  sber.berezka.lan.24:
+    localareanetwork_id: LAN_VLAN PROD (APPS)
+    type: Проводная
+    ipnetowrk: 192.168.124.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.52
+      - sber.berezka.network.checkpoint.53
+      - sber.berezka.network.checkpoint.54
+      - sber.berezka.network.checkpoint.55
+      - sber.berezka.network.checkpoint.56
+      - sber.berezka.network.checkpoint.57
+    description: VLAN PROD (APPS)
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 124
+  sber.berezka.lan.25:
+    localareanetwork_id: LAN_VLAN PROD (BACK-END)
+    type: Проводная
+    ipnetowrk: 192.168.125.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.52
+      - sber.berezka.network.checkpoint.53
+      - sber.berezka.network.checkpoint.54
+      - sber.berezka.network.checkpoint.55
+      - sber.berezka.network.checkpoint.56
+      - sber.berezka.network.checkpoint.57
+    description: VLAN PROD (BACK-END)
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 125
+  sber.berezka.lan.26:
+    localareanetwork_id: LAN_VLAN PROD Kubernets
+    type: Проводная
+    ipnetowrk: 192.168.126.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.52
+      - sber.berezka.network.checkpoint.53
+      - sber.berezka.network.checkpoint.54
+      - sber.berezka.network.checkpoint.55
+      - sber.berezka.network.checkpoint.56
+      - sber.berezka.network.checkpoint.57
+    description: VLAN PROD Kubernets
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 126
+  sber.berezka.lan.27:
+    localareanetwork_id: LAN_PROD Virtualization
+    type: Проводная
+    ipnetowrk: 192.168.127.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.52
+      - sber.berezka.network.checkpoint.53
+      - sber.berezka.network.checkpoint.54
+      - sber.berezka.network.checkpoint.55
+      - sber.berezka.network.checkpoint.56
+      - sber.berezka.network.checkpoint.57
+    description: PROD Virtualization
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 127
+  sber.berezka.lan.28:
+    localareanetwork_id: LAN_PROD SDS
+    type: Проводная
+    ipnetowrk: 192.168.128.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.52
+      - sber.berezka.network.checkpoint.53
+      - sber.berezka.network.checkpoint.54
+      - sber.berezka.network.checkpoint.55
+      - sber.berezka.network.checkpoint.56
+      - sber.berezka.network.checkpoint.57
+    description: PROD SDS
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 128
+  sber.berezka.lan.29:
+    localareanetwork_id: LAN_INT-tPZ
+    type: Проводная
+    ipnetowrk: 192.168.129.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.50
+      - sber.berezka.network.checkpoint.51
+    description: INT-tPZ
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 129
+  sber.berezka.lan.30:
+    localareanetwork_id: LAN_VLAN TEST (FRONT INT)
+    type: Проводная
+    ipnetowrk: 192.168.130.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.50
+      - sber.berezka.network.checkpoint.51
+    description: VLAN TEST (FRONT INT)
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 130
+  sber.berezka.lan.31:
+    localareanetwork_id: LAN_VLAN TEST (APPS)
+    type: Проводная
+    ipnetowrk: 192.168.131.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.50
+      - sber.berezka.network.checkpoint.51
+    description: VLAN TEST (APPS)
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 131
+  sber.berezka.lan.32:
+    localareanetwork_id: LAN_VLAN TEST (BACK)
+    type: Проводная
+    ipnetowrk: 192.168.132.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.50
+      - sber.berezka.network.checkpoint.51
+    description: VLAN TEST (BACK)
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 132
+  sber.berezka.lan.33:
+    localareanetwork_id: LAN_VLAN TEST Kubernets
+    type: Проводная
+    ipnetowrk: 192.168.133.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.50
+      - sber.berezka.network.checkpoint.51
+    description: VLAN TEST Kubernets
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 133
+  sber.berezka.lan.34:
+    localareanetwork_id: LAN_VLAN PROD-FIR
+    type: Проводная
+    ipnetowrk: 192.168.134.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.52
+      - sber.berezka.network.checkpoint.53
+    description: VLAN PROD-FIR
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 134
+  sber.berezka.lan.35:
+    localareanetwork_id: LAN_SDZ-CORE
+    type: Проводная
+    ipnetowrk: 192.168.135.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.62
+      - sber.berezka.network.checkpoint.63
+      - sber.berezka.network.checkpoint.64
+      - sber.berezka.network.checkpoint.65
+      - sber.berezka.network.checkpoint.66
+      - sber.berezka.network.checkpoint.67
+      - sber.berezka.network.checkpoint.68
+      - sber.berezka.network.checkpoint.69
+      - sber.berezka.network.checkpoint.70
+      - sber.berezka.network.checkpoint.71
+      - sber.berezka.network.checkpoint.72
+      - sber.berezka.network.checkpoint.73
+    description: SDZ-CORE
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 135
+  sber.berezka.lan.36:
+    localareanetwork_id: LAN_SDZ-ВАРМ-Admins
+    type: Проводная
+    ipnetowrk: 192.168.136.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.64
+      - sber.berezka.network.checkpoint.65
+    description: SDZ-ВАРМ-Admins
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 136
+  sber.berezka.lan.37:
+    localareanetwork_id: LAN_SDZ-Security
+    type: Проводная
+    ipnetowrk: 192.168.137.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.68
+      - sber.berezka.network.checkpoint.69
+    description: SDZ-Security
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 137
+  sber.berezka.lan.38:
+    localareanetwork_id: LAN_SDZ-FIR
+    type: Проводная
+    ipnetowrk: 192.168.138.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.66
+      - sber.berezka.network.checkpoint.67
+    description: SDZ-FIR
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 138
+  sber.berezka.lan.39:
+    localareanetwork_id: LAN_SDZ-IT Services
+    type: Проводная
+    ipnetowrk: 192.168.139.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.70
+      - sber.berezka.network.checkpoint.71
+    description: SDZ-IT Services
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 139
+  sber.berezka.lan.40:
+    localareanetwork_id: LAN_SDZ-MGMT
+    type: Проводная
+    ipnetowrk: 192.168.140.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.74
+      - sber.berezka.network.checkpoint.70
+    description: SDZ-MGMT
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 140
+  sber.berezka.lan.41:
+    localareanetwork_id: LAN_SDZ-tPZ
+    type: Проводная
+    ipnetowrk: 192.168.141.0/24
+    ta_services_type: Сеть LAN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.73
+      - sber.berezka.network.checkpoint.74
+    description: SDZ-tPZ
+    dc_id:
+      - sber.berezka.dc.01
+    vlan: 141
+
+####Создаём описание DMZ сетей
+seaf.ta.services.dmz:
+#### Офисные DMZ сети
+  sber.berezka.dmz.0:
+    vlan: 200
+    ipnetowrk: 172.16.0.0/24
+    purpose: OF-Internet-edge
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: OF-Internet-edge
+    network_appliance_id:
+      - sber.berezka.network.cisco.01
+      - sber.berezka.network.cisco.02
+      - sber.berezka.network.checkpoint.02
+      - sber.berezka.network.checkpoint.03
+    wideareanetwork_id:
+      - sber.berezka.wan.2
+      - sber.berezka.wan.3
+    localareanetwork_id:
+      - sber.berezka.lan.1
+    office_id: sber.berezka.office.hq
+  sber.berezka.dmz.1:
+    vlan: 201
+    ipnetowrk: 172.16.1.0/24
+    purpose: OF-NT-WAN-edge
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: OF-NT-WAN-edge
+    network_appliance_id:
+      - sber.berezka.network.cisco.03
+      - sber.berezka.network.cisco.04
+      - sber.berezka.network.checkpoint.04_2
+    wideareanetwork_id:
+      - sber.berezka.wan.2
+      - sber.berezka.wan.3
+    localareanetwork_id:
+      - sber.berezka.lan.1
+    office_id: sber.berezka.office.hq
+#### ЦОД1 DMZ сети
+  sber.berezka.dmz.2:
+    vlan: 202
+    ipnetowrk: 172.16.2.0/24
+    purpose: DC-Internet-edge
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: DC-Internet-edge
+    network_appliance_id:
+      - sber.berezka.network.cisco.05
+      - sber.berezka.network.cisco.06
+      - sber.berezka.network.checkpoint.16
+      - sber.berezka.network.checkpoint.17
+    wideareanetwork_id:
+      - sber.berezka.wan.6
+      - sber.berezka.wan.7
+    dmznetwork_id:
+      - sber.berezka.dmz.5
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.dmz.3:
+    vlan: 203
+    ipnetowrk: 172.16.3.0/24
+    purpose: DC-EXT-WAN-edge
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: DC-EXT-WAN-edge
+    network_appliance_id:
+      - sber.berezka.network.cisco.07
+      - sber.berezka.network.cisco.08
+    wideareanetwork_id:
+      - sber.berezka.wan.10
+      - sber.berezka.wan.11
+    dmznetwork_id:
+      - sber.berezka.dmz.5
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.dmz.4:
+    vlan: 204
+    ipnetowrk: 172.16.4.0/24
+    purpose: DC-INT-WAN-Edge
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: DC-INT-WAN-Edge
+    network_appliance_id:
+      - sber.berezka.network.cisco.09
+      - sber.berezka.network.cisco.10
+    wideareanetwork_id:
+      - sber.berezka.wan.8
+      - sber.berezka.wan.9
+      - sber.berezka.wan.12
+      - sber.berezka.wan.13
+    localareanetwork_id:
+      - sber.berezka.lan.14
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.dmz.5:
+    vlan: 205
+    ipnetowrk: 172.16.5.0/24
+    purpose: DMZ-CORE (IPS, AV)
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: DMZ-CORE (IPS, AV)
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.16
+      - sber.berezka.network.checkpoint.17
+      - sber.berezka.network.checkpoint.22
+      - sber.berezka.network.checkpoint.23
+      - sber.berezka.network.checkpoint.24
+      - sber.berezka.network.checkpoint.25
+      - sber.berezka.network.checkpoint.26
+      - sber.berezka.network.checkpoint.27
+      - sber.berezka.network.checkpoint.28
+      - sber.berezka.network.checkpoint.29
+      - sber.berezka.network.checkpoint.30
+      - sber.berezka.network.checkpoint.31
+      - sber.berezka.network.checkpoint.32
+      - sber.berezka.network.checkpoint.33
+      - sber.berezka.network.checkpoint.34
+      - sber.berezka.network.checkpoint.35
+      - sber.berezka.network.checkpoint.36
+      - sber.berezka.network.checkpoint.37
+      - sber.berezka.network.checkpoint.40
+      - sber.berezka.network.checkpoint.41
+    wideareanetwork_id:
+      - sber.berezka.wan.6
+      - sber.berezka.wan.7
+      - sber.berezka.wan.10
+      - sber.berezka.wan.11
+    localareanetwork_id:
+      - sber.berezka.lan.14
+    dmznetwork_id:
+      - sber.berezka.dmz.2
+      - sber.berezka.dmz.3
+      - sber.berezka.dmz.6
+      - sber.berezka.dmz.7
+      - sber.berezka.dmz.8
+      - sber.berezka.dmz.9
+      - sber.berezka.dmz.10
+      - sber.berezka.dmz.11
+      - sber.berezka.dmz.12
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.dmz.6:
+    vlan: 206
+    ipnetowrk: 172.16.6.0/24
+    purpose: DMZ-Security
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: DMZ-Security
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.24
+      - sber.berezka.network.checkpoint.25
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.dmz.7:
+    vlan: 207
+    ipnetowrk: 172.16.7.0/24
+    purpose: DMZ-IT Services
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: DMZ-IT Services
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.28
+      - sber.berezka.network.checkpoint.29
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.dmz.8:
+    vlan: 208
+    ipnetowrk: 172.16.8.0/24
+    purpose: DMZ-MGMT
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: DMZ-MGMT
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.26
+      - sber.berezka.network.checkpoint.27
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.dmz.9:
+    vlan: 209
+    ipnetowrk: 172.16.9.0/24
+    purpose: DMZ-VPN
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: DMZ-VPN
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.32
+      - sber.berezka.network.checkpoint.33
+      - sber.berezka.network.vpn.01
+      - sber.berezka.network.vpn.02
+    dmznetwork_id:
+      - sber.berezka.dmz.10
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.dmz.10:
+    vlan: 210
+    ipnetowrk: 172.16.10.0/24
+    purpose: DMZ-ВАРМ
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: DMZ-ВАРМ
+    network_appliance_id:
+      - sber.berezka.network.vpn.01
+      - sber.berezka.network.vpn.02
+      - sber.berezka.network.checkpoint.30
+      - sber.berezka.network.checkpoint.31
+    dmznetwork_id:
+      - sber.berezka.dmz.9
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.dmz.11:
+    vlan: 211
+    ipnetowrk: 172.16.11.0/24
+    purpose: DMZ-PROD
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: DMZ-PROD
+    network_appliance_id:
+      - sber.berezka.network.waf.01
+      - sber.berezka.network.waf.02
+      - sber.berezka.network.checkpoint.34
+      - sber.berezka.network.checkpoint.35
+      - sber.berezka.network.nlb.01
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.dmz.12:
+    vlan: 212
+    ipnetowrk: 172.16.12.0/24
+    purpose: DMZ-tPZ
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: DMZ-tPZ
+    network_appliance_id:
+      - sber.berezka.network.checkpoint.36
+      - sber.berezka.network.checkpoint.37
+    dc_id:
+      - sber.berezka.dc.01
+  sber.berezka.dmz.13:
+    vlan: 213
+    ipnetowrk: 172.16.13.0/24
+    purpose: ВАРМ-CNTRS
+    ta_services_type: Сеть DMZ
+    demilitarizednetwork_id: ВАРМ-CNTRS
+    network_appliance_id:
+      - sber.berezka.network.vpn.01
+      - sber.berezka.network.vpn.02
+      - sber.berezka.network.checkpoint.30
+      - sber.berezka.network.checkpoint.31
+    dc_id:
+      - sber.berezka.dc.01
+
+####Создаём описание аппаратных серверов
+seaf.ta.components.server_metal:
+#### Офисные аппаратные сервера
+  sber.berezka.server_metal.01:
+    server_id: server_metal.01
+    fqdn_name: server_metal.01.berezka.ru
+    disks:
+      - disks :
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+      - disk1:
+          availabilityzone_id: dc_az.moscow
+          size: 101
+          type: SATA
+    nic_qty: 4
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    ram_qty: 128
+    dc_id: sber.berezka.dc.01
+    vendor: HP
+    ta_component_type: Серверы аппаратные
+    model: DL360 G8

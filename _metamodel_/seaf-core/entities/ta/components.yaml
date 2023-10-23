@@ -8,7 +8,7 @@ entities:
         seaf.ta.components.base.types:
           title: Тип технологического компонента
           type: string
-          enum: [СХД аппаратные, Серверы аппаратные, Серверы виртуальные, Сетевое устройство, Развёртывание, POD, Контейнер, Образ, Клиентское устройство, Офис]
+          enum: [СХД аппаратные, Серверы аппаратные, Серверы виртуальные, Сетевое устройство, Развёртывание, POD, Контейнер, Образ, Клиентское устройство]
 #### Базовые свойства Технологического компонента. Включается описание из классификатора выше ####
         seaf.ta.components.base.entity:
           type: object
@@ -176,7 +176,7 @@ entities:
               $ref: "#/$rels/seaf.ta.services.dc.dc"
             office_id:
               title: Офис
-              $ref: "#/$rels/seaf.ta.components.office.office"
+              $ref: "#/$rels/seaf.ta.services.office.office"
             network_connection:
               title: Перечисление связанных сетей
               type: array
@@ -322,7 +322,7 @@ entities:
               $ref: "#/$rels/seaf.ta.services.dc.dc"
             office_id:
               title: Офис
-              $ref: "#/$rels/seaf.ta.components.office.office"
+              $ref: "#/$rels/seaf.ta.services.office.office"
             network_connection:
               title: Перечисление связанных сетей
               type: array
@@ -380,7 +380,7 @@ entities:
               type: string
             office_id:
               title: Офис
-              $ref: "#/$rels/seaf.ta.components.office.office"
+              $ref: "#/$rels/seaf.ta.services.office.office"
             network_connection:
               title: Перечисление связанных сетей
               type: array
@@ -580,12 +580,15 @@ entities:
               type: array
               items:
                 $ref: "#/$rels/seaf.ta.components.k8s_pod.k8s_pod"
+            server_id:
+              title: Список серверов на которых запущен контейнер
+              type: array
+              items:
+                anyOf:
+                  - $ref: "#/$rels/seaf.ta.components.server_virtual.server_virtual"
+                  - $ref: "#/$rels/seaf.ta.components.server_metal.server_metal"
           required:
             - name
-            - container_type
-            - emergency_stop
-            - container_cpu
-            - container_ram
 
   seaf.ta.components.k8s_image:
     title: Image ПО для развёртывания в K8s
@@ -657,34 +660,3 @@ entities:
           required:
             - name
             - device_type
-
-  seaf.ta.components.office:
-    title: Офис или иное место присутствия
-    objects:
-      office:
-        route: "/"
-        title: Офис или иное место присутствия
-    schema: # JSON Schema контролирующая описание объекта сущности
-      type: object
-      patternProperties:
-        "[a-zA-Z0-9_\\.]*":
-          type: object
-          $ref: "#/$defs/seaf.ta.components.base.office"
-          properties:
-            name:
-              title: Имя офиса
-              type: string
-            address:
-              title: Адрес офиса или местоположения
-              type: string
-            network_connection:
-              title: Перечисление связанных сетей
-              type: array
-              items:
-                anyOf:
-                  - $ref: "#/$rels/seaf.ta.services.lan.lan"
-                  - $ref: "#/$rels/seaf.ta.services.wan.wan"
-                  - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
-          required:
-            - name
-            - address

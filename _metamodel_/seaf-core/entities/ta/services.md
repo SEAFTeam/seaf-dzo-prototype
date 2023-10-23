@@ -7,6 +7,9 @@
 ## Datacenters
 ![Datacenter](@document/seaf.ta.services.dc)
 
+## Office
+![Office](@document/seaf.ta.services.office)
+
 ## Clusters
 ![Clusters](@document/seaf.ta.services.cluster)
 

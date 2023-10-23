@@ -31,7 +31,7 @@ entities:
             branch_id:
               title: ID офиса или ЦОД
               oneOf:
-                - $ref: "#/$rels/seaf.ta.components.office.office"
+                - $ref: "#/$rels/seaf.ta.services.office.office"
                 - $ref: "#/$rels/seaf.ta.services.dc.dc"
             tenant:
               title: Тенант в облаке
