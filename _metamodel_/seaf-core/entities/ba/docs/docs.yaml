@@ -19,3 +19,9 @@ docs:
     description: Ecosystem ecosystemness
     type: markdown
     source: ecosystem.md
+
+  ba_tutorial:
+    location: /Архитектура/Бизнес-архитектура/Руководство
+    description: BA minimal tutorial
+    type: markdown
+    source: ba_tutorial.md
