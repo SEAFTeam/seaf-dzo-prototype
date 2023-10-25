@@ -21,7 +21,7 @@ docs:
     source: ecosystem.md
 
   ba_tutorial:
-    location: /Архитектура/Бизнес-архитектура/Руководство
+    location: /Архитектура/Бизнес-архитектура/Руководство "Минимальная БА"
     description: BA minimal tutorial
     type: markdown
     source: ba_tutorial.md
