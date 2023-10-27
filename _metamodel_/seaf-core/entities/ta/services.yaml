@@ -8,7 +8,7 @@ entities:
         seaf.ta.services.base.types:
           title: Тип технологического сервиса
           type: string
-          enum: [Регион, Зона доступности, ЦОД, СХД программные, Объектные хранилища, Вычислительный сервис, Кластеризация, Виртуализация, Контейнеризация, Сеть LAN, Сеть WAN, Сеть DMZ, Сеть Каналы передачи данных, Система резервного копирования, Система мониторинга, Лицензии, Офис]
+          enum: [Регион, Зона доступности, ЦОД, Программная СХД, Объектная СХД, Вычислительный сервис, Кластер, Виртуализация, Контейнеризация, Сеть LAN, Сеть WAN, Сеть DMZ, Канал передачи данных, Система резервного копирования, Система мониторинга, Лицензия, Офис]
 #### Базовые свойства Технологического сервиса. Включается описание из классификатора выше ####
         seaf.ta.services.base.entity:
           type: object
@@ -273,7 +273,7 @@ entities:
             - address
 
 
-  з2seaf.ta.services.cluster:
+  seaf.ta.services.cluster:
     title: Cluster
     objects:
       cluster:
@@ -372,7 +372,7 @@ entities:
               title: Тип используемых дисков
               type: string
               enum: [SSD, SAS, SATA]
-            erasure_coding:  #todo TACIR_2-Ч04.01.4-0 Добавить проверку. Если >1 то несоотвествует.
+            erasure_coding:
               title: Параметр чётности
               type: integer
             protocols:
@@ -466,18 +466,18 @@ entities:
               title: Имя хранилища
               type: string
             #Часть 3. TACIR_1-КП-ПВ-2-01.
-            hypervisor:      #todo добавить проверку. Если oversubscription_rate >=2, то несоответствие
+            hypervisor:
               title: Гипервизор
               type: string
-            oversubscription_rate:      #todo добавить проверку. Если oversubscription_rate >=2, то несоответствие
+            oversubscription_rate:
               title: Коэффициент переподписки кластера виртуализации
               type: integer
             #Часть 3. TACIR_1-КП-ПВ-4-01.
-            drs_support:     #todo добавить проверку. Если drs_support =  false, то несоответствие
+            drs_support:
               title: Поддержка DRS кластером виртуализации
               type: boolean
             #Часть 3. TACIR_1-КП-ПВ-5-01.
-            sdrs_support:   #todo добавить проверку. Если sdrs_support =  false, то несоответствие
+            sdrs_support:
               title: Поддержка Storage DRS кластером виртуализации
               type: boolean
             server_id:
@@ -904,6 +904,9 @@ entities:
             expiration:
               title: Срок действия лицензий
               type: string
+            lic_qty:
+              title: Количество лицензий
+              type: integer
           required:
             - vendor
             - name

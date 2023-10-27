@@ -945,6 +945,7 @@ seaf.ta.services.licenses:
     ta_services_type: Лицензии
     app_components:
       - sber.berezka.home_cinema.payments
+    lic_qty: 10
 
 #### Создаём описание развёртываний
 seaf.ta.components.k8s_deployment:

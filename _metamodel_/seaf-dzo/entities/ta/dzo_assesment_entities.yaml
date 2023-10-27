@@ -203,7 +203,7 @@ entities:
             #Часть 6. TACMN_1-Ч06.02.6-01 и ещё 1 номер
             frequency:   #todo добавить проверку. Если frequency более 60 секунд для инфра, 60 секунд  для прикладного, то несоответствие
               title: Частота сбора метрик в секундах
-              type: integerjr
+              type: integer
             #Часть 6. TACMN_1-Ч06.05.1-01
             pam_anabled:
               title: Система мониторинга подключена к PAM (priveled access management) системе
