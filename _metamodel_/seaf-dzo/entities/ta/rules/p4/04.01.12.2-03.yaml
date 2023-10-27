@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part4.4_01_12-2-03:
+      uid: TACIR_2-Ч04.01.12.2-03
+      description: >
+        Подключение дисковых ресурсов производится через разные плечи (SAN, LAN) с учетом дублирования путей на всем тракте (СХД-хост).
+      correction: >
+      #todo дописать корректировку для TACIR_2-Ч04.01.12.2-03
+      title: TACIR_2-Ч04.01.12.2-03
+      source: >
+        (
+          $metal := $."seaf.ta.components.hw_storage_dzo";
+          [$metal.$spread().(
+            $links_qty := $[$not($exists(*.links_qty)) or *.links_qty < 2 ].$keys();
+            $links_qty.{
+              "uid": "sber.standards.v3.p4." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

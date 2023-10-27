@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part3.kb-2-01:
+      uid: TACIR_1-КП-КБ-8-01
+      description: >
+        При взаимодействии компонентов кластера платформы контейнерной оркестрации с внешними системами необходимо использовать TLS 1.2 и выше с сертификатами выданными внешним, по отношению к кластеру, централизованным УЦ (за исключением отдельных случаев, согласованных с подразделением безопасности).
+      correction: >
+        Перевыпустить сертификаты до уровня TLS 1.2 и выше из централизованного УЦ
+      title: TACIR_1-КП-КБ-8-01
+      source: >
+        (
+          $metal := $."seaf.ta.services.k8s_dzo";
+          [$metal.$spread().(
+            $tls_version := $[$not($exists(*.tls_version))  or *.tls_version < '1.2'].$keys();
+            $tls_version.{
+              "uid": "sber.standards.v3.p3." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

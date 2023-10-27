@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part4.4_01_15-02:
+      uid: TACIR_2-Ч04.01.15-02
+      description: >
+        СХД должны быть зарезервированы в разных зонах доступности, чтобы обеспечить 100% производительности и емкости дискового пространства, а так же защиту от потери данных с необходимым уровнем RPO.
+      correction: >
+#todo дописать корректировку для TACIR_2-Ч04.01.15-02
+      title: TACIR_2-Ч04.01.15-02
+      source: >
+        (
+          $metal := $."seaf.ta.components.hw_storage_dzo";
+          [$metal.$spread().(
+            $reservation_ratio := $[$not($exists(*.reservation_ratio)) or *.reservation_ratio < 50].$keys();
+            $reservation_ratio.{
+              "uid": "sber.standards.v3.p4." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

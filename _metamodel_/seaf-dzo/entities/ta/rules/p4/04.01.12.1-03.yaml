@@ -1,0 +1,26 @@
+rules:
+  validators:
+    sber.standards.v3.part4.4_01_12-1-03:
+      uid: TACIR_2-Ч04.01.12.1-03
+      description: >
+        Наличие резервных компонентов для обеспечения автоматического восстановления работы СХД, в случае выхода из строя аппаратной части, и обеспечения непрерывной работы при проведении регламентных работ (тех. обслуживание, ремонт и т.д.):
+        - дублирование контролеров (минимум 2);
+        - дополнительных дисков (spare disks);
+        - не менее 2 блоков питания подключенных к разным вводам электропитания (к разным автоматам);
+        - случае использования SDS, наличие запасных мощностей позволяющих обеспечить доступность данных в случае выхода из строя двух узлов хранения (FTT>=2).
+            correction: >
+      #todo дописать корректировку для TACIR_2-Ч04.01.12.1-03
+      title: TACIR_2-Ч04.01.12.1-03
+      source: >
+        (
+          $metal := $."seaf.ta.components.hw_storage_dzo";
+          [$metal.$spread().(
+            $hardware := $[$not($exists(*.storage_controller_qty)) or *.storage_controller_qty < 2 or $not($exists(*.storage_spare_disk_qty)) or *.storage_spare_disk_qty < 1 or $not($exists(*.pwr_supply_qty)) or *.pwr_supply_qty < 2].$keys();
+            $hardware.{
+              "uid": "sber.standards.v3.p4." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

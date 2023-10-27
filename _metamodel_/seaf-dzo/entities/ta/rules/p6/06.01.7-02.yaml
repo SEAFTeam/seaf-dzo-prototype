@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part6.6_01_7-02:
+      uid: TACMN_1-Ч06.01.7-02
+      description: >
+        Наличие механизмов обеспечения непрерывности в соответствии с классами критичности систем мониторинга ДЗО: Business Critical и выше: High Availability, Disaster Recovery, Для остальных:High Availability )
+      correction: >
+        Обеспечить высокую доступность путём создания прикладного кластера СМ. Обеспечить высокую доступность всех компонентов СМ. Предусмотреть включение балансировщика сетевой нагрузки, нескольких сборщиков метрик, репликации полученных данных на пассивную копию базы данных для хранения. Разработать план Disaster Recovery для СМ.
+      title: TACMN_1-Ч06.01.7-02
+      source: >
+        (
+          $metal := $."seaf.ta.services.monitoring_dzo";
+          [$metal.$spread().(
+            $cluster_id := $[$not($exists(*.cluster_id))].$keys();
+            $cluster_id.{
+              "uid": "sber.standards.v3.p6." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

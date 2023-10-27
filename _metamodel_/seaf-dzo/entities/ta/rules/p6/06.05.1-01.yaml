@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part6.6_05_1-01:
+      uid: TACMN_1-Ч06.05.1-01
+      description: >
+        Прямой доступ к хранилищу данных мониторинга минуя средства визуализации и/или документированный разработчиком СМ API запрещен.
+      correction: >
+        Внедрить решение Privileged Access Management для доступа к СМ.
+      title: TACMN_1-Ч06.05.1-01
+      source: >
+        (
+          $metal := $."seaf.ta.services.monitoring_dzo";
+          [$metal.$spread().(
+            $pam_anabled := $[$not($exists(*.pam_anabled)) or $not (*.pam_anabled)].$keys();
+            $pam_anabled.{
+              "uid": "sber.standards.v3.p6." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

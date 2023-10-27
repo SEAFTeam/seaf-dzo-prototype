@@ -59,7 +59,7 @@ seaf.ta.services.dc:
     dc_name: VK DC
     dc_vendor: Mail
     dc_type: Основной
-    dc_address: Садовый проезд
+    dc_address: Садовый проездц
     dc_rack_qty: 0
     availabilityzone_id: sber.berezka.dc_az.moscow
     dc_tier: '3'
@@ -92,9 +92,9 @@ seaf.ta.services.cluster_virtualization:
     drs_support: true
     sdrs_support: true
     name: Кластер виртуализации в облаке Cloud
+    oversubscription_rate: 1
     server_id:
       - нет
-
 
 
   sber.berezka.cluster_virtualization.cloud.02:
@@ -133,6 +133,7 @@ seaf.ta.services.cluster_virtualization:
     drs_support: true
     sdrs_support: true
     name: Кластер виртуализации в облаке VK
+    oversubscription_rate: 1
     server_id:
       - нет
 
@@ -1094,19 +1095,11 @@ seaf.ta.services.k8s_dzo:
       - sber.berezka.server_virtual.08
       - sber.berezka.server_virtual.09
       - sber.berezka.server_virtual.10
-    exec_rbac:
-      - admin
-      - demo
     pv: false
     https_api_connect: true
-    anonymous_api_connect: true
+    anonymous_api_connect: false
     tls_version: '1.2'
-    etcd_encrypted: true
-    impersonation_rbac:
-      - admin
-      - demo
-    manifests_acl: '644'
-    reservation_rate: 2
+    reservation_rate: 100
     az_used: 1
     ntp_server: ntp.berezka.ru
     dc_id:
@@ -1141,7 +1134,7 @@ seaf.ta.components.server_metal_dzo:
       - 1
       - 6
     rack_mount: true
-    fan_qty: 2
+    fan_qty: 4
     raid_spare_disks: 2
 
   sber.berezka.server_metal.08:
@@ -1169,8 +1162,9 @@ seaf.ta.components.server_metal_dzo:
       - 1
       - 6
     rack_mount: true
-    fan_qty: 2
+    fan_qty: 4
     raid_spare_disks: 2
+
 seaf.ta.components.hw_storage_dzo:
   sber.berezka.hw_storage.02:
     volume: 10000
@@ -1181,22 +1175,23 @@ seaf.ta.components.hw_storage_dzo:
     disk_type: SSD
     protocols: FC, Ethernet
     storage_console: https://console-hw-storage.02.berezka.ru
-    reservation_ratio: 2
+    reservation_ratio: 100
     compression_rate: 5
     storage_controller_qty: 2
     dedup_rate: 2
-    nvram_amount: 2
+    nvram_amount: 0
     links_qty: 4
     storage_spare_disk_qty: 2
-    snapshot_lic: false
-    pwr_supply_qty: 2
+    snapshot_lic: true
+    pwr_supply_qty: 4
     ssd_cache_qty: 4
     ntp_server: ntp.berezka.ru
+    erasure_coding: 1
 seaf.ta.services.monitoring_dzo:
   sber.berezka.monitoring.02:
     name: Zabbix
     monitoring_id: monitoring.02
-    ha: false
+    ha: true
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     role: Инфраструктурный
@@ -1204,13 +1199,13 @@ seaf.ta.services.monitoring_dzo:
     app_components:
       - sber.berezka.home_cinema.auth
       - sber.berezka.home_cinema.catalog
-    siem_anabled: false
+    siem_anabled: true
     alarm_transport:
       - mail
       - TG
     monitoring_console: https://monitoring-console.berezka.ru
     history: 365
     frequency:  5
-    pam_anabled: false
+    pam_anabled: true
     cluster_id: $null
     sber_radar: https://console.radar.sber.ru/dashboard/

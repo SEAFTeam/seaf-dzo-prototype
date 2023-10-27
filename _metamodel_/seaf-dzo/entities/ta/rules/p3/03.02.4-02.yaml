@@ -1,0 +1,27 @@
+rules:
+  validators:
+    sber.standards.v3.part3.3_02_4-02:
+      uid: TACIR_1-Ч03.02.4-02
+      description: >
+        Резервирование компонентов.
+        Все модели серверов должны быть оснащены, как минимум:
+        • резервными источниками питания с горячей заменой
+        • резервными вентиляторами с горячей заменой
+        • RAID для дисковых подсистем.
+        Опционально – резервирование прочих компонентов.
+      correction: >
+      #todo дописать корректировку для TACIR_1-Ч03.02.4-02
+      title: TACIR_1-Ч03.02.4-02
+      source: >
+        (
+          $metal := $."seaf.ta.components.server_metal_dzo";
+          [$metal.$spread().(
+            $hard := $[$not($exists(*.power_module_qty)) or *.power_module_qty < 2 or $not($exists(*.fan_qty)) or *.fan_qty <= 2 or $not($exists(*.raid_level))].$keys();
+            $hard.{
+              "uid": "sber.standards.v3.p3." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

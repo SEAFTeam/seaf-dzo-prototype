@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part7.7_05_3-03:
+      uid: TACAP_2-Ч07.ОКБ-5.3-03
+      description: >
+        Доступ к внутренним электронным ресурсам ДЗО/ДБ из сети Интернет или иных внешних сетей должен быть ограничен посредством организации подключения через специализированный VPN-шлюз во внешнем сегменте (DMZ) сети компании.
+      correction: >
+    #todo дописать
+      title: TACAP_2-Ч07.ОКБ-5.3-03
+      source: >
+        (
+          $metal := $."seaf.ta.components.network_dzo";
+          [$metal.$spread().(
+            $auth_type := $[$not($exists(*.auth_type)) or *.auth_type = 'Отсутствует'].$keys();
+            $auth_type.{
+              "uid": "sber.standards.v3.p6." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

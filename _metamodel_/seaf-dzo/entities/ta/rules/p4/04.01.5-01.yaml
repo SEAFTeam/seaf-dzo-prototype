@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part4.4_01_5-01:
+      uid: TACIR_2-Ч04.01.5-01
+      description: >
+        В СХД должны использоваться флеш-накопители для оперативного хранения данных.
+      correction: >
+#todo дописать корректировку для TACIR_2-Ч04.01.5-01
+      title: TACIR_2-Ч04.01.5-01
+      source: >
+        (
+          $metal := $."seaf.ta.components.hw_storage_dzo";
+          [$metal.$spread().(
+            $ssd_cache_qty := $[$not($exists(*.ssd_cache_qty)) or *.ssd_cache_qty < 1].$keys();
+            $ssd_cache_qty.{
+              "uid": "sber.standards.v3.p4." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

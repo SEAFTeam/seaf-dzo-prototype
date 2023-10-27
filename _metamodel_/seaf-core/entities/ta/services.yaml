@@ -273,7 +273,7 @@ entities:
             - address
 
 
-  seaf.ta.services.cluster:
+  з2seaf.ta.services.cluster:
     title: Cluster
     objects:
       cluster:
