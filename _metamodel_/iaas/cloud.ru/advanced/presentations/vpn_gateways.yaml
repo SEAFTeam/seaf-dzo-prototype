@@ -83,7 +83,7 @@ entities:
         source: >
           (
               $ctx := $params;
-              $realty := $.$spread()[$keys()[0] = "seaf.ta.services.dc" or $keys()[0] = "seaf.ta.components.office"];
+              $realty := $.$spread()[$keys()[0] = "seaf.ta.services.dc" or $keys()[0] = "seaf.ta.services.office"];
               $cvpngw := $."seaf.ta.reverse.cloud_ru.advanced.vpn_gateways".$spread()[$keys() = $ctx.id];
               $connections := $."seaf.ta.reverse.cloud_ru.advanced.vpn_connections".$spread()[*.gw_id = $cvpngw.*.id];
               $connections.$spread().(

@@ -121,7 +121,7 @@ entities:
             $cces := $."seaf.ta.reverse.cloud_ru.advanced.cces";
             $cdmss := $."seaf.ta.reverse.cloud_ru.advanced.dmss";
             /*$cbranches := $."seaf.ta.reverse.cloud_ru.advanced.branches";*/
-            $coffices := $."seaf.ta.components.office";
+            $coffices := $."seaf.ta.services.office";
             $cdcs := $."seaf.ta.services.dc";
             $matchfunc := $.functions."seaf.ta.reverse".match_ip_to_subnet;
             $svg_vm := $.functions."seaf.ta.reverse".svg_vm;

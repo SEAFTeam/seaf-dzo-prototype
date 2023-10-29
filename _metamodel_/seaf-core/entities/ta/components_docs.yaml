@@ -672,37 +672,3 @@ docs:
       	  }
         )]^(id)]
       )
-
-  seaf.ta.components.office:
-    type: table
-    headers:
-      - value: name
-        text: Имя компонента
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: address
-        text: Адрес офиса или местоположения
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: description
-        text:  Описание использования
-        sortable: true
-        align: left
-        width: 20%
-
-    source: >
-      (
-        [[$."seaf.ta.components.office".$spread().(
-          $COMPONENT_ID := $keys()[0];
-      	 $.*.{
-      		"id": $COMPONENT_ID ,
-         	"name": name,
-         	"address": address,
-         	"description": description
-      	  }
-        )]^(id)]
-      )      

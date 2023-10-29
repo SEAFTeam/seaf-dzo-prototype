@@ -24,6 +24,3 @@
 
 ## User device
 ![User device](@document/seaf.ta.components.user_device)
-
-## Office
-![Office](@document/seaf.ta.components.office)
