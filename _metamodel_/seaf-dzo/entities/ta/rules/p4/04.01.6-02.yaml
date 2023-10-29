@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part4.4_01_6-02:
+      uid: TACIR_2-Ч04.01.6.-02
+      description: >
+        Функционал СХД должен обеспечивать синхронизацию времени от доверенных источников.
+      correction: >
+#todo дописать корректировку для TACIR_2-Ч04.01.6.-02
+      title: TACIR_2-Ч04.01.6.-02
+      source: >
+        (
+          $metal := $."seaf.ta.components.hw_storage_dzo";
+          [$metal.$spread().(
+            $ntp_server := $[$not($exists(*.ntp_server))].$keys();
+            $ntp_server.{
+              "uid": "sber.standards.v3.p4." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

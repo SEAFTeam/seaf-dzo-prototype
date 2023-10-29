@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part3.p3_02_6-02:
+      uid: TACIR_1-Ч03.02.6-02
+      description: >
+        Серверное оборудование должно быть в стоечном варианте исполнении корпуса (rack-mount) и обеспечивать установку в стандартный закрытый шкаф 19”
+      correction: >
+      #todo дописать корректировку для TACIR_1-Ч03.02.6-02
+      title: TACIR_1-Ч03.02.6-02
+      source: >
+        (
+          $metal := $."seaf.ta.components.server_metal_dzo";
+          [$metal.$spread().(
+            $hard := $[$not($exists(*.rack_mount)) or $not (*.rack_mount) ].$keys();
+            $hard.{
+              "uid": "sber.standards.v3.p3." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

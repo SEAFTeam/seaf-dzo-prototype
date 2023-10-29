@@ -925,6 +925,12 @@ docs:
         align: left
         width: 20%
 
+      - value: lic_qty
+        text: Количество лицензий
+        sortable: true
+        align: left
+        width: 20%
+
     source: >
       (
         [[$."seaf.ta.services.licenses".$spread().(
@@ -934,7 +940,8 @@ docs:
          	"name": name,
          	"type": type,
          	"support": support,
-         	"expiration": expiration
+         	"expiration": expiration,
+         	"lic_qty": lic_qty   
       	  }
         )]^(id)]
       )

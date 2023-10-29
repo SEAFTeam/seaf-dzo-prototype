@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part3.kb-2-01:
+      uid: TACIR_1-КП-КБ-2-01
+      description: >
+        В каждом кластере должно быть исключено отсутствие или отключение средств синхронизации времени.
+      correction: >
+        Включить автоматическую синхронизацию времени с внутренним или внешним единым источником времени
+      title: TACIR_1-КП-КБ-2-01
+      source: >
+        (
+          $metal := $."seaf.ta.services.k8s_dzo";
+          [$metal.$spread().(
+            $ntp_server := $[$not($exists(*.ntp_server))].$keys();
+            $ntp_server.{
+              "uid": "sber.standards.v3.p3." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

@@ -1,2 +1,3 @@
 imports:
   - dzo_assesment_entities.yaml
+  - rules/root.yaml

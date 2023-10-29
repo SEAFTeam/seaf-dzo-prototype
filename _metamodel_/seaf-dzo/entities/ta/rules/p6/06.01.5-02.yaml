@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part6.6_01_5-02:
+      uid: ТАCMN_1-Ч06.01.5-02
+      description: >
+        СМ должна содержать функции управления событиями мониторинга
+      correction: >
+        Подключить СМ к компоненту производящему алертинг или рассмотреть смену СМ на подходящую.
+      title: ТАCMN_1-Ч06.01.5-02
+      source: >
+        (
+          $metal := $."seaf.ta.services.monitoring_dzo";
+          [$metal.$spread().(
+            $alarm_transport := $[$not($exists(*.alarm_transport))].$keys();
+            $alarm_transport.{
+              "uid": "sber.standards.v3.p6." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )
