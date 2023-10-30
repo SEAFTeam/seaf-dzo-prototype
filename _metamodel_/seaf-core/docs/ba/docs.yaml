@@ -11,7 +11,7 @@ docs:
     location: /Архитектура/Бизнес-архитектура
     description: SEAF Business Architecture with Hexagon
     type: markdown
-    source: ../README.md
+    source: ../../entities/ba/README.md
 
 
   ecosystem_main:
