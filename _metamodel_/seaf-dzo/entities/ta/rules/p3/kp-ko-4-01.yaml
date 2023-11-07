@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part3.ko-4-01:
+      uid: TACIR_1-КП-КО-4-01
+      description: >
+        Кластер (Contol Plane и Data Plane кластера) разворачиваются/размещается в пределах только одной зоны доступности (ЦОД).
+      correction: >
+        Развернуть кластер внутри только одной зоны доступности. Растянутый кластер разделить на два независимых кластера.
+      title: TACIR_1-КП-КО-4-01
+      source: >
+        (
+          $metal := $."seaf.ta.services.k8s_dzo";
+          [$metal.$spread().(
+            $az_used := $[$not($exists(*.az_used)) or *.az_used >= 2].$keys();
+            $az_used.{
+              "uid": "sber.standards.v3.p3." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

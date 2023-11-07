@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part3.3_2-01:
+      uid: TACIR_1-КП-ПВ-2-01
+      description: >
+        Переподписка на уровне кластера виртуализации должна быть с коэффициентом не более 2 (двух).
+      correction: >
+        Удалить лимиты на ресурсы пулов, где размещена платформа оркестрации.
+      title: TACIR_1-КП-ПВ-2-01
+      source: >
+        (
+          $metal := $."seaf.ta.services.cluster_virtualization";
+          [$metal.$spread().(
+            $oversubscription_rate := $[$not($exists(*.oversubscription_rate)) or *.oversubscription_rate > 2].$keys();
+            $oversubscription_rate.{
+              "uid": "sber.standards.v3.p3." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

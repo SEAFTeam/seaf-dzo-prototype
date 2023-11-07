@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part3.kb-18-01:
+      uid: TACIR_1-КП-КБ-18-01
+      description: >
+        Запрещено использовать незащищенные порты при взаимодействии c API компонентов платформы.
+      correction: >
+        Включить HTTPS при взаимодействии c API компонентов платформы.
+      title: TACIR_1-КП-КБ-18-01
+      source: >
+        (
+          $metal := $."seaf.ta.services.k8s_dzo";
+          [$metal.$spread().(
+            $anonymous_api_connect := $[$not($exists(*.https_api_connect))  or $not (*.https_api_connect)].$keys();
+            $anonymous_api_connect.{
+              "uid": "sber.standards.v3.p3." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

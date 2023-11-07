@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part4.4_01_4-01:
+      uid: TACIR_2-Ч04.01.4-01
+      description: >
+        СХД традиционной аппаратной компоновки должна иметь встроенные возможности обеспечения дедупликации или/и компрессии данных, работающей при перемещении данных из кэша на уровень хранения хранения данных с чередованием и применением алгоритмом erasure coding или RAID.
+      correction: >
+#todo дописать корректировку для TACIR_2-Ч04.01.4-0
+      title: TACIR_2-Ч04.01.4-01
+      source: >
+        (
+          $metal := $."seaf.ta.components.hw_storage_dzo";
+          [$metal.$spread().(
+            $erasure := $[$not($exists(*.erasure_coding)) or *.erasure_coding > 1 or $not($exists(*.dedup_rate)) or *.dedup_rate <= 1 or $not($exists(*.compression_rate)) or *.compression_rate <= 1].$keys();
+            $erasure.{
+              "uid": "sber.standards.v3.p4." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

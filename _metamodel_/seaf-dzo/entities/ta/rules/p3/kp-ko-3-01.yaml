@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part3.ko-3-01:
+      uid: TACIR_1-КП-КО-3-01
+      description: >
+        Платформа контейнерной оркестрации должна иметь в резервных зонах доступности кластер/кластеры обеспечивающие 100% производительности платформы при потере основной зоны.
+      correction: >
+        Обеспечить DR-сайт равными вычислительными ресурсами и провести испытательные переключения
+      title: TACIR_1-КП-КО-3-01
+      source: >
+        (
+          $metal := $."seaf.ta.services.k8s_dzo";
+          [$metal.$spread().(
+            $reservation_rate := $[$not($exists(*.reservation_rate)) or *.reservation_rate < 100].$keys();
+            $reservation_rate.{
+              "uid": "sber.standards.v3.p3." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

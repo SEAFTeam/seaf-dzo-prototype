@@ -1,0 +1,24 @@
+rules:
+  validators:
+    sber.standards.v3.part3.ko-1-01:
+      uid: TACIR_1-КП-КО-1-01
+      description: >
+        Кластер платформы контейнерной оркестрации должен состоять из набора машин (узлов) и развёртывается на нескольких узлах.
+        • мастер узлы (master nodes -  минимум 3 узла
+        • рабочие узлы (woker nodes) - минимум 2 узла
+      correction: >
+        Разделить мастер и воркер ноды. Обеспечить количество мастер нод не менее 3 штук. Воркер нод не менее 2.
+      title: TACIR_1-КП-КО-1-01
+      source: >
+        (
+          $metal := $."seaf.ta.services.k8s_dzo";
+          [$metal.$spread().(
+            $master_qty := $[$not($exists(*.master_qty)) or *.master_qty < 3 or $not($exists(*.worker_qty)) or *.worker_qty < 2  ].$keys();
+            $master_qty.{
+              "uid": "sber.standards.v3.p3." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

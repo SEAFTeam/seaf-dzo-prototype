@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part6.6_05_3-01:
+      uid: TACMN_1-Ч06.05.3-01
+      description: >
+        Должны быть зафиксированы действия системных администраторов и операторов, журналы должны быть защищены от изменения или очистки администратором/оператором
+      correction: >
+        Настроить интеграцию СМ с SIEM системой
+      title: TACMN_1-Ч06.05.3-01
+      source: >
+        (
+          $metal := $."seaf.ta.services.monitoring_dzo";
+          [$metal.$spread().(
+            $siem_anabled := $[$not($exists(*.siem_anabled)) or $not (*.siem_anabled)].$keys();
+            $siem_anabled.{
+              "uid": "sber.standards.v3.p6." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

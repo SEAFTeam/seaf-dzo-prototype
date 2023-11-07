@@ -23,7 +23,7 @@ seaf.ta.services.dc_region:
       - sber.berezka.home_cinema.canals
       - sber.berezka.home_cinema.payments
 
-      #### Создаём AZ
+#### Создаём AZ
 seaf.ta.services.dc_az:
   sber.berezka.dc_az.moscow:
     az_name: Зона доступности Москва
@@ -59,7 +59,7 @@ seaf.ta.services.dc:
     dc_name: VK DC
     dc_vendor: Mail
     dc_type: Основной
-    dc_address: Садовый проезд
+    dc_address: Садовый проездц
     dc_rack_qty: 0
     availabilityzone_id: sber.berezka.dc_az.moscow
     dc_tier: '3'
@@ -70,11 +70,11 @@ seaf.ta.services.dc:
       - sber.berezka.home_cinema.catalog
 
 #### Создаём офис
-seaf.ta.components.office:
+seaf.ta.services.office:
   sber.berezka.office.hq:
     office_id: office.hq
     name: Головной офис
-    ta_component_type: Офис
+    ta_services_type: Офис
     address: Берёзовый бульвар, д.14
 
 
@@ -92,9 +92,9 @@ seaf.ta.services.cluster_virtualization:
     drs_support: true
     sdrs_support: true
     name: Кластер виртуализации в облаке Cloud
+    oversubscription_rate: 1
     server_id:
       - нет
-
 
 
   sber.berezka.cluster_virtualization.cloud.02:
@@ -133,10 +133,11 @@ seaf.ta.services.cluster_virtualization:
     drs_support: true
     sdrs_support: true
     name: Кластер виртуализации в облаке VK
+    oversubscription_rate: 1
     server_id:
       - нет
 
-      #### Создаём описание сетевых устройств
+#### Создаём описание сетевых устройств
 seaf.ta.components.network:
   sber.berezka.network.cisco.01:
     name: Cisco ASR 1001-X
@@ -171,7 +172,7 @@ seaf.ta.components.network:
     address: 10.10.10.1
     office: office.hq
 
-  #### Создаём описание VPN шлюза
+#### Создаём описание VPN шлюза
   sber.berezka.network.cisco.02:
     name: Cisco ASR 1001-X
     realization_type: Физический
@@ -197,7 +198,7 @@ seaf.ta.components.network:
 #### Создаём описание внутренних сети
 seaf.ta.services.lan:
   sber.berezka.lan.192.168.1.0:
-    localareanetwork_id: lan.192.168.1.0
+    network_id: lan.192.168.1.0
     type: Проводная
     ipnetowrk: 192.168.1.0/24
     ta_services_type: Сеть LAN
@@ -209,7 +210,7 @@ seaf.ta.services.lan:
     vlan: 160
 
   sber.berezka.lan.192.168.2.0:
-    localareanetwork_id: lan.192.168.2.0
+    network_id: lan.192.168.2.0
     type: Проводная
     ipnetowrk: 192.168.2.0/24
     ta_services_type: Сеть LAN
@@ -221,7 +222,7 @@ seaf.ta.services.lan:
     vlan: 150
 
   sber.berezka.lan.192.168.3.0:
-    localareanetwork_id: lan.192.168.3.0
+    network_id: lan.192.168.3.0
     type: Проводная
     ipnetowrk: 192.168.3.0/24
     ta_services_type: Сеть LAN
@@ -233,7 +234,7 @@ seaf.ta.services.lan:
     vlan: 110
 
   sber.berezka.lan.192.168.4.0:
-    localareanetwork_id: lan.192.168.4.0
+    network_id: lan.192.168.4.0
     type: Проводная
     ipnetowrk: 192.168.4.0/24
     ta_services_type: Сеть LAN
@@ -251,7 +252,7 @@ seaf.ta.services.wan:
     network_appliance_id:
       - sber.berezka.network.cisco.01
     wan_ip: 1.1.1.0/28
-    wideareanetwork_id: wan.1.1.1.0
+    network_id: wan.1.1.1.0
     type: Выделенный
     ta_services_type: Сеть WAN
     availabilityzone_id:
@@ -264,7 +265,7 @@ seaf.ta.services.wan:
     network_appliance_id:
       - sber.berezka.network.cisco.02
     wan_ip: 1.1.1.16/28
-    wideareanetwork_id: wan.1.1.1.16
+    network_id: wan.1.1.1.16
     type: Выделенный
     ta_services_type: Сеть WAN
     availabilityzone_id:
@@ -277,7 +278,7 @@ seaf.ta.services.wan:
     network_appliance_id:
       - Нет
     wan_ip: 2.2.2.0/28
-    wideareanetwork_id: wan.2.2.2.0
+    network_id: wan.2.2.2.0
     type: Выделенный
     ta_services_type: Сеть WAN
     availabilityzone_id:
@@ -290,7 +291,7 @@ seaf.ta.services.wan:
     network_appliance_id:
       - Нет
     wan_ip: 1.1.1.48/28
-    wideareanetwork_id: wan.1.1.1.48
+    network_id: wan.1.1.1.48
     type: Выделенный
     ta_services_type: Сеть WAN
     availabilityzone_id:
@@ -303,7 +304,7 @@ seaf.ta.services.wan:
     network_appliance_id:
       - sber.berezka.network.cisco.03
     wan_ip: 1.1.1.32/28
-    wideareanetwork_id: wan.1.1.1.32
+    network_id: wan.1.1.1.32
     type: Выделенный
     ta_services_type: Сеть WAN
     availabilityzone_id:
@@ -317,7 +318,7 @@ seaf.ta.services.dmz:
     ipnetowrk: 10.10.10.0/24
     purpose: DMZ сеть
     ta_services_type: Сеть DMZ
-    demilitarizednetwork_id: dmz.10.10.10.0
+    network_id: dmz.10.10.10.0
     network_appliance_id:
       - sber.berezka.network.fortigate.01
     localareanetwork_id:
@@ -366,7 +367,7 @@ seaf.ta.services.network_links:
 
 #### Создаём описание виртуальных серверов
 seaf.ta.components.server_virtual:
-  #### Сервера для прикладного компонента Авторизация
+#### Сервера для прикладного компонента Авторизация
   sber.berezka.server_virtual.01:
     server_id: server_virtual.01
     fqdn_name: server_virtual.01.berezka.ru
@@ -455,7 +456,7 @@ seaf.ta.components.server_virtual:
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     description: Сервер приложений для прикладного компонента Авторизация
-  #### Сервера для k8s кластера
+#### Сервера для k8s кластера
   sber.berezka.server_virtual.05:
     server_id: server_virtual.05
     fqdn_name: server_virtual.05.berezka.ru
@@ -661,6 +662,9 @@ seaf.ta.components.server_metal:
     ta_component_type: Серверы аппаратные
     model: DL360 G8
     storage_id: hw_storage.01
+    network_connection:
+      - sber.berezka.lan.192.168.2.0
+
   sber.berezka.server_metal.02:
     server_id: server_metal.02
     fqdn_name: server_metal.02.berezka.ru
@@ -941,6 +945,7 @@ seaf.ta.services.licenses:
     ta_services_type: Лицензии
     app_components:
       - sber.berezka.home_cinema.payments
+    lic_qty: 10
 
 #### Создаём описание развёртываний
 seaf.ta.components.k8s_deployment:
@@ -1091,19 +1096,11 @@ seaf.ta.services.k8s_dzo:
       - sber.berezka.server_virtual.08
       - sber.berezka.server_virtual.09
       - sber.berezka.server_virtual.10
-    exec_rbac:
-      - admin
-      - demo
     pv: false
     https_api_connect: true
-    anonymous_api_connect: true
+    anonymous_api_connect: false
     tls_version: '1.2'
-    etcd_encrypted: true
-    impersonation_rbac:
-      - admin
-      - demo
-    manifests_acl: '644'
-    reservation_rate: 2
+    reservation_rate: 100
     az_used: 1
     ntp_server: ntp.berezka.ru
     dc_id:
@@ -1138,7 +1135,7 @@ seaf.ta.components.server_metal_dzo:
       - 1
       - 6
     rack_mount: true
-    fan_qty: 2
+    fan_qty: 4
     raid_spare_disks: 2
 
   sber.berezka.server_metal.08:
@@ -1166,8 +1163,9 @@ seaf.ta.components.server_metal_dzo:
       - 1
       - 6
     rack_mount: true
-    fan_qty: 2
+    fan_qty: 4
     raid_spare_disks: 2
+
 seaf.ta.components.hw_storage_dzo:
   sber.berezka.hw_storage.02:
     volume: 10000
@@ -1178,22 +1176,23 @@ seaf.ta.components.hw_storage_dzo:
     disk_type: SSD
     protocols: FC, Ethernet
     storage_console: https://console-hw-storage.02.berezka.ru
-    reservation_ratio: 2
+    reservation_ratio: 100
     compression_rate: 5
     storage_controller_qty: 2
     dedup_rate: 2
-    nvram_amount: 2
+    nvram_amount: 0
     links_qty: 4
     storage_spare_disk_qty: 2
-    snapshot_lic: false
-    pwr_supply_qty: 2
+    snapshot_lic: true
+    pwr_supply_qty: 4
     ssd_cache_qty: 4
     ntp_server: ntp.berezka.ru
+    erasure_coding: 1
 seaf.ta.services.monitoring_dzo:
   sber.berezka.monitoring.02:
     name: Zabbix
     monitoring_id: monitoring.02
-    ha: false
+    ha: true
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     role: Инфраструктурный
@@ -1201,13 +1200,13 @@ seaf.ta.services.monitoring_dzo:
     app_components:
       - sber.berezka.home_cinema.auth
       - sber.berezka.home_cinema.catalog
-    siem_anabled: false
+    siem_anabled: true
     alarm_transport:
       - mail
       - TG
     monitoring_console: https://monitoring-console.berezka.ru
     history: 365
     frequency:  5
-    pam_anabled: false
+    pam_anabled: true
     cluster_id: $null
     sber_radar: https://console.radar.sber.ru/dashboard/

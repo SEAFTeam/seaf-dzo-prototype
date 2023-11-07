@@ -2,10 +2,9 @@
 hexF:
 
   # Translation app layer objects links into hex
-  # todo Каждый раз, когда ты оставляешь $log в консоль высыпается куча текста, что тормозит всю систему
   dh_componentsToHex: >
     (
-      $components:= $$.components.$spread()[$.*.entity="component"];$log($components);
+      $components:= $$.components.$spread()[$.*.entity="component"];
       $reduce($map($components, function($v) {(
         $maps:= [
           {"source": $keys($v), "target": "mm.resource", "label": "map"},
@@ -56,7 +55,7 @@ hexF:
 
   queryExe: >
     (
-      $qId:= $.qId; $qObj:= $lookup($$."seaf.ba.ttl", $qId); $log($qObj, "NEW QUERY");
+      $qId:= $.qId; $qObj:= $lookup($$."seaf.ba.ttl", $qId);
 
       $nodes:= $eval($$.hexF.nodes);
       $qNode:= $qObj.hexQ ? {"qId": $qId, 
@@ -66,11 +65,11 @@ hexF:
 
       $qRes:=$type($qNode.query) = "object" ?
         (
-          $headId:= $keys($qNode.query);$log($headId, "headId");
+          $headId:= $keys($qNode.query);
           $heads:= $headId = "seaf.ba.ttl" ? $nodes.id : 
                    $match($headId, /\.hexQ/).match ? $eval($$.hexF.queryExe, {"qId": $replace($headId, /\.hexQ/, "")}) :
                    $headId in $nodes.id ? $headId : "one or more query arguments don'exist";
-          $log($heads, "heads to proceed");
+          
           $result:= $heads = "one or more query arguments don'exist" ? {"error": "one or more query arguments don'exist"} :
             (
               $accum:= function($heads, $conditions, $ic) {(
@@ -84,7 +83,7 @@ hexF:
                   $tails:= $map($spread($conditions[$ic].*), function($vv,$i){
                     $match($keys($vv), /\.hexQ/).match ? {"t"&$i: $eval($$.hexF.queryExe, {"qId": $replace($keys($vv), /\.hexQ/, "")})}: {"t"&$i: $keys($vv)}
                   });
-                  /*$tails:= $reduce($tails, $append);*/$log($edgeRule, "logic to exe");$log({"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}, "to eval");
+                  /*$tails:= $reduce($tails, $append);*/
                   $heads:= $edgeRule = "EVERY" ? $eval($$.hexF.getEvery, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}) :
                            $edgeRule = "ANY" ? $eval($$.hexF.getAny, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}):
                            $eedgeRule = "ONE" ? $eval($$.hexF.getOne, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}):
@@ -104,24 +103,24 @@ hexF:
 
   getEvery: >
     (
-      $log($, "evaluation starts");
-      $heads:= $.heads; $tails:= $.tails; $dir:= $.dir; $label:= $.label?$.label:""; $log("", $count($tails));
+      
+      $heads:= $.heads; $tails:= $.tails; $dir:= $.dir; $label:= $.label?$.label:""; 
       $edges:= $eval($$.hexF.edges);
 
       $map($heads, function($v){(
-        $y:=$map($tails, function($vv) {($log("", $v & " - " & $label & " - " & $vv.* );
+        $y:=$map($tails, function($vv) {(
           $dir="<=" ? 
             $label = "" ? $edges[$.source in $vv.* and $.target = $v] : $edges[$.source in $vv.* and $.target = $v and $.label = $label]
               :
             $label = "" ? $edges[$.source = $v and $.target in $vv.*] : $edges[$.source = $v and $.target in $vv.* and $.label = $label]
-        )});$log($y);
-        $count($y) = $count($tails) ? ($log($y, "condition evaled"); $v)
+        )});
+        $count($y) = $count($tails) ? $v
       )});
     )
 
   getAny: >
     (
-      $log($, "ANY triggered");
+      
       $heads:= $.heads; $tails:= $.tails; $dir:= $.dir; $label:= $.label?$.label:"";
       $edges:= $eval($$.hexF.edges);
 
@@ -133,40 +132,40 @@ hexF:
             $label = "" ? $edges[$.source = $v and $.target in $vv.*] : $edges[$.source = $v and $.target in $vv.* and $.label = $label]
         )});
 
-        $count($y) > 0 ? ($log($v, "condition evaled"); $v)
+        $count($y) > 0 ? $v
       )});
     )
 
   getOne: >
     (
-      $log($, "evaluation starts");
-      $heads:= $.heads; $tails:= $.tails; $dir:= $.dir; $label:= $.label?$.label:""; $log("", $count($tails));
+      
+      $heads:= $.heads; $tails:= $.tails; $dir:= $.dir; $label:= $.label?$.label:""; 
       $edges:= $eval($$.hexF.edges);
 
       $map($heads, function($v){(
-        $y:=$map($tails, function($vv) {($log("", $v & " - " & $label & " - " & $vv.* );
+        $y:=$map($tails, function($vv) {(
           $dir="<=" ? 
             $label = "" ? $edges[$.source in $vv.* and $.target = $v] : $edges[$.source in $vv.* and $.target = $v and $.label = $label]
               :
             $label = "" ? $edges[$.source = $v and $.target in $vv.*] : $edges[$.source = $v and $.target in $vv.* and $.label = $label]
-        )});$log($y);
-        $count($y) = 1 ? ($log($y, "condition evaled"); $v)
+        )});
+        $count($y) = 1 ? $v
       )});
 
   getNone: >
     (
-      $log($, "evaluation starts");
-      $heads:= $.heads; $tails:= $.tails; $dir:= $.dir; $label:= $.label?$.label:""; $log("", $count($tails));
+      
+      $heads:= $.heads; $tails:= $.tails; $dir:= $.dir; $label:= $.label?$.label:""; 
       $edges:= $eval($$.hexF.edges);
 
       $map($heads, function($v){(
-        $y:=$map($tails, function($vv) {($log("", $v & " - " & $label & " - " & $vv.* );
+        $y:=$map($tails, function($vv) {(
           $dir="<=" ? 
             $label = "" ? $edges[$.source in $vv.* and $.target = $v] : $edges[$.source in $vv.* and $.target = $v and $.label = $label]
               :
             $label = "" ? $edges[$.source = $v and $.target in $vv.*] : $edges[$.source = $v and $.target in $vv.* and $.label = $label]
-        )});$log($y);
-        $count($y) = 0 ? ($log($y, "condition evaled"); $v)
+        )});
+        $count($y) = 0 ? $v
       )});
 
   resolveView: >
@@ -187,7 +186,7 @@ hexF:
             )});
           
           $patternNodes:= $nodes.pattern;
-          $landscapeNodes:= $nodes.landscape;$log($landscapeNodes, "ld nodes");
+          $landscapeNodes:= $nodes.landscape;
 
           $patternEdges:= $edges[$.source in $patternNodes and $.target in $patternNodes and $not($.label in $patternPre[$keys($) = "hexR"].hexR.exclude)];
           $landscapeEdges:= $edges[$.source in $landscapeNodes.id_bage.id and $.target in $landscapeNodes.id_bage.id];
@@ -204,7 +203,7 @@ hexF:
           
           $pattern:=   {"nodes": $nodesL[$.id in $patternNodes]~>|$.body|($bage:= $.bage;$bage ? {"bage": {"bId": $bage, "svg": $$.hexBages.$eval($bage)}})|,
                         "edges": $patternEdges};
-          $landscape:= {"nodes": $nodesL[$.id in $landscapeNodes.id_bage.id]~>|$|($i:=$.id; $log($distinct($landscapeNodes[$i in $.id_bage.id].id_bage.bage), "gg"); $bage:= $distinct($landscapeNodes[$i in $.id_bage.id].id_bage.bage); $bage ? {"body": $.body~>|$|{"bage": {"bId": $bage, "svg": $$.hexBages.$eval($bage)}}|   })|,
+          $landscape:= {"nodes": $nodesL[$.id in $landscapeNodes.id_bage.id]~>|$|($i:=$.id; $bage:= $distinct($landscapeNodes[$i in $.id_bage.id].id_bage.bage); $bage ? {"body": $.body~>|$|{"bage": {"bId": $bage, "svg": $$.hexBages.$eval($bage)}}|   })|,
                         "edges": $landscapeEdges};
 
           /*nesting*/
@@ -223,36 +222,36 @@ hexF:
                 });
                 $nestChains:= $eval($$.hexF.getChainsFromChunks, {"paths": $nestChunks});
                 {"chains": $nestChains, "edges": $edgesToNest}
-            ); $log($nesting.chains, "nesting chained");
+            ); 
 
             /*leveling*/
             $maxChain:= function($max, $v) {$count($v.path) > $max ? $count($v.path) : $max};
-            $v_dim:= $reduce($nesting.chains, $maxChain, 0);$log($chains, "chains");
+            $v_dim:= $reduce($nesting.chains, $maxChain, 0);
             $leveling:= function($chains, $ci, $v_dim, $matrix) {(
-                $level:= $map($chains, function($v){( $log($v);
+                $level:= $map($chains, function($v){( 
                 $ch:= $map($v.path[[0..$ci]], function($vv){$vv != "viewRoot" and $vv != "moded" ? $vv});
                 $v.path[$ci] ? {"chain": $ch, "b": $v.path[$ci-2], "l":$v.path[$ci]} : null
                 )});
                 $matrix:= $append($matrix, {"lev_" & $ci/2:$distinct($level)[$ != null]});
                 $ci< $v_dim-1 ? $leveling($chains, $ci+2, $v_dim, $matrix) : $matrix;
             )};
-            $X:= $leveling($nesting.chains, 2, $v_dim, []);$log($X, "modes aval");
+            $X:= $leveling($nesting.chains, 2, $v_dim, []);
             $X:= $map($X.*, function($v) {(
                 {"path": $v.chain}
-            )});$log($X, "nomalized chains");
+            )});
 
-            $Y:= $map($X, function($v, $i, $a){($log("","TOCHECK " &$v.path[0]);
+            $Y:= $map($X, function($v, $i, $a){(
                 $concats:=$map($a, function($vv, $ii, $aa) {(
-                            $log("", $vv.path);
-                            $reduce($map($vv.path, function($vvv, $iii) {($log("", "> "&$vvv);
+                            
+                            $reduce($map($vv.path, function($vvv, $iii) {(
                                 ($i != $ii and $iii >= 2) and $v.path[0] = $vvv ? {"path": $append($vv.path[[0..$iii-1]], $v.path)};
                             )}), $append);
                           )});
-                $log($concats, "concats");
+                
 
                 $count($concats) >0 ? $concats : $v
             )});
-            $log($Y, "nomalized check");
+            
 
           $toNest:= $map($reduce($Y, $append), function($v){(
           /*$toNest:= $map($nesting.chains, function($v){(*/
@@ -273,10 +272,6 @@ hexF:
             $not($substringBefore($v.label, ".") in $nesting.edges.label) ? $v
           });
           $nestedLandscape:= $nestedLandscape~>|$|{"edges": $unNestedEdges}|;
-          $log($nesting, "NESTS");
-          $log($toNest, "paths");
-          $log($landscape, "ld");$log($nestedLandscape, "nestet res");
-
 
 
 
@@ -327,7 +322,7 @@ hexF:
         )});
       
       $patternNodes:= $nodes.pattern;
-      $landscapeNodes:= $nodes.landscape;$log($landscapeNodes, "ld nodes");
+      $landscapeNodes:= $nodes.landscape;
 
       $patternEdges:= $edges[$.source in $patternNodes and $.target in $patternNodes and $not($.label in $patternPre[$keys($) = "hexR"].hexR.exclude)];
       $landscapeEdges:= $edges[$.source in $landscapeNodes.id_bage.id and $.target in $landscapeNodes.id_bage.id];
@@ -344,7 +339,7 @@ hexF:
       
       $pattern:=   {"nodes": $nodesL[$.id in $patternNodes]~>|$.body|($bage:= $.bage;$bage ? {"bage": {"bId": $bage, "svg": $$.hexBages.$eval($bage)}})|,
                      "edges": $patternEdges};
-      $landscape:= {"nodes": $nodesL[$.id in $landscapeNodes.id_bage.id]~>|$|($i:=$.id; $log($distinct($landscapeNodes[$i in $.id_bage.id].id_bage.bage), "gg"); $bage:= $distinct($landscapeNodes[$i in $.id_bage.id].id_bage.bage); $bage ? {"body": $.body~>|$|{"bage": {"bId": $bage, "svg": $$.hexBages.$eval($bage)}}|   })|,
+      $landscape:= {"nodes": $nodesL[$.id in $landscapeNodes.id_bage.id]~>|$|($i:=$.id; $bage:= $distinct($landscapeNodes[$i in $.id_bage.id].id_bage.bage); $bage ? {"body": $.body~>|$|{"bage": {"bId": $bage, "svg": $$.hexBages.$eval($bage)}}|   })|,
                      "edges": $landscapeEdges};
 
       /*nesting*/
@@ -382,10 +377,6 @@ hexF:
         $not($substringBefore($v.label, ".") in $nesting.edges.label) ? $v
       });
       $nestedLandscape:= $nestedLandscape~>|$|{"edges": $unNestedEdges}|;
-      $log($nesting, "NESTS");
-      $log($toNest, "paths");
-      $log($landscape, "ld");$log($nestedLandscape, "nestet res");
-
 
 
 

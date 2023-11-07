@@ -125,6 +125,40 @@ docs:
         )]^(id)]
       )
 
+  seaf.ta.services.office:
+    type: table
+    headers:
+      - value: name
+        text: Имя компонента
+        sortable: true
+        align: left
+        width: 20%
+
+      - value: address
+        text: Адрес офиса или местоположения
+        sortable: true
+        align: left
+        width: 20%
+
+      - value: description
+        text:  Описание использования
+        sortable: true
+        align: left
+        width: 20%
+
+    source: >
+      (
+        [[$."seaf.ta.services.office".$spread().(
+          $COMPONENT_ID := $keys()[0];
+      	 $.*.{
+      		"id": $COMPONENT_ID ,
+         	"name": name,
+         	"address": address,
+         	"description": description
+      	  }
+        )]^(id)]
+      )
+
   seaf.ta.services.cluster:
     type: table
     headers:
@@ -891,6 +925,12 @@ docs:
         align: left
         width: 20%
 
+      - value: lic_qty
+        text: Количество лицензий
+        sortable: true
+        align: left
+        width: 20%
+
     source: >
       (
         [[$."seaf.ta.services.licenses".$spread().(
@@ -900,7 +940,8 @@ docs:
          	"name": name,
          	"type": type,
          	"support": support,
-         	"expiration": expiration
+         	"expiration": expiration,
+         	"lic_qty": lic_qty   
       	  }
         )]^(id)]
       )

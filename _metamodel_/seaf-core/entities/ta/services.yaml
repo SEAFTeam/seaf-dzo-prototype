@@ -8,7 +8,7 @@ entities:
         seaf.ta.services.base.types:
           title: Тип технологического сервиса
           type: string
-          enum: [Регион, Зона доступности, ЦОД, СХД программные, Объектные хранилища, Вычислительный сервис, Кластеризация, Виртуализация, Контейнеризация, Сеть LAN, Сеть WAN, Сеть DMZ, Сеть Каналы передачи данных, Система резервного копирования, Система мониторинга, Лицензии]
+          enum: [Регион, Зона доступности, ЦОД, Программная СХД, Объектная СХД, Вычислительный сервис, Кластер, Виртуализация, Контейнеризация, Сеть LAN, Сеть WAN, Сеть DMZ, Канал передачи данных, Система резервного копирования, Система мониторинга, Лицензия, Офис]
 #### Базовые свойства Технологического сервиса. Включается описание из классификатора выше ####
         seaf.ta.services.base.entity:
           type: object
@@ -101,30 +101,14 @@ entities:
               type: string
           required:
             - kubernetes_id
-        seaf.ta.services.base.wan:
+        seaf.ta.services.base.network:
           $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
-            wideareanetwork_id:
-              title: WAN ID
+            network_id:
+              title: Network ID
               type: string
           required:
-            - wideareanetwork_id
-        seaf.ta.services.base.lan:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            localareanetwork_id:
-              title: LAN ID
-              type: string
-          required:
-            - localareanetwork_id
-        seaf.ta.services.base.dmz:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            demilitarizednetwork_id:
-              title: DMZ ID
-              type: string
-          required:
-            - demilitarizednetwork_id
+            - network_id
         seaf.ta.services.base.network_links:
           $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
@@ -157,6 +141,14 @@ entities:
               type: string
           required:
             - software_id
+        seaf.ta.services.base.office:
+          $ref: "#/$defs/seaf.ta.services.base.entity"
+          properties:
+            office_id:
+              title: Office ID
+              type: string
+          required:
+            - office_id
 
 #### Описания технологических сервисов. Добавляются все необходимые поля и устанавливаются правила их наполнения ####
   seaf.ta.services.dc_region:
@@ -249,6 +241,38 @@ entities:
             - dc_tier
             - availabilityzone_id
 
+  seaf.ta.services.office:
+    title: Офис или иное место присутствия
+    objects:
+      office:
+        route: "/"
+        title: Офис или иное место присутствия
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_\\.]*":
+          type: object
+          $ref: "#/$defs/seaf.ta.services.base.office"
+          properties:
+            name:
+              title: Имя офиса
+              type: string
+            address:
+              title: Адрес офиса или местоположения
+              type: string
+            network_connection:
+              title: Перечисление связанных сетей
+              type: array
+              items:
+                anyOf:
+                  - $ref: "#/$rels/seaf.ta.services.lan.lan"
+                  - $ref: "#/$rels/seaf.ta.services.wan.wan"
+                  - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
+          required:
+            - name
+            - address
+
+
   seaf.ta.services.cluster:
     title: Cluster
     objects:
@@ -268,13 +292,6 @@ entities:
             cluster_fqdn:
               title: FQDN имя кластера
               type: string
-            server_id:
-              title: Список серверов реализующих кластер
-              type: array
-              items:
-                anyOf:
-                  - $ref: "#/$rels/seaf.ta.components.server_virtual.server_virtual"
-                  - $ref: "#/$rels/seaf.ta.components.server_metal.server_metal"
             cluster_reservation_type:
               title: Тип резервирования кластера
               type: string
@@ -355,7 +372,7 @@ entities:
               title: Тип используемых дисков
               type: string
               enum: [SSD, SAS, SATA]
-            erasure_coding:  #todo TACIR_2-Ч04.01.4-0 Добавить проверку. Если >1 то несоотвествует.
+            erasure_coding:
               title: Параметр чётности
               type: integer
             protocols:
@@ -449,18 +466,18 @@ entities:
               title: Имя хранилища
               type: string
             #Часть 3. TACIR_1-КП-ПВ-2-01.
-            hypervisor:      #todo добавить проверку. Если oversubscription_rate >=2, то несоответствие
+            hypervisor:
               title: Гипервизор
               type: string
-            oversubscription_rate:      #todo добавить проверку. Если oversubscription_rate >=2, то несоответствие
+            oversubscription_rate:
               title: Коэффициент переподписки кластера виртуализации
               type: integer
             #Часть 3. TACIR_1-КП-ПВ-4-01.
-            drs_support:     #todo добавить проверку. Если drs_support =  false, то несоответствие
+            drs_support:
               title: Поддержка DRS кластером виртуализации
               type: boolean
             #Часть 3. TACIR_1-КП-ПВ-5-01.
-            sdrs_support:   #todo добавить проверку. Если sdrs_support =  false, то несоответствие
+            sdrs_support:
               title: Поддержка Storage DRS кластером виртуализации
               type: boolean
             server_id:
@@ -583,7 +600,7 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       $defs:
         seaf.ta.services.wan:
-          $ref: "#/$defs/seaf.ta.services.base.wan"
+          $ref: "#/$defs/seaf.ta.services.base.network"
           properties:
             dc_id:
               title: Имя ЦОД/Серверной комнаты
@@ -592,7 +609,7 @@ entities:
                 $ref: "#/$rels/seaf.ta.services.dc.dc"
             office_id:
               title: Офис
-              $ref: "#/$rels/seaf.ta.components.office.office"
+              $ref: "#/$rels/seaf.ta.services.office.office"
             availabilityzone_id:
               title: В какие зоны доступности входит DC
               type: array
@@ -641,7 +658,7 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       $defs:
         seaf.ta.services.lan:
-          $ref: "#/$defs/seaf.ta.services.base.lan"
+          $ref: "#/$defs/seaf.ta.services.base.network"
           properties:
             dc_id:
               title: Имя ЦОД/Серверной комнаты
@@ -650,7 +667,7 @@ entities:
                 $ref: "#/$rels/seaf.ta.services.dc.dc"
             office_id:
               title: Офис
-              $ref: "#/$rels/seaf.ta.components.office.office"
+              $ref: "#/$rels/seaf.ta.services.office.office"
             availabilityzone_id:
               title: В какие зоны доступности входит DC
               type: array
@@ -691,7 +708,7 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       $defs:
         seaf.ta.services.dmz:
-          $ref: "#/$defs/seaf.ta.services.base.dmz"
+          $ref: "#/$defs/seaf.ta.services.base.network"
           properties:
             dc_id:
               title: Имя ЦОД/Серверной комнаты
@@ -700,7 +717,7 @@ entities:
                 $ref: "#/$rels/seaf.ta.services.dc.dc"
             office_id:
               title: Офис
-              $ref: "#/$rels/seaf.ta.components.office.office"
+              $ref: "#/$rels/seaf.ta.services.office.office"
             availabilityzone_id:
               title: В какие зоны доступности входит DC
               type: array
@@ -887,6 +904,9 @@ entities:
             expiration:
               title: Срок действия лицензий
               type: string
+            lic_qty:
+              title: Количество лицензий
+              type: integer
           required:
             - vendor
             - name

@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part4._01_3-01:
+      uid: TACIR_2-Ч04.01.3-01
+      description: >
+        Все операции ввода-вывода на запись должны обрабатываться через кэш на базе энергонезависимой памяти, при этом иметь возможность обеспечивать сохранность данность данных при сбое сервера (для SDS), кеширующего устройства или устройства хранения.
+      correction: >
+#todo дописать корректировку для TACIR_2-Ч04.01.3-01
+      title: TACIR_2-Ч04.01.3-01
+      source: >
+        (
+          $metal := $."seaf.ta.components.hw_storage_dzo";
+          [$metal.$spread().(
+            $nvram_amount := $[$not($exists(*.nvram_amount)) or *.nvram_amount >= 1].$keys();
+            $nvram_amount.{
+              "uid": "sber.standards.v3.p4." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )

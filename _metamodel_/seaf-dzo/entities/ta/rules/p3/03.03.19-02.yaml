@@ -1,0 +1,22 @@
+rules:
+  validators:
+    sber.standards.v3.part3.03-19-02:
+      uid: TACIR_1-Ч03.03.19-02
+      description: >
+        Должны быть развернуты и настроены отказоустойчивые кластеры высокой доступности в рамках ЦОД обеспечивающие автоматический перезапуск виртуальных машин на резервных вычислительных мощностях в случае выхода из строя аппаратного сервера, возможность выполнения «живой» миграции ВМ между узлами виртуализации и автоматической балансировки нагрузки между узлами кластера.
+      correction: >
+      #todo дописать корректировку для TACIR_1-Ч03.03.19-02
+      title: TACIR_1-Ч03.03.19-02
+      source: >
+        (
+          $metal := $."seaf.ta.services.cluster_virtualization";
+          [$metal.$spread().(
+            $drs := $[$not($exists(*.sdrs_support)) or $not (*.sdrs_support) or $not($exists(*.drs_support)) or $not (*.drs_support) ].$keys();
+            $drs.{
+              "uid": "sber.standards.v3.p3." & $self.uid & "." & "\"" & $ & "\"",
+              "title": $self.title & " " & $,
+              "correction": $self.correction,
+              "description": $self.description & $
+            };       
+          )]
+        )
