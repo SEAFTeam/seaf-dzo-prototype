@@ -1,8 +1,5 @@
-## Servers Physical
-![Servers Physical](@document/seaf.ta.components.server_metal)
-
-## Servers Virtual
-![Servers Virtual](@document/seaf.ta.components.server_virtual)
+## Servers 
+![Servers ](@document/seaf.ta.components.server)
 
 ## Hardware Storage
 ![Hardware Storage](@document/seaf.ta.components.hw_storage)

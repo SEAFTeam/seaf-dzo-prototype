@@ -96,7 +96,6 @@ seaf.ta.services.cluster_virtualization:
     server_id:
       - нет
 
-
   sber.berezka.cluster_virtualization.cloud.02:
     cluster_description: Собственный кластер виртуализации в облаке Cloud
     cluster_id: cluster_virtualization.cloud.02
@@ -194,12 +193,14 @@ seaf.ta.components.network:
     placement_type: Периметр
     purpose: VPN шлюз
     address: 192.168.1.2
-
+#### Создаём описание сетей
+seaf.ta.services.network:
 #### Создаём описание внутренних сети
-seaf.ta.services.lan:
   sber.berezka.lan.192.168.1.0:
     network_id: lan.192.168.1.0
-    type: Проводная
+    type: LAN
+    segment: Сегмент обработки данных
+    lan_type: Проводная
     ipnetowrk: 192.168.1.0/24
     ta_services_type: Сеть LAN
     network_appliance_id:
@@ -211,7 +212,9 @@ seaf.ta.services.lan:
 
   sber.berezka.lan.192.168.2.0:
     network_id: lan.192.168.2.0
-    type: Проводная
+    type: LAN
+    segment: Сегмент обработки данных
+    lan_type: Проводная
     ipnetowrk: 192.168.2.0/24
     ta_services_type: Сеть LAN
     network_appliance_id:
@@ -223,7 +226,9 @@ seaf.ta.services.lan:
 
   sber.berezka.lan.192.168.3.0:
     network_id: lan.192.168.3.0
-    type: Проводная
+    type: LAN
+    segment: Сегмент обработки данных
+    lan_type: Проводная
     ipnetowrk: 192.168.3.0/24
     ta_services_type: Сеть LAN
     network_appliance_id:
@@ -235,7 +240,9 @@ seaf.ta.services.lan:
 
   sber.berezka.lan.192.168.4.0:
     network_id: lan.192.168.4.0
-    type: Проводная
+    type: LAN
+    segment: Клиентский
+    lan_type: Проводная
     ipnetowrk: 192.168.4.0/24
     ta_services_type: Сеть LAN
     network_appliance_id:
@@ -245,7 +252,6 @@ seaf.ta.services.lan:
     vlan: 1
 
 #### Создаём описание внешних сетей
-seaf.ta.services.wan:
   sber.berezka.wan.1.1.1.0:
     provider: RT
     bandwidth: 1000
@@ -253,7 +259,7 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.01
     wan_ip: 1.1.1.0/28
     network_id: wan.1.1.1.0
-    type: Выделенный
+    type: WAN
     ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
@@ -266,7 +272,7 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.02
     wan_ip: 1.1.1.16/28
     network_id: wan.1.1.1.16
-    type: Выделенный
+    type: WAN
     ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
@@ -279,7 +285,7 @@ seaf.ta.services.wan:
       - Нет
     wan_ip: 2.2.2.0/28
     network_id: wan.2.2.2.0
-    type: Выделенный
+    type: WAN
     ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
@@ -292,7 +298,7 @@ seaf.ta.services.wan:
       - Нет
     wan_ip: 1.1.1.48/28
     network_id: wan.1.1.1.48
-    type: Выделенный
+    type: WAN
     ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
@@ -305,26 +311,24 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.03
     wan_ip: 1.1.1.32/28
     network_id: wan.1.1.1.32
-    type: Выделенный
+    type: WAN
     ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     office_id: sber.berezka.office.hq
 
 #### Создаём описание пограничных сетей
-seaf.ta.services.dmz:
   sber.berezka.dmz.10.10.10.0:
     vlan: 100
     ipnetowrk: 10.10.10.0/24
     purpose: DMZ сеть
     ta_services_type: Сеть DMZ
+    type: LAN
+    lan_type: Проводная
+    segment: Буферный (DMZ)
     network_id: dmz.10.10.10.0
     network_appliance_id:
       - sber.berezka.network.fortigate.01
-    localareanetwork_id:
-      - sber.berezka.lan.192.168.1.0
-    wideareanetwork_id:
-      - sber.berezka.wan.1.1.1.0
     dc_id:
       - sber.berezka.dc.01
     availabilityzone_id:
@@ -337,7 +341,7 @@ seaf.ta.services.network_links:
       - sber.berezka.network.cisco.02
     type: VPN Site-to-site
     sitelinks_id: network_links.vk_cloud
-    ta_services_type: Сеть Каналы передачи данных
+    ta_services_type: Канал передачи данных
     ch_type: Основной
     description: Связь между VK и Cloud
     bandwidth: 100
@@ -349,7 +353,7 @@ seaf.ta.services.network_links:
       - sber.berezka.network.cisco.03
     type: VPN Site-to-site
     sitelinks_id: network_links.cloud_hq
-    ta_services_type: Сеть Каналы передачи данных
+    ta_services_type: Канал передачи данных
     ch_type: Основной
     description: Связь между Cloud и головным офисом
     bandwidth: 100
@@ -360,283 +364,14 @@ seaf.ta.services.network_links:
       - sber.berezka.network.cisco.03
     type: SSL VPN
     sitelinks_id: network_links.cloud_laptop
-    ta_services_type: Сеть Каналы передачи данных
+    ta_services_type: Канал передачи данных
     ch_type: Основной
     description: Связь между Cloud и клиентскими устройствами
     bandwidth: 10
 
-#### Создаём описание виртуальных серверов
-seaf.ta.components.server_virtual:
-#### Сервера для прикладного компонента Авторизация
-  sber.berezka.server_virtual.01:
-    server_id: server_virtual.01
-    fqdn_name: server_virtual.01.berezka.ru
-    virtualization_id: sber.berezka.cluster_virtualization.cloud.01
-    disks:
-      - disk0:
-          availabilityzone_id: dc_az.moscow
-          size: 100
-          type: SSD
-      - disk1:
-          availabilityzone_id: dc_az.moscow
-          size: 101
-          type: SATA
-    ram_qty: 16
-    nic_qty: 2
-    ta_component_type: Серверы виртуальные
-    os:
-      name: 'Ubuntu 18.04'
-      bit: '64'
-    cpu:
-      cores: 4
-      frequency: 1700
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    description: Сервер приложений для прикладного компонента Авторизация
-  sber.berezka.server_virtual.02:
-    server_id: server_virtual.02
-    fqdn_name: server_virtual.02.berezka.ru
-    virtualization_id: sber.berezka.cluster_virtualization.cloud.01
-    disks:
-      - disks :
-          availabilityzone_id: dc_az.moscow
-          size: 100
-          type: SSD
-    ram_qty: 16
-    nic_qty: 2
-    ta_component_type: Серверы виртуальные
-    os:
-      name: 'Ubuntu 18.04'
-      bit: '64'
-    cpu:
-      cores: 4
-      frequency: 1700
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    description: Сервер приложений для прикладного компонента Авторизация
-  sber.berezka.server_virtual.03:
-    server_id: server_virtual.03
-    fqdn_name: server_virtual.03.berezka.ru
-    virtualization_id: sber.berezka.cluster_virtualization.vk.01
-    disks:
-      - disks :
-          availabilityzone_id: dc_az.moscow
-          size: 100
-          type: SSD
-    ram_qty: 16
-    nic_qty: 2
-    ta_component_type: Серверы виртуальные
-    os:
-      name: 'Ubuntu 18.04'
-      bit: '64'
-    cpu:
-      cores: 4
-      frequency: 1700
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    description: Сервер приложений для прикладного компонента Авторизация
-  sber.berezka.server_virtual.04:
-    server_id: server_virtual.04
-    fqdn_name: server_virtual.04.berezka.ru
-    virtualization_id: sber.berezka.cluster_virtualization.vk.01
-    disks:
-      - disks :
-          availabilityzone_id: dc_az.moscow
-          size: 100
-          type: SSD
-    ram_qty: 16
-    nic_qty: 2
-    ta_component_type: Серверы виртуальные
-    os:
-      name: 'Ubuntu 18.04'
-      bit: '64'
-    cpu:
-      cores: 4
-      frequency: 1700
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    description: Сервер приложений для прикладного компонента Авторизация
-#### Сервера для k8s кластера
-  sber.berezka.server_virtual.05:
-    server_id: server_virtual.05
-    fqdn_name: server_virtual.05.berezka.ru
-    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
-    disks:
-      - disks :
-          availabilityzone_id: dc_az.moscow
-          size: 100
-          type: SSD
-    ram_qty: 16
-    nic_qty: 2
-    ta_component_type: Серверы виртуальные
-    os:
-      name: 'Ubuntu 18.04'
-      bit: '64'
-    cpu:
-      cores: 4
-      frequency: 1700
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    description: Сервер приложений для кластера K8s
-  sber.berezka.server_virtual.06:
-    server_id: server_virtual.06
-    fqdn_name: server_virtual.06.berezka.ru
-    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
-    disks:
-      - disks :
-          availabilityzone_id: dc_az.moscow
-          size: 100
-          type: SSD
-    ram_qty: 16
-    nic_qty: 2
-    ta_component_type: Серверы виртуальные
-    os:
-      name: 'Ubuntu 18.04'
-      bit: '64'
-    cpu:
-      cores: 4
-      frequency: 1700
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    description: Сервер приложений для кластера K8s
-  sber.berezka.server_virtual.07:
-    server_id: server_virtual.07
-    fqdn_name: server_virtual.07.berezka.ru
-    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
-    disks:
-      - disks :
-          availabilityzone_id: dc_az.moscow
-          size: 100
-          type: SSD
-    ram_qty: 16
-    nic_qty: 2
-    ta_component_type: Серверы виртуальные
-    os:
-      name: 'Ubuntu 18.04'
-      bit: '64'
-    cpu:
-      cores: 4
-      frequency: 1700
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    description: Сервер приложений для кластера K8s
-  sber.berezka.server_virtual.08:
-    server_id: server_virtual.08
-    fqdn_name: server_virtual.08.berezka.ru
-    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
-    disks:
-      - disks :
-          availabilityzone_id: dc_az.moscow
-          size: 100
-          type: SSD
-    ram_qty: 16
-    nic_qty: 2
-    ta_component_type: Серверы виртуальные
-    os:
-      name: 'Ubuntu 18.04'
-      bit: '64'
-    cpu:
-      cores: 4
-      frequency: 1700
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    description: Сервер приложений для кластера K8s
-  sber.berezka.server_virtual.09:
-    server_id: server_virtual.09
-    fqdn_name: server_virtual.09.berezka.ru
-    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
-    disks:
-      - disks :
-          availabilityzone_id: dc_az.moscow
-          size: 100
-          type: SSD
-    ram_qty: 16
-    nic_qty: 2
-    ta_component_type: Серверы виртуальные
-    os:
-      name: 'Ubuntu 18.04'
-      bit: '64'
-    cpu:
-      cores: 4
-      frequency: 1700
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    description: Сервер приложений для кластера K8s
-  sber.berezka.server_virtual.10:
-    server_id: server_virtual.10
-    fqdn_name: server_virtual.10.berezka.ru
-    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
-    disks:
-      - disks :
-          availabilityzone_id: dc_az.moscow
-          size: 100
-          type: SSD
-    ram_qty: 16
-    nic_qty: 2
-    ta_component_type: Серверы виртуальные
-    os:
-      name: 'Ubuntu 18.04'
-      bit: '64'
-    cpu:
-      cores: 4
-      frequency: 1700
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    description: Сервер приложений для кластера K8s
-
-#### Создаём описание аппаратных СХД
-seaf.ta.components.hw_storage:
-  sber.berezka.hw_storage.01:
-    volume: 10000
-    ta_component_type: СХД аппаратные
-    dc_id: sber.berezka.dc.01
-    storage_id: hw_storage.01
-    vendor: IBM Storwize 7000
-    disk_type: SSD
-    protocols: FC, Ethernet
-
-#### Создаём описание программных СХД
-seaf.ta.services.sw_storage:
-  sber.berezka.sw_storage.01:
-    volume: 1000
-    software: CEPH
-    storage_id: sw_storage.01
-    ftt: 2
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    server_id:
-      - sber.berezka.server_metal.07
-      - sber.berezka.server_metal.08
-    ta_services_type: СХД программные
-    disk_type: SSD
-    protocols: SMB, S3
-    erasure_coding: 2
-
-#### Создаём описание объектных хранилищ
-seaf.ta.services.obj_storage:
-  sber.berezka.obj_storage.cloud_s3:
-    name: S3 Cloud
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    ta_services_type: Объектные хранилища
-    obj_storage_id: obj_storage.cloud_s3
-    sla: 99
-    software: SaaS
-    app_components:
-      - sber.berezka.home_cinema.catalog
-  sber.berezka.obj_storage.vk_s3:
-    name: S3 VK
-    availabilityzone_id:
-      - sber.berezka.dc_az.moscow
-    ta_services_type: Объектные хранилища
-    obj_storage_id: obj_storage.vk_s3
-    sla: 99
-    software: SaaS
-    app_components:
-      - sber.berezka.home_cinema.catalog
-
+#### Создаём описание любых серверов
+seaf.ta.components.server:
 #### Создаём описание физических серверов
-seaf.ta.components.server_metal:
   sber.berezka.server_metal.01:
     server_id: server_metal.01
     fqdn_name: server_metal.01.berezka.ru
@@ -659,7 +394,8 @@ seaf.ta.components.server_metal:
     ram_qty: 128
     dc_id: sber.berezka.dc.02
     vendor: HP
-    ta_component_type: Серверы аппаратные
+    ta_component_type: Аппаратный сервер
+    type: Физический
     model: DL360 G8
     storage_id: hw_storage.01
     network_connection:
@@ -683,7 +419,8 @@ seaf.ta.components.server_metal:
     ram_qty: 128
     dc_id: sber.berezka.dc.02
     vendor: HP
-    ta_component_type: Серверы аппаратные
+    ta_component_type: Аппаратный сервер
+    type: Физический
     model: DL360 G8
     storage_id: hw_storage.01
   sber.berezka.server_metal.03:
@@ -704,7 +441,8 @@ seaf.ta.components.server_metal:
     ram_qty: 128
     dc_id: sber.berezka.dc.02
     vendor: HP
-    ta_component_type: Серверы аппаратные
+    ta_component_type: Аппаратный сервер
+    type: Физический
     model: DL360 G8
     storage_id: hw_storage.01
   sber.berezka.server_metal.04:
@@ -725,7 +463,8 @@ seaf.ta.components.server_metal:
     ram_qty: 128
     dc_id: sber.berezka.dc.02
     vendor: HP
-    ta_component_type: Серверы аппаратные
+    ta_component_type: Аппаратный сервер
+    type: Физический
     model: DL360 G8
     storage_id: hw_storage.01
   sber.berezka.server_metal.05:
@@ -746,7 +485,8 @@ seaf.ta.components.server_metal:
     ram_qty: 128
     dc_id: sber.berezka.dc.02
     vendor: HP
-    ta_component_type: Серверы аппаратные
+    ta_component_type: Аппаратный сервер
+    type: Физический
     model: DL360 G8
     storage_id: hw_storage.01
   sber.berezka.server_metal.06:
@@ -767,7 +507,8 @@ seaf.ta.components.server_metal:
     ram_qty: 128
     dc_id: sber.berezka.dc.02
     vendor: HP
-    ta_component_type: Серверы аппаратные
+    ta_component_type: Аппаратный сервер
+    type: Физический
     model: DL360 G8
     storage_id: hw_storage.01
   sber.berezka.server_metal.07:
@@ -788,7 +529,8 @@ seaf.ta.components.server_metal:
     ram_qty: 128
     dc_id: sber.berezka.dc.02
     vendor: HP
-    ta_component_type: Серверы аппаратные
+    ta_component_type: Аппаратный сервер
+    type: Физический
     model: DL360 G8
     storage_id: hw_storage.01
   sber.berezka.server_metal.08:
@@ -809,9 +551,292 @@ seaf.ta.components.server_metal:
     ram_qty: 128
     dc_id: sber.berezka.dc.02
     vendor: HP
-    ta_component_type: Серверы аппаратные
+    ta_component_type: Аппаратный сервер
+    type: Физический
     model: DL360 G8
     storage_id: hw_storage.01
+#### Создаём описание виртуальных серверов
+#### Сервера для прикладного компонента Авторизация
+  sber.berezka.server_virtual.01:
+    server_id: server_virtual.01
+    fqdn_name: server_virtual.01.berezka.ru
+    virtualization_id: sber.berezka.cluster_virtualization.cloud.01
+    disks:
+      - disk0:
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+      - disk1:
+          availabilityzone_id: dc_az.moscow
+          size: 101
+          type: SATA
+    ram_qty: 16
+    nic_qty: 2
+    type: Виртуальный
+    ta_component_type: Виртуальный сервер
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    description: Сервер приложений для прикладного компонента Авторизация
+  sber.berezka.server_virtual.02:
+    server_id: server_virtual.02
+    fqdn_name: server_virtual.02.berezka.ru
+    virtualization_id: sber.berezka.cluster_virtualization.cloud.01
+    disks:
+      - disks :
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+    ram_qty: 16
+    nic_qty: 2
+    type: Виртуальный
+    ta_component_type: Виртуальный сервер
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    description: Сервер приложений для прикладного компонента Авторизация
+  sber.berezka.server_virtual.03:
+    server_id: server_virtual.03
+    fqdn_name: server_virtual.03.berezka.ru
+    virtualization_id: sber.berezka.cluster_virtualization.vk.01
+    disks:
+      - disks :
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+    ram_qty: 16
+    nic_qty: 2
+    type: Виртуальный
+    ta_component_type: Виртуальный сервер
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    description: Сервер приложений для прикладного компонента Авторизация
+  sber.berezka.server_virtual.04:
+    server_id: server_virtual.04
+    fqdn_name: server_virtual.04.berezka.ru
+    virtualization_id: sber.berezka.cluster_virtualization.vk.01
+    disks:
+      - disks :
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+    ram_qty: 16
+    nic_qty: 2
+    type: Виртуальный
+    ta_component_type: Виртуальный сервер
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    description: Сервер приложений для прикладного компонента Авторизация
+#### Сервера для k8s кластера
+  sber.berezka.server_virtual.05:
+    server_id: server_virtual.05
+    fqdn_name: server_virtual.05.berezka.ru
+    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
+    disks:
+      - disks :
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+    ram_qty: 16
+    nic_qty: 2
+    type: Виртуальный
+    ta_component_type: Виртуальный сервер
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    description: Сервер приложений для кластера K8s
+  sber.berezka.server_virtual.06:
+    server_id: server_virtual.06
+    fqdn_name: server_virtual.06.berezka.ru
+    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
+    disks:
+      - disks :
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+    ram_qty: 16
+    nic_qty: 2
+    type: Виртуальный
+    ta_component_type: Виртуальный сервер
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    description: Сервер приложений для кластера K8s
+  sber.berezka.server_virtual.07:
+    server_id: server_virtual.07
+    fqdn_name: server_virtual.07.berezka.ru
+    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
+    disks:
+      - disks :
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+    ram_qty: 16
+    nic_qty: 2
+    type: Виртуальный
+    ta_component_type: Виртуальный сервер
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    description: Сервер приложений для кластера K8s
+  sber.berezka.server_virtual.08:
+    server_id: server_virtual.08
+    fqdn_name: server_virtual.08.berezka.ru
+    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
+    disks:
+      - disks :
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+    ram_qty: 16
+    nic_qty: 2
+    type: Виртуальный
+    ta_component_type: Виртуальный сервер
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    description: Сервер приложений для кластера K8s
+  sber.berezka.server_virtual.09:
+    server_id: server_virtual.09
+    fqdn_name: server_virtual.09.berezka.ru
+    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
+    disks:
+      - disks :
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+    ram_qty: 16
+    nic_qty: 2
+    type: Виртуальный
+    ta_component_type: Виртуальный сервер
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    description: Сервер приложений для кластера K8s
+  sber.berezka.server_virtual.10:
+    server_id: server_virtual.10
+    fqdn_name: server_virtual.10.berezka.ru
+    virtualization_id: sber.berezka.cluster_virtualization.cloud.02
+    disks:
+      - disks :
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+    ram_qty: 16
+    nic_qty: 2
+    type: Виртуальный
+    ta_component_type: Виртуальный сервер
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    description: Сервер приложений для кластера K8s
+
+#### Создаём описание аппаратных СХД
+seaf.ta.components.hw_storage:
+  sber.berezka.hw_storage.01:
+    volume: 10000
+    ta_component_type: Аппаратная СХД
+    dc_id: sber.berezka.dc.01
+    storage_id: hw_storage.01
+    vendor: IBM Storwize 7000
+    disk_type: SSD
+    protocols: FC, Ethernet
+
+#### Создаём описание СХД
+#### Создаём описание программных СХД
+seaf.ta.services.storage:
+  sber.berezka.sw_storage.01:
+    volume: 1000
+    software: CEPH
+    storage_id: sw_storage.01
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    server_id:
+      - sber.berezka.server_metal.07
+      - sber.berezka.server_metal.08
+    ta_services_type: Программная СХД
+    disk_type: SSD
+    protocols: SMB, S3
+    type: Software Defined Storage
+    erasure_coding: 2
+
+  #### Создаём описание объектных хранилищ
+  sber.berezka.obj_storage.cloud_s3:
+    name: S3 Cloud
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    ta_services_type: Объектная СХД
+    type: Simple Storage Service
+    sla: 99
+    software: SaaS
+    storage_id: obj_storage.cloud_s3
+    app_components:
+      - sber.berezka.home_cinema.catalog
+  sber.berezka.obj_storage.vk_s3:
+    name: S3 VK
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    ta_services_type: Объектная СХД
+    type: Simple Storage Service
+    sla: 99
+    software: SaaS
+    storage_id: obj_storage.vk_s3
+    app_components:
+      - sber.berezka.home_cinema.catalog
+
+
 
 #### Создаём описание кластеров
 seaf.ta.services.cluster:
@@ -819,7 +844,7 @@ seaf.ta.services.cluster:
     cluster_id: cluster.01
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
-    ta_services_type: Кластеризация
+    ta_services_type: Кластер
     app_components:
       - sber.berezka.home_cinema.catalog
       - sber.berezka.home_cinema.canals
@@ -934,7 +959,7 @@ seaf.ta.services.licenses:
     expiration: eternal
     type: Закрытая платная
     support: Expired
-    ta_services_type: Лицензии
+    ta_services_type: Лицензия
   seaf.ta.services.licenses.cryptopro:
     software_id: licenses.cryptopro
     vendor: CryptoPro
@@ -942,7 +967,7 @@ seaf.ta.services.licenses:
     expiration: eternal
     type: Закрытая платная
     support: Expired
-    ta_services_type: Лицензии
+    ta_services_type: Лицензия
     app_components:
       - sber.berezka.home_cinema.payments
     lic_qty: 10
@@ -1108,7 +1133,6 @@ seaf.ta.services.k8s_dzo:
     app_components:
       - sber.berezka.home_cinema.payments
 
-
 seaf.ta.components.server_metal_dzo:
   sber.berezka.server_metal.07:
     server_id: server_metal.07
@@ -1128,7 +1152,8 @@ seaf.ta.components.server_metal_dzo:
     ram_qty: 128
     dc_id: sber.berezka.dc.02
     vendor: HP
-    ta_component_type: Серверы аппаратные
+    ta_component_type: Аппаратный сервер
+    type: Физический
     model: DL360 G8
     power_module_qty: 2
     raid_level:
@@ -1156,7 +1181,8 @@ seaf.ta.components.server_metal_dzo:
     ram_qty: 128
     dc_id: sber.berezka.dc.02
     vendor: HP
-    ta_component_type: Серверы аппаратные
+    ta_component_type: Аппаратный сервер
+    type: Физический
     model: DL360 G8
     power_module_qty: 2
     raid_level:
@@ -1169,7 +1195,7 @@ seaf.ta.components.server_metal_dzo:
 seaf.ta.components.hw_storage_dzo:
   sber.berezka.hw_storage.02:
     volume: 10000
-    ta_component_type: СХД аппаратные
+    ta_component_type: Аппаратная СХД
     dc_id: sber.berezka.dc.01
     storage_id: hw_storage.02
     vendor: IBM Storwize 7000

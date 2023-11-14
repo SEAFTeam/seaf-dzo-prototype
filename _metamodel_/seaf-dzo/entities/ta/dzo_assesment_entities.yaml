@@ -61,7 +61,7 @@ entities:
       type: object
       patternProperties:
         "[a-zA-Z0-9_\\.]*":
-          $ref: "#/$defs/seaf.ta.components.server_metal"
+          $ref: "#/$defs/seaf.ta.components.server"
           properties:
             #Часть 3. TACIR_1-Ч03.02.4-02.
             power_module_qty:

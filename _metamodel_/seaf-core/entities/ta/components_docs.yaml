@@ -4,10 +4,22 @@ docs:
     source: components.md
     type: markdown
 
-  seaf.ta.components.server_metal:
+  seaf.ta.components.server:
     type: table
     #location: Таблица тех компонентов (Bare Metal)
     headers:
+      - value: type
+        text: Тип сервера
+        sortable: true
+        align: left
+        width: 20%
+
+      - value: virtualization_id
+        text: ID кластера виртуализации
+        sortable: true
+        align: left
+        width: 20%
+
       - value: vendor
         text: Производитель
         sortable: true
@@ -80,11 +92,13 @@ docs:
         align: left
         width: 20%
 
-    source: > #todo починить
+    source: >
       (
-        [[$."seaf.ta.components.server_metal".$spread().(
+        [[$."seaf.ta.components.server".$spread().(
           $COMPONENT_ID := $keys()[0];
       	 $.*.{
+         	"type": type,      
+         	"virtualization_id": virtualization_id,      
             "dc_id": dc_id,
          	"cpu": "cores:" & cpu.cores & "\n" & "frequency:" & cpu.frequency,
          	"nic_qty": nic_qty,

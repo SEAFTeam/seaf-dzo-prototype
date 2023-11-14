@@ -97,200 +97,190 @@ entities:
           required:
             - office_id
 #### Описания технологических компонентов. Добавляются все необходимые поля и устанавливаются правила их наполнения ####
-  seaf.ta.components.server_metal:
-    title: Servers Physical
+  seaf.ta.components.server:
+    title: Server
     objects:
-      server_metal:
+      server:
         route: "/"
-        title: Физический сервер
+        title: Сервер
     schema: # JSON Schema контролирующая описание объекта сущности
       $defs:
-        seaf.ta.components.server_metal:
-          type: object
+        seaf.ta.components.server:
           $ref: "#/$defs/seaf.ta.components.base.server"
-          properties:
-            vendor:
-              title: Производитель
-              type: string
-            model:
-              title: Модель
-              type: string
-            fqdn_name:
-              title: Имя сервера FQDN
-              type: string
-            os:
-              title: Операционная система
-              type: object
+          oneOf:
+            - type: object
               properties:
-                name:
-                  title: Тип ОС
+                type:
                   type: string
-                  minlength: 1
-                bit:
-                  title: Битность ОС
+                  enum: [Виртуальный]
+                fqdn_name:
+                  title: Имя сервера FQDN
                   type: string
-                  minLength: 2
-            cpu:
-              title: Процессор
-              type: object
-              properties:
-                cores:
-                  title: Ядра
-                  type: integer
-                  minlength: 1
-                frequency:
-                  title: Частота
-                  type: integer
-                  minLength: 0
-            ram_qty:
-              title: Количество RAM, GB
-              type: integer
-            disks:
-              title: Диски
-              type: array
-              minItems: 1
-              items:
-                .*:
+                os:
+                  title: Операционная система
                   type: object
                   properties:
-                    availabilityzone_id:
-                      title: Зона доступности диска
+                    name:
+                      title: Тип ОС
                       type: string
-                    size:
-                      title: Размер диска
+                      minlength: 1
+                    bit:
+                      title: Битность ОС
                       type: string
-                    type:
-                      title: Тип диска (SAS, SATA, SSD)
-                      type: string
-            storage_id:
-              title: Подключенные СХД
-              type: string
-            nic_qty:
-              title: Количество NIC
-              type: integer
-            vlan:
-              title: Подключенные VLAN
-              type: array
-            dc_id:
-              title: Имя ЦОД/Серверной комнаты
-              $ref: "#/$rels/seaf.ta.services.dc.dc"
-            office_id:
-              title: Офис
-              $ref: "#/$rels/seaf.ta.services.office.office"
-            network_connection:
-              title: Перечисление связанных сетей
-              type: array
-              items:
-                anyOf:
-                  - $ref: "#/$rels/seaf.ta.services.lan.lan"
-                  - $ref: "#/$rels/seaf.ta.services.wan.wan"
-                  - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
-          required:
-            - vendor
-            - model
-            - fqdn_name
-            - os
-            - cpu
-            - disks
-            - ram_qty
-            - nic_qty
-            - dc_id
-      type: object
-      patternProperties:
-        "^[a-zA-Z0-9_\\.]*$":
-          $ref: "#/$defs/seaf.ta.components.server_metal"
-
-  seaf.ta.components.server_virtual:
-    title: Servers Virtual
-    objects:
-      server_virtual:
-        route: "/"
-        title: Виртуальный сервер
-    schema: # JSON Schema контролирующая описание объекта сущности
-      $defs:
-        seaf.ta.components.server_virtual:
-          type: object
-          $ref: "#/$defs/seaf.ta.components.base.server"
-          properties:
-            fqdn_name:
-              title: Имя сервера FQDN
-              type: string
-            os:
-              title: Операционная система
-              type: object
-              properties:
-                name:
-                  title: Тип ОС
-                  type: string
-                  minlength: 1
-                bit:
-                  title: Битность ОС
-                  type: string
-                  minLength: 2
-            cpu:
-              title: Процессор
-              type: object
-              properties:
-                cores:
-                  title: Ядра
-                  type: integer
-                  minlength: 1
-                frequency:
-                  title: Частота
-                  type: integer
-                  minLength: 0
-            ram_qty:
-              title: Количество RAM, GB
-              type: integer
-            disks:
-              title: Диски
-              type: array
-              minItems: 1
-              items:
-                .*:
+                      minLength: 2
+                cpu:
+                  title: Процессор
                   type: object
                   properties:
-                    availabilityzone_id:
-                      title: Зона доступности диска
+                    cores:
+                      title: Ядра
+                      type: integer
+                      minlength: 1
+                    frequency:
+                      title: Частота
+                      type: integer
+                      minLength: 0
+                ram_qty:
+                  title: Количество RAM, GB
+                  type: integer
+                disks:
+                  title: Диски
+                  type: array
+                  minItems: 1
+                  items:
+                    .*:
+                      type: object
+                      properties:
+                        availabilityzone_id:
+                          title: Зона доступности диска
+                          type: string
+                        size:
+                          title: Размер диска
+                          type: string
+                        type:
+                          title: Тип диска (SAS, SATA, SSD)
+                          type: string
+                nic_qty:
+                  title: Количество NIC
+                  type: integer
+                availabilityzone_id:
+                  title: В какие зоны доступности входит DC
+                  type: array
+                  items:
+                    $ref: "#/$rels/seaf.ta.services.dc_az.dc_az"
+                virtualization_id:
+                  title: ID кластера виртуализации
+                  $ref: "#/$rels/seaf.ta.services.cluster_virtualization.cluster_virtualization"
+                network_connection:
+                  title: Перечисление связанных сетей
+                  type: array
+                  items:
+                    $ref: "#/$rels/seaf.ta.services.network.network"
+              required:
+                - type
+                - fqdn_name
+                - os
+                - disks
+                - cpu
+                - ram_qty
+                - nic_qty
+                - availabilityzone_id
+                - virtualization_id
+              additionalProperties: false
+            - type: object
+              properties:
+                type:
+                  type: string
+                  enum: [Физический]
+                vendor:
+                  title: Производитель
+                  type: string
+                model:
+                  title: Модель
+                  type: string
+                fqdn_name:
+                  title: Имя сервера FQDN
+                  type: string
+                os:
+                  title: Операционная система
+                  type: object
+                  properties:
+                    name:
+                      title: Тип ОС
                       type: string
-                    size:
-                      title: Размер диска
+                      minlength: 1
+                    bit:
+                      title: Битность ОС
                       type: string
-                    type:
-                      title: Тип диска (SAS, SATA, SSD)
-                      type: string
-            nic_qty:
-              title: Количество NIC
-              type: integer
-            availabilityzone_id:
-              title: В какие зоны доступности входит DC
-              type: array
-              items:
-                $ref: "#/$rels/seaf.ta.services.dc_az.dc_az"
-            virtualization_id:
-              title: ID кластера виртуализации
-              $ref: "#/$rels/seaf.ta.services.cluster_virtualization.cluster_virtualization"
-            network_connection:
-              title: Перечисление связанных сетей
-              type: array
-              items:
-                anyOf:
-                  - $ref: "#/$rels/seaf.ta.services.lan.lan"
-                  - $ref: "#/$rels/seaf.ta.services.wan.wan"
-                  - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
-          required:
-            - fqdn_name
-            - os
-            - disks
-            - cpu
-            - ram_qty
-            - nic_qty
-            - availabilityzone_id
-            - virtualization_id
+                      minLength: 2
+                cpu:
+                  title: Процессор
+                  type: object
+                  properties:
+                    cores:
+                      title: Ядра
+                      type: integer
+                      minlength: 1
+                    frequency:
+                      title: Частота
+                      type: integer
+                      minLength: 0
+                ram_qty:
+                  title: Количество RAM, GB
+                  type: integer
+                disks:
+                  title: Диски
+                  type: array
+                  minItems: 1
+                  items:
+                    .*:
+                      type: object
+                      properties:
+                        availabilityzone_id:
+                          title: Зона доступности диска
+                          type: string
+                        size:
+                          title: Размер диска
+                          type: string
+                        type:
+                          title: Тип диска (SAS, SATA, SSD)
+                          type: string
+                storage_id:
+                  title: Подключенные СХД
+                  type: string
+                nic_qty:
+                  title: Количество NIC
+                  type: integer
+                vlan:
+                  title: Подключенные VLAN
+                  type: array
+                dc_id:
+                  title: Имя ЦОД/Серверной комнаты
+                  $ref: "#/$rels/seaf.ta.services.dc.dc"
+                office_id:
+                  title: Офис
+                  $ref: "#/$rels/seaf.ta.services.office.office"
+                network_connection:
+                  title: Перечисление связанных сетей
+                  type: string
+                  items:
+                    $ref: "#/$rels/seaf.ta.services.network.network"
+              required:
+                - type
+                - vendor
+                - model
+                - fqdn_name
+                - os
+                - cpu
+                - disks
+                - ram_qty
+                - nic_qty
+                - dc_id
+              additionalProperties: false
       type: object
       patternProperties:
         "[a-zA-Z0-9_\\.]*":
-          $ref: "#/$defs/seaf.ta.components.server_virtual"
+          $ref: "#/$defs/seaf.ta.components.server"
 
   seaf.ta.components.hw_storage:
     title: Hardware Storage
@@ -325,12 +315,9 @@ entities:
               $ref: "#/$rels/seaf.ta.services.office.office"
             network_connection:
               title: Перечисление связанных сетей
-              type: array
+              type: string
               items:
-                anyOf:
-                  - $ref: "#/$rels/seaf.ta.services.lan.lan"
-                  - $ref: "#/$rels/seaf.ta.services.wan.wan"
-                  - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
+                $ref: "#/$rels/seaf.ta.services.network.network"
           required:
             - vendor
             - volume
@@ -383,12 +370,9 @@ entities:
               $ref: "#/$rels/seaf.ta.services.office.office"
             network_connection:
               title: Перечисление связанных сетей
-              type: array
+              type: string
               items:
-                anyOf:
-                  - $ref: "#/$rels/seaf.ta.services.lan.lan"
-                  - $ref: "#/$rels/seaf.ta.services.wan.wan"
-                  - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
+                $ref: "#/$rels/seaf.ta.services.network.network"
           required:
             - name
             - model
@@ -584,9 +568,7 @@ entities:
               title: Список серверов на которых запущен контейнер
               type: array
               items:
-                anyOf:
-                  - $ref: "#/$rels/seaf.ta.components.server_virtual.server_virtual"
-                  - $ref: "#/$rels/seaf.ta.components.server_metal.server_metal"
+                $ref: "#/$rels/seaf.ta.components.server.server"
           required:
             - name
 
@@ -650,13 +632,10 @@ entities:
               title: Тип устройства относительно среды использования
               type: string
             network_connection:
-              title: Подключение к сетям
-              type: array
+              title: Перечисление связанных сетей
+              type: string
               items:
-                anyOf:
-                 - $ref: "#/$rels/seaf.ta.services.dmz.dmz"
-                 - $ref: "#/$rels/seaf.ta.services.lan.lan"
-                 - $ref: "#/$rels/seaf.ta.services.wan.wan"
+                $ref: "#/$rels/seaf.ta.services.network.network"
           required:
             - name
             - device_type
