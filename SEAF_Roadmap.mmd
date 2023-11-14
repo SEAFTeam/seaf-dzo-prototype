@@ -1,0 +1,80 @@
+gantt
+    dateFormat  YY-MM-DD
+    axisFormat w%W, %d.%m
+    title       Дорожная карта SEAF
+%%    excludes    weekends
+%%    axisFormat %m-%d
+
+    section Работа с фокусной группой (ФГ)
+        Вводная встреча ФГ : milestone, done, cickoff, 23-10-16, 23-10-16
+        Сценарий 1. Развертывание: done, Scenario1, 23-10-16, 7d
+        Ознакомление с SEAF-DZO : done, connectSEAF, after Scenario1, 10d
+        Сопровождение ФГ: done, after Scenario1, 15d
+        Проведение диагностических встреч: done, diagnostics, after connectSEAF, 15d
+        Свод всех потребностей ФГ (веха): milestone, done, after diagnostics, 1d
+        Исследование кейсов ФГ: done, DZO_cases_invest, after connectSEAF, 15d
+        Разработка модели зрелости управления по SEAF: active, after DZO_cases_invest, 10d
+        Разработка чек-листа SEAF 1.1: active, after DZO_cases_invest, 7d
+        Разработка дорожной карты SEAF: active, roadmap, after DZO_cases_invest, 7d
+        Сценарий 2. Разработка КА ДЗО для отчетности: active, kadzo, after roadmap, 5d
+    section Бизнес-архитектура
+        Сценарий 3.1. Экспресс-описание БА: done, BA_express, after diagnostics, 7d
+        Сценарий 3.2. Описание стандартов и/или требований (НМД и ЛНА): BA_express, after diagnostics, 7d
+        Сценарий 3.3. ProcessMining и TaskMining:       20d
+    section Прикладная архитектура
+        Сценарий 5.1. Реверс описания прикладной архитектуры из GitLab:     after DZO_cases_invest, 20d
+        Сценарий 5.2. Ручное описание прикладных сервисов, компонентов, справочников: after ADZO_cases_invest, 20d
+        Сценарий 5.3. Описание архитектуры АС/услуги по ТЗ: after DZO_cases_invest, 20d
+        Сценарий 5.4. Описание архитектуры АС/услуги по данным процесса РБПО: after DZO_cases_invest, 20d
+    section Техническая архитектура
+        Сценарий 7.1. Реверс архитектуры из SberCloud                               : active, IAAS_reverse_Cloud, after roadmap, 15d
+        Сценарий 7.2. Автоматизация формирования схемы Р41                          :       after DZO_cases_invest, 20d
+        Сценарий 7.3. Автоматизация проверки требований стандартов к ТА SEAF CORE   :       after DZO_cases_invest, 20d
+        Сценарий 7.4. Автоматизация проверки требований КБ к ТА SEAF CORE           :       after DZO_cases_invest, 20d
+        Сценарий 7.5. Управление архитектурой в Ansible                             :       after DZO_cases_invest, 20d
+        Сценарий 7.6. Актуализация описания в репозитории структуры базы данных     :       after DZO_cases_invest, 20d
+        Сценарий 7.7. Актуализация описания архитектуры через LinkerD|Jagger        :       after DZO_cases_invest, 20d
+        Сценарий 7.8. Актуализация описания архитектуры из документации (ТР, ПЗ к ТР):      after DZO_cases_invest, 20d
+        Сценарий 7.9. Ручное описание технического сервиса и связь с прикладным слоем:      after DZO_cases_invest, 20d
+        Сценарий 7.10.Реверс архитектуры из SberCloud Enterprise                    :       after DZO_cases_invest, 20d
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%
+%%        section Архитектура приложений
+%%            Вводная встреча фокусной группы            :done,    des1, 2014-01-06,2014-01-08
+%%            Active task               :active,  des2, 2014-01-09, 3d
+%%            Future task               :         des3, after des2, 5d
+%%            Future task2              :         des4, after des3, 5d
+%%
+%%
+%%        section Critical tasks
+%%            Completed task in the critical line :crit, done, 2014-01-06,24h
+%%            Implement parser and jison          :crit, done, after des1, 2d
+%%            Create tests for parser             :crit, active, 3d
+%%            Future task in critical line        :crit, 5d
+%%            Create tests for renderer           :2d
+%%            Add to mermaid                      :1d
+%%            Functionality added                 :milestone, 2014-01-25, 0d
+%%
+%%        section Documentation
+%%            Describe gantt syntax               :active, a1, after des1, 3d
+%%            Add gantt diagram to demo page      :after a1  , 20h
+%%            Add another diagram to demo page    :doc1, after a1  , 48h
+%%
+%%        section Last section
+%%            Describe gantt syntax               :after doc1, 3d
+%%            Add gantt diagram to demo page      :20h
+%%            Add another diagram to demo page    :48h

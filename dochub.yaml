@@ -4,6 +4,12 @@ docs:
     type: markdown
     source: README.md
 
+  dochub.welcome.timeline:
+    title: SEAF Roadmap
+    location: SEAF Roadmap
+    type: mermaid
+    source: SEAF_Roadmap.mmd
+
 imports:
   # Расширение для исследования метамодели
   - _metamodel_/mm-discovery/dochub.yaml
