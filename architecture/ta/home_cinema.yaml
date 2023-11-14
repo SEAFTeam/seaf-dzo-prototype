@@ -397,7 +397,7 @@ seaf.ta.components.server:
     ta_component_type: Аппаратный сервер
     type: Физический
     model: DL360 G8
-    storage_id: hw_storage.01
+    storage_id: sber.berezka.hw_storage.01
     network_connection:
       - sber.berezka.lan.192.168.2.0
 
@@ -422,7 +422,7 @@ seaf.ta.components.server:
     ta_component_type: Аппаратный сервер
     type: Физический
     model: DL360 G8
-    storage_id: hw_storage.01
+    storage_id: sber.berezka.hw_storage.01
   sber.berezka.server_metal.03:
     server_id: server_metal.03
     fqdn_name: server_metal.03.berezka.ru
@@ -444,7 +444,7 @@ seaf.ta.components.server:
     ta_component_type: Аппаратный сервер
     type: Физический
     model: DL360 G8
-    storage_id: hw_storage.01
+    storage_id: sber.berezka.hw_storage.01
   sber.berezka.server_metal.04:
     server_id: server_metal.04
     fqdn_name: server_metal.04.berezka.ru
@@ -466,7 +466,7 @@ seaf.ta.components.server:
     ta_component_type: Аппаратный сервер
     type: Физический
     model: DL360 G8
-    storage_id: hw_storage.01
+    storage_id: sber.berezka.hw_storage.01
   sber.berezka.server_metal.05:
     server_id: server_metal.05
     fqdn_name: server_metal.05.berezka.ru
@@ -488,7 +488,7 @@ seaf.ta.components.server:
     ta_component_type: Аппаратный сервер
     type: Физический
     model: DL360 G8
-    storage_id: hw_storage.01
+    storage_id: sber.berezka.hw_storage.01
   sber.berezka.server_metal.06:
     server_id: server_metal.06
     fqdn_name: server_metal.06.berezka.ru
@@ -510,7 +510,7 @@ seaf.ta.components.server:
     ta_component_type: Аппаратный сервер
     type: Физический
     model: DL360 G8
-    storage_id: hw_storage.01
+    storage_id: sber.berezka.hw_storage.01
   sber.berezka.server_metal.07:
     server_id: server_metal.07
     fqdn_name: server_metal.07.berezka.ru
@@ -532,7 +532,7 @@ seaf.ta.components.server:
     ta_component_type: Аппаратный сервер
     type: Физический
     model: DL360 G8
-    storage_id: hw_storage.01
+    storage_id: sber.berezka.hw_storage.01
   sber.berezka.server_metal.08:
     server_id: server_metal.08
     fqdn_name: server_metal.08.berezka.ru
@@ -554,7 +554,7 @@ seaf.ta.components.server:
     ta_component_type: Аппаратный сервер
     type: Физический
     model: DL360 G8
-    storage_id: hw_storage.01
+    storage_id: sber.berezka.hw_storage.01
 #### Создаём описание виртуальных серверов
 #### Сервера для прикладного компонента Авторизация
   sber.berezka.server_virtual.01:

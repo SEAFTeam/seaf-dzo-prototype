@@ -248,6 +248,7 @@ entities:
                 storage_id:
                   title: Подключенные СХД
                   type: string
+                  $ref: "#/$rels/seaf.ta.components.hw_storage.hw_storage"
                 nic_qty:
                   title: Количество NIC
                   type: integer
