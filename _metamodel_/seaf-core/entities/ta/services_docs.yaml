@@ -207,10 +207,16 @@ docs:
         )]^(id)]
       )
 
-  seaf.ta.services.sw_storage:
+  seaf.ta.services.storage:
     type: table
     #location: Таблица тех сервисов (ЦОД)
     headers:
+
+      - value: type
+        text: Тип хранилища
+        sortable: true
+        align: left
+        width: 20%
 
       - value: availabilityzone_id
         text: Availability Zone ID
@@ -218,8 +224,21 @@ docs:
         align: left
         width: 20%
 
+      - value: name
+        text: Имя хранилища
+        sortable: true
+        align: left
+        width: 20%
+
+
       - value: software
         text: ПО реализующее SDS
+        sortable: true
+        align: left
+        width: 20%
+
+      - value: sla
+        text: SLA хранилища
         sortable: true
         align: left
         width: 20%
@@ -256,12 +275,14 @@ docs:
 
     source: >
       (
-        [[$."seaf.ta.services.sw_storage".$spread().(
+        [[$."seaf.ta.services.storage".$spread().(
           $COMPONENT_ID := $keys()[0];
       	 $.*.{
-      		"id": $COMPONENT_ID,
+            "type": type,
             "availabilityzone_id": availabilityzone_id,
+         	"name": name,
          	"software": software,
+         	"sla": sla,      
          	"volume": volume,
          	"disk_type": disk_type,
          	"erasure_coding": erasure_coding,
@@ -270,54 +291,6 @@ docs:
       	  }
         )]^(id)]
       )
-  seaf.ta.services.obj_storage:
-    type: table
-    headers:
-      - value: availabilityzone_id
-        text: Datacenter ID
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: name
-        text: Имя хранилища
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: software
-        text: ПО реализующее SDS
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: sla
-        text: SLA хранилища
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: server_id
-        text: Список серверов реализующих кластер
-        sortable: true
-        align: left
-        width: 20%
-
-    source: >
-      (
-        [[$."seaf.ta.services.obj_storage".$spread().(
-          $COMPONENT_ID := $keys()[0];
-      	 $.*.{
-      		"id": $COMPONENT_ID ,
-            "availabilityzone_id": availabilityzone_id,
-         	"name": name,
-         	"software": software,
-         	"sla": sla,
-         	"server_id": server_id      
-      	  }
-        )]^(id)]
-      )
-
   seaf.ta.services.cluster_virtualization:
     type: table
     headers:
@@ -497,9 +470,14 @@ docs:
         )]^(id)]
       )      
 
-  seaf.ta.services.wan:
+  seaf.ta.services.network:
     type: table
     headers:
+      - value: type
+        text: Тип сети
+        sortable: true
+        align: left
+        width: 20%
 
       - value: dc_id
         text: Datacenter ID
@@ -519,6 +497,24 @@ docs:
         align: left
         width: 20%
 
+      - value: segment
+        text: Сегмент сети
+        sortable: true
+        align: left
+        width: 20%
+
+      - value: vlan
+        text: VLAN
+        sortable: true
+        align: left
+        width: 20%
+
+      - value: ipnetowrk
+        text: IP-сеть и маска
+        sortable: true
+        align: left
+        width: 20%
+
       - value: ch_number
         text: Номер канала
         sortable: true
@@ -531,8 +527,8 @@ docs:
         align: left
         width: 20%
 
-      - value: type
-        text: Тип канала
+      - value: lan_type
+        text: Тип LAN сети
         sortable: true
         align: left
         width: 20%
@@ -563,16 +559,20 @@ docs:
 
     source: >
       (
-        [[$."seaf.ta.services.wan".$spread().(
+        [[$."seaf.ta.services.network".$spread().(
           $COMPONENT_ID := $keys()[0];
       	 $.*.{
       		"id": $COMPONENT_ID ,
+         	"type": type,
             "dc_id": dc_id,
             "office_id": office_id,
             "availabilityzone_id": availabilityzone_id,
+            "segment": segment,
+         	"vlan": vlan,
+         	"ipnetowrk": ipnetowrk,
          	"ch_number": ch_number,
          	"wan_ip": wan_ip,
-         	"type": type,
+         	"lan_type": lan_type,      
          	"provider": provider,
          	"bandwidth": bandwidth,
          	"description": description,
@@ -581,153 +581,7 @@ docs:
         )]^(id)]
       )
 
-  seaf.ta.services.lan:
-    type: table
-    headers:
-
-      - value: dc_id
-        text: Datacenter ID
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: office_id
-        text: Офис
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: availabilityzone_id
-        text: Availability Zone ID
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: type
-        text: Тип LAN
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: vlan
-        text: Имя виртуальной сети (VLAN)
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: ipnetowrk
-        text: IP-сеть и маска
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: network_appliance_id
-        text: ID оборудования коммутации сети
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: purpose
-        text: Назначение сети
-        sortable: true
-        align: left
-        width: 20%
-
-    source: >
-      (
-        [[$."seaf.ta.services.lan".$spread().(
-          $COMPONENT_ID := $keys()[0];
-      	 $.*.{
-      		"id": $COMPONENT_ID ,
-         	"dc_id": dc_id,
-         	"office_id": office_id,
-         	"availabilityzone_id": availabilityzone_id,
-         	"type": type,
-         	"vlan": vlan,
-         	"ipnetowrk": ipnetowrk,
-         	"network_appliance_id": network_appliance_id,
-         	"purpose": purpose
-      	  }
-        )]^(id)]
-      )
-
-  seaf.ta.services.dmz:
-    type: table
-    headers:
-
-      - value: dc_id
-        text: Datacenter ID
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: office_id
-        text: Офис
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: availabilityzone_id
-        text: Availability Zone ID
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: vlan
-        text: Имя виртуальной сети (VLAN)
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: ipnetowrk
-        text: IP-сеть и маска
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: network_appliance_id
-        text: ID оборудования коммутации сети
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: localareanetwork_id
-        text: ID LAN сети между которыми находится DMZ сеть
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: wideareanetwork_id
-        text: ID WAN сети между которыми находится DMZ сеть
-        sortable: true
-        align: left
-        width: 20%
-
-      - value: purpose
-        text: Назначение сети
-        sortable: true
-        align: left
-        width: 20%
-
-    source: >
-      (
-        [[$."seaf.ta.services.dmz".$spread().(
-          $COMPONENT_ID := $keys()[0];
-      	 $.*.{
-      		"id": $COMPONENT_ID ,
-         	"dc_id": dc_id,
-         	"office_id": office_id,
-         	"availabilityzone_id": availabilityzone_id,
-         	"vlan": vlan,
-         	"ipnetowrk": ipnetowrk,
-         	"localareanetwork_id": localareanetwork_id,
-         	"wideareanetwork_id": wideareanetwork_id,      
-         	"network_appliance_id": network_appliance_id,
-         	"purpose": purpose
-      	  }
-        )]^(id)]
-      )
-      
+     
 
   seaf.ta.services.network_links:
     type: table
@@ -837,6 +691,12 @@ docs:
         align: left
         width: 20%
 
+      - value: server_id
+        text: Список серверов реализующих СРК
+        sortable: true
+        align: left
+        width: 20%
+
     source: >
       (
         [[$."seaf.ta.services.backup".$spread().(
@@ -847,6 +707,7 @@ docs:
          	"name": name,
          	"path": path,
          	"schedule": schedule,
+         	"server_id": server_id,      
          	"replication": replication  ? "Да": "Нет"
       	  }
         )]^(id)]
@@ -879,6 +740,12 @@ docs:
         align: left
         width: 20%
 
+      - value: server_id
+        text: Список серверов реализующих СМ
+        sortable: true
+        align: left
+        width: 20%
+
     source: >
       (
         [[$."seaf.ta.services.monitoring".$spread().(
@@ -887,6 +754,7 @@ docs:
          	"availabilityzone_id": availabilityzone_id,
          	"name": name,
          	"role": role,
+         	"server_id": server_id,          
          	"ha": ha  ? "Да": "Нет"
       	  }
         )]^(id)]
@@ -931,6 +799,12 @@ docs:
         align: left
         width: 20%
 
+      - value: server_id
+        text: Список серверов на которых установлена лицензия
+        sortable: true
+        align: left
+        width: 20%
+
     source: >
       (
         [[$."seaf.ta.services.licenses".$spread().(
@@ -941,7 +815,8 @@ docs:
          	"type": type,
          	"support": support,
          	"expiration": expiration,
-         	"lic_qty": lic_qty   
+         	"lic_qty": lic_qty,
+         	"server_id": server_id      
       	  }
         )]^(id)]
       )

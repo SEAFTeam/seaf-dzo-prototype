@@ -13,11 +13,8 @@
 ## Clusters
 ![Clusters](@document/seaf.ta.services.cluster)
 
-## Software Defined Storage
-![Software Defined Storage](@document/seaf.ta.services.sw_storage)
-
-## Simple Storage Service
-![Simple Storage Service](@document/seaf.ta.services.obj_storage)
+## Storages
+![Storages](@document/seaf.ta.services.storage)
 
 ## Virtualization Cluster
 ![Virtualization Cluster](@document/seaf.ta.services.cluster_virtualization)
@@ -25,14 +22,8 @@
 ## Kubernetes Cluster
 ![Kubernetes Cluster](@document/seaf.ta.services.k8s)
 
-## WAN Netowrks
-![WAN Netowrks](@document/seaf.ta.services.wan)
-
-## LAN Networks
-![LAN Networks](@document/seaf.ta.services.lan)
-
-## DMZ Networks
-![DMZ Networks](@document/seaf.ta.services.dmz)
+## Netowrks
+![Netowrks](@document/seaf.ta.services.network)
 
 ## Network Links
 ![Network Links](@document/seaf.ta.services.network_links)
