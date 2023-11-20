@@ -814,8 +814,6 @@ seaf.ta.services.k8s:
     hpa: true
     keys: Vault
     policy: Kyverno
-    dc_id:
-      - sber.berezka.dc.01
     server_id:
       - sber.berezka.server_virtual.05
       - sber.berezka.server_virtual.06
@@ -835,8 +833,6 @@ seaf.ta.services.k8s:
     worker_qty: 2
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
-    dc_id:
-      - sber.berezka.dc.02
     cni:  Calico
     is_own: false
     cluster_autoscaler: true

@@ -301,11 +301,6 @@ entities:
             office_id:
               title: Офис
               $ref: "#/$rels/seaf.ta.services.office.office"
-            network_connection:
-              title: Перечисление связанных сетей
-              type: string
-              items:
-                $ref: "#/$rels/seaf.ta.services.network.network"
           required:
             - network_appliance_id
             - name
