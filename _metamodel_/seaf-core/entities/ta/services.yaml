@@ -1,15 +1,9 @@
 entities:
-  #### Описание классификатора. Данные из выпадаюещего списка обязательные для всех сущностей ####
-  seaf.ta.services.classified:
-    title: Классификатор
+#### Базовые свойства Технологического сервиса. Включается описание из классификатора выше ####
+  seaf.ta.services.entity:
+    title: Базовая сущность сервиса
     schema:
       $defs:
-        # Базовые типы Технологических сервисов
-        seaf.ta.services.base.types:
-          title: Тип технологического сервиса
-          type: string
-          enum: [Регион, Зона доступности, ЦОД, Программная СХД, Объектная СХД, Вычислительный сервис, Кластер, Виртуализация, Контейнеризация, Сеть LAN, Сеть WAN, Сеть DMZ, Канал передачи данных, Система резервного копирования, Система мониторинга, Лицензия, Офис]
-#### Базовые свойства Технологического сервиса. Включается описание из классификатора выше ####
         seaf.ta.services.base.entity:
           type: object
           properties:
@@ -23,124 +17,7 @@ entities:
               title: Перечисление связанных прикладных компонентов с технологичесим сервисов в виде массива
               type: array
               items:
-                 $ref: "#/$rels/components.component"
-            ta_services_type:
-              $ref: "#/$defs/seaf.ta.services.base.types"
-          required:
-            - ta_services_type
-#### Описания родительских технологических сервисов. Включается описание из классификатора и добавляется уникальное поле с идентификатором ТК *_id ####
-        seaf.ta.services.base.dc_region:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            region_id:
-              title: Region ID
-              type: string
-          required:
-            - region_id
-        seaf.ta.services.base.dc_az:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            availabilityzone_id:
-              title: Availability Zone ID
-              type: string
-          required:
-            - availabilityzone_id
-        seaf.ta.services.base.dc:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            dc_id:
-              title: Datacenter ID
-              type: string
-          required:
-            - dc_id
-        seaf.ta.services.base.cluster:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            cluster_id:
-              title: Cluster ID
-              type: string
-          required:
-            - cluster_id
-        seaf.ta.services.base.compute:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            compute_id:
-              title: Compute Service ID
-              type: string
-          required:
-            - compute_id
-        seaf.ta.services.base.storage:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            storage_id:
-              title: Storage ID
-              type: string
-          required:
-            - storage_id
-        seaf.ta.services.base.cluster_virtualization:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            virtualization_id:
-              title: Virtualization cluster ID
-              type: string
-          required:
-            - virtualization_id
-        seaf.ta.services.base.k8s:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            kubernetes_id:
-              title: Kubernetes cluster ID
-              type: string
-          required:
-            - kubernetes_id
-        seaf.ta.services.base.network:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            network_id:
-              title: Network ID
-              type: string
-          required:
-            - network_id
-        seaf.ta.services.base.network_links:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            sitelinks_id:
-              title: Site Links ID
-              type: string
-          required:
-            - sitelinks_id
-        seaf.ta.services.base.backup:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            backup_id:
-              title: Backup System ID
-              type: string
-          required:
-            - backup_id
-        seaf.ta.services.base.monitoring:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            monitoring_id:
-              title: Monitoring System ID
-              type: string
-          required:
-            - monitoring_id
-        seaf.ta.services.base.licenses:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            software_id:
-              title: Software ID
-              type: string
-          required:
-            - software_id
-        seaf.ta.services.base.office:
-          $ref: "#/$defs/seaf.ta.services.base.entity"
-          properties:
-            office_id:
-              title: Office ID
-              type: string
-          required:
-            - office_id
+                $ref: "#/$rels/components.component"
 
 #### Описания технологических сервисов. Добавляются все необходимые поля и устанавливаются правила их наполнения ####
   seaf.ta.services.dc_region:
@@ -153,12 +30,16 @@ entities:
       type: object
       patternProperties:
         "^[a-zA-Z0-9_\\.]*$":
-          $ref: "#/$defs/seaf.ta.services.base.dc_region"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            region_id:
+              title: Region ID
+              type: string
             region_name:
               title: Имя региона
               type: string
           required:
+            - region_id
             - region_name
 
   seaf.ta.services.dc_az:
@@ -171,8 +52,11 @@ entities:
       type: object
       patternProperties:
         "^[a-zA-Z0-9_\\.]*$":
-          $ref: "#/$defs/seaf.ta.services.base.dc_az"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            availabilityzone_id:
+              title: Availability Zone ID
+              type: string
             az_name:
               title: Имя зоны доступности
               type: string
@@ -183,6 +67,7 @@ entities:
               title: В какой регион входит зона доступности
               $ref: "#/$rels/seaf.ta.services.dc_region.dc_region"
           required:
+            - availabilityzone_id
             - az_name
             - az_vendor
             - region_id
@@ -197,8 +82,11 @@ entities:
       type: object
       patternProperties:
         "^[a-zA-Z0-9_\\.]*$":
-          $ref: "#/$defs/seaf.ta.services.base.dc"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            dc_id:
+              title: Datacenter ID
+              type: string
             dc_name:
               title: Имя ЦОД/Серверной комнаты
               type: string
@@ -224,6 +112,7 @@ entities:
               title: В какие зоны доступности входит DC
               $ref: "#/$rels/seaf.ta.services.dc_az.dc_az"
           required:
+            - dc_id
             - dc_name
             - dc_ownership
             - dc_type
@@ -244,8 +133,11 @@ entities:
       patternProperties:
         "[a-zA-Z0-9_\\.]*":
           type: object
-          $ref: "#/$defs/seaf.ta.services.base.office"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            office_id:
+              title: Office ID
+              type: string
             name:
               title: Имя офиса
               type: string
@@ -258,6 +150,7 @@ entities:
               items:
                 $ref: "#/$rels/seaf.ta.services.network.network"
           required:
+            - office_id
             - name
             - address
 
@@ -270,8 +163,11 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       $defs:
         seaf.ta.services.cluster:
-          $ref: "#/$defs/seaf.ta.services.base.cluster"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            cluster_id:
+              title: Cluster ID
+              type: string
             availabilityzone_id:
               title: В какие зоны доступности входит DC
               type: array
@@ -289,6 +185,7 @@ entities:
               items:
                 $ref: "#/$rels/seaf.ta.services.network.network"
           required:
+            - cluster_id
             - availabilityzone_id
             - server_id
       type: object
@@ -305,8 +202,11 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       $defs:
         seaf.ta.services.compute_service:
-          $ref: "#/$defs/seaf.ta.services.base.compute"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            compute_id:
+              title: Compute Service ID
+              type: string
             availabilityzone_id:
               title: В какие зоны доступности входит DC
               type: array
@@ -323,12 +223,14 @@ entities:
               items:
                 $ref: "#/$rels/seaf.ta.services.network.network"
           required:
+            - compute_id
             - availabilityzone_id
             - server_id
       type: object
       patternProperties:
         "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.services.compute_service"
+
   seaf.ta.services.storage:
     title: Storage
     objects:
@@ -338,10 +240,13 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       $defs:
         seaf.ta.services.storage:
-          $ref: "#/$defs/seaf.ta.services.base.storage"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           oneOf:
             - type: object
               properties:
+                storage_id:
+                  title: Storage ID
+                  type: string
                 type:
                   type: string
                   enum: [Software Defined Storage]
@@ -377,6 +282,7 @@ entities:
                   items:
                     $ref: "#/$rels/seaf.ta.services.network.network"
               required:
+                - storage_id
                 - type
                 - software
                 - volume
@@ -385,6 +291,9 @@ entities:
               additionalProperties: false
             - type: object
               properties:
+                storage_id:
+                  title: Storage ID
+                  type: string
                 type:
                   type: string
                   enum: [Simple Storage Service]
@@ -413,6 +322,7 @@ entities:
                   items:
                     $ref: "#/$rels/seaf.ta.services.network.network"
               required:
+                - storage_id
                 - type
                 - name
                 - availabilityzone_id
@@ -421,6 +331,7 @@ entities:
       patternProperties:
         "[a-zA-Z0-9_\\.]*":
           $ref: "#/$defs/seaf.ta.services.storage"
+
   seaf.ta.services.cluster_virtualization:
     title: Описание кластера виртуализации
     objects:
@@ -431,8 +342,11 @@ entities:
       type: object
       patternProperties:
         "[a-zA-Z0-9_\\.]*":
-          $ref: "#/$defs/seaf.ta.services.cluster"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            virtualization_id:
+              title: Virtualization cluster ID
+              type: string
             name:
               title: Имя хранилища
               type: string
@@ -467,6 +381,7 @@ entities:
               items:
                 $ref: "#/$rels/seaf.ta.services.network.network"
           required:
+            - virtualization_id
             - availabilityzone_id
             - name
 
@@ -479,8 +394,11 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       $defs:
         seaf.ta.services.k8s:
-          $ref: "#/$defs/seaf.ta.services.base.k8s"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            kubernetes_id:
+              title: Kubernetes cluster ID
+              type: string
             availabilityzone_id:
               title: В какие зоны доступности входит DC
               type: array
@@ -538,6 +456,7 @@ entities:
               items:
                 $ref: "#/$rels/seaf.ta.services.network.network"
           required:
+            - kubernetes_id
             - availabilityzone_id
             - dc_id
             - cluster_fqdn
@@ -561,10 +480,13 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       $defs:
         seaf.ta.services.network:
-          $ref: "#/$defs/seaf.ta.services.base.network"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           oneOf:
             - type: object
               properties:
+                network_id:
+                  title: Network ID
+                  type: string
                 type:
                   type: string
                   enum: [WAN]
@@ -602,6 +524,7 @@ entities:
                   items:
                     $ref: "#/$rels/seaf.ta.components.network.network"
               required:
+                - network_id
                 - wan_ip
                 - type
                 - provider
@@ -610,6 +533,9 @@ entities:
               additionalProperties: false
             - type: object
               properties:
+                network_id:
+                  title: Network ID
+                  type: string
                 type:
                   type: string
                   enum: [LAN]
@@ -649,6 +575,7 @@ entities:
                   items:
                     $ref: "#/$rels/seaf.ta.components.network.network"
               required:
+                - network_id
                 - type
                 - lan_type
                 - ipnetowrk
@@ -668,8 +595,11 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       $defs:
         seaf.ta.services.network_links:
-          $ref: "#/$defs/seaf.ta.services.base.network_links"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            networklinks_id:
+              title: Network Links ID
+              type: string
             network_appliance_id:
               title: Сетевые устройства ID реализующие связь
               type: array
@@ -694,6 +624,7 @@ entities:
               type: string
               enum: [Основной, Резервный]
           required:
+            - networklinks_id
             - network_appliance_id
             - type
             - ch_type
@@ -712,8 +643,11 @@ entities:
       type: object
       patternProperties:
         "[a-zA-Z0-9_\\.]*":
-          $ref: "#/$defs/seaf.ta.services.base.backup"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            backup_id:
+              title: Backup System ID
+              type: string
             availabilityzone_id:
               title: В какие зоны доступности входит DC
               type: array
@@ -737,6 +671,7 @@ entities:
               items:
                 $ref: "#/$rels/seaf.ta.components.server.server"
           required:
+            - backup_id
             - availabilityzone_id
             - name
             - path
@@ -751,8 +686,11 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       $defs:
         seaf.ta.services.monitoring:
-          $ref: "#/$defs/seaf.ta.services.base.monitoring"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            monitoring_id:
+              title: Monitoring System ID
+              type: string
             availabilityzone_id:
               title: В какие зоны доступности входит DC
               type: array
@@ -774,6 +712,7 @@ entities:
               items:
                 $ref: "#/$rels/seaf.ta.components.server.server"
           required:
+            - monitoring_id
             - availabilityzone_id
             - role
             - name
@@ -793,8 +732,11 @@ entities:
       type: object
       patternProperties:
         "[a-zA-Z0-9_\\.]*":
-          $ref: "#/$defs/seaf.ta.services.base.licenses"
+          $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
+            software_id:
+              title: Software ID
+              type: string
             vendor:
               title: Производитель ПО
               type: string
@@ -820,6 +762,7 @@ entities:
               items:
                 $ref: "#/$rels/seaf.ta.components.server.server"
           required:
+            - software_id
             - vendor
             - name
             - type
