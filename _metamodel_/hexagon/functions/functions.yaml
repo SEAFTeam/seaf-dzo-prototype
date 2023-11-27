@@ -86,7 +86,7 @@ hexF:
                   /*$tails:= $reduce($tails, $append);*/
                   $heads:= $edgeRule = "EVERY" ? $eval($$.hexF.getEvery, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}) :
                            $edgeRule = "ANY" ? $eval($$.hexF.getAny, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}):
-                           $eedgeRule = "ONE" ? $eval($$.hexF.getOne, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}):
+                           $edgeRule = "ONE" ? $eval($$.hexF.getOne, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails}):
                            $edgeRule = "NONE" ? $eval($$.hexF.getNone, {"heads": $heads, "dir": $edgeDir, "label": $edgeLabel, "tails": $tails});
                 );
                 $ic<$count($conditions)-1 ? $accum ($heads, $conditions, $ic+1) : $heads
