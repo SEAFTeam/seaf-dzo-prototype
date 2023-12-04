@@ -355,18 +355,15 @@ entities:
             name:
               title: Имя хранилища
               type: string
-            #Часть 3. TACIR_1-КП-ПВ-2-01.
             hypervisor:
               title: Гипервизор
               type: string
             oversubscription_rate:
               title: Коэффициент переподписки кластера виртуализации
               type: integer
-            #Часть 3. TACIR_1-КП-ПВ-4-01.
             drs_support:
               title: Поддержка DRS кластером виртуализации
               type: boolean
-            #Часть 3. TACIR_1-КП-ПВ-5-01.
             sdrs_support:
               title: Поддержка Storage DRS кластером виртуализации
               type: boolean

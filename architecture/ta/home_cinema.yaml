@@ -209,6 +209,7 @@ seaf.ta.services.network:
     ipnetowrk: 192.168.3.0/24
     network_appliance_id:
       -
+
     description: Сеть внутри VK
     dc_id:
       - sber.berezka.dc.02
@@ -903,8 +904,8 @@ seaf.ta.services.licenses:
     lic_qty: 10
 
 #### Создаём описание развёртываний
-seaf.ta.components.k8s_deployment:
-  seaf.ta.services.k8s_deployment.auth:
+seaf.ta.components.k8s_deployment_dzo:
+  seaf.ta.components.k8s_deployment.auth:
     maxunavailable: 2
     update_strategy: RollingUpdate
     kubernetes_id:
@@ -915,7 +916,7 @@ seaf.ta.components.k8s_deployment:
     deployment_id: k8s_deployment.auth
     availabilityzone_id: sber.berezka.dc_az.moscow
 
-  seaf.ta.services.k8s_deployment.payments:
+  seaf.ta.components.k8s_deployment.payments:
     maxunavailable: 2
     update_strategy: RollingUpdate
     kubernetes_id:
@@ -927,7 +928,7 @@ seaf.ta.components.k8s_deployment:
     availabilityzone_id: sber.berezka.dc_az.moscow
 
 #### Создаём описание POD
-seaf.ta.components.k8s_pod:
+seaf.ta.components.k8s_pod_dzo:
   seaf.ta.services.k8s_pod.auth:
     tmp_storage: 100
     pv: false
@@ -963,7 +964,7 @@ seaf.ta.components.k8s_pod:
     priorityclass: 5
 
 #### Создаём описание контейнера
-seaf.ta.components.k8s_container:
+seaf.ta.components.k8s_container_dzo:
   seaf.ta.services.k8s_container.identity:
     container_ram: 512
     name: Identity Container
@@ -985,7 +986,7 @@ seaf.ta.components.k8s_container:
     affinity: yes
 
 #### Создаём описание образа
-seaf.ta.components.k8s_image:
+seaf.ta.components.k8s_image_dzo:
   seaf.ta.services.k8s_image.identity:
     repo_path: https://repo.berezka.ru/repo
     image_size: 1000

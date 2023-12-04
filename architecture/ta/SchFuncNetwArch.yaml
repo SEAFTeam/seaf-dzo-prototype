@@ -29,7 +29,6 @@ seaf.ta.components.user_device:
 seaf.ta.services.dc_region:
   sber.berezka.dc_region.russia:
     region_id: dc_region.russia
-    ta_services_type: Регион
     region_name: Регион Россия
     title: Регион доступности Россия ООО Березка
     app_components:
@@ -45,7 +44,6 @@ seaf.ta.services.dc_az:
     region_id: sber.berezka.dc_region.russia
     az_vendor: Березка
     availabilityzone_id: dc_az.moscow
-    ta_services_type: Зона доступности
     app_components:
       - sber.berezka.home_cinema.auth
       - sber.berezka.home_cinema.catalog
@@ -62,7 +60,6 @@ seaf.ta.services.dc:
     dc_address: Огородный проезд
     dc_rack_qty: 5
     dc_tier: '3'
-    ta_services_type: ЦОД
     dc_ownership: Аренда
     availabilityzone_id: sber.berezka.dc_az.moscow
     app_components:
@@ -1102,7 +1099,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.checkpoint.01
     wan_ip: 1.1.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     office_id: sber.berezka.office.hq
@@ -1114,7 +1110,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.01
     wan_ip: 1.2.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     office_id: sber.berezka.office.hq
@@ -1126,7 +1121,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.02
     wan_ip: 1.3.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     office_id: sber.berezka.office.hq
@@ -1138,7 +1132,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.03
     wan_ip: 1.4.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     office_id: sber.berezka.office.hq
@@ -1150,7 +1143,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.04
     wan_ip: 1.5.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     office_id: sber.berezka.office.hq
@@ -1164,7 +1156,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.fpsu.01
     wan_ip: 1.6.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     dc_id: 
@@ -1177,7 +1168,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.06
     wan_ip: 1.7.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     dc_id:
@@ -1190,7 +1180,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.09
     wan_ip: 1.8.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     dc_id:
@@ -1203,7 +1192,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.10
     wan_ip: 1.9.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     dc_id:
@@ -1216,7 +1204,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.07
     wan_ip: 1.10.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     dc_id:
@@ -1229,7 +1216,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.08
     wan_ip: 1.11.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     dc_id:
@@ -1242,7 +1228,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.09
     wan_ip: 1.12.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     dc_id:
@@ -1255,7 +1240,6 @@ seaf.ta.services.wan:
       - sber.berezka.network.cisco.10
     wan_ip: 1.13.1.0/28
     type: Выделенный
-    ta_services_type: Сеть WAN
     availabilityzone_id:
       - sber.berezka.dc_az.moscow
     dc_id:
@@ -1268,7 +1252,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_Wi-Fi Guests
     type: Беспроводная
     ipnetowrk: 192.168.0.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.01
     description: Wi-Fi Guests
@@ -1278,7 +1261,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_OF-EXT LAN
     type: Проводная
     ipnetowrk: 192.168.1.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.02
       - sber.berezka.network.checkpoint.03
@@ -1291,7 +1273,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_OF-Security
     type: Проводная
     ipnetowrk: 192.168.2.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.04
     description: OF-Security
@@ -1301,7 +1282,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_OF-INT LAN
     type: Проводная
     ipnetowrk: 192.168.3.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.05
       - sber.berezka.network.checkpoint.06
@@ -1321,7 +1301,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_Wi-Fi АРМ
     type: Беспроводная
     ipnetowrk: 192.168.4.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.06
     description: Wi-Fi АРМ
@@ -1331,7 +1310,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_Wired АРМ
     type: Проводная
     ipnetowrk: 192.168.5.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.07
     description: Wired АРМ
@@ -1341,7 +1319,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_APM Admin
     type: Проводная
     ipnetowrk: 192.168.6.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.08
     description: APM Admin
@@ -1351,7 +1328,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_Printers
     type: Проводная
     ipnetowrk: 192.168.7.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.09
     description: Printers
@@ -1361,7 +1337,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_Wi-Fi iOT
     type: Беспроводная
     ipnetowrk: 192.168.8.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.10
     description: Wi-Fi iOT
@@ -1371,7 +1346,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_IP-Phones
     type: Проводная
     ipnetowrk: 192.168.9.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.11
     description: IP-Phones
@@ -1381,7 +1355,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_PR-Security
     type: Проводная
     ipnetowrk: 192.168.10.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.12
     description: PR-Security
@@ -1391,7 +1364,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_IP Cams
     type: Проводная
     ipnetowrk: 192.168.11.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.15
     description: IP CamsВнутренняя сеть офиса (ЛВС)
@@ -1401,7 +1373,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_OF-MGMT
     type: Проводная
     ipnetowrk: 192.168.12.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.13
     description: OF-MGMT
@@ -1411,7 +1382,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_OF-IT Services
     type: Проводная
     ipnetowrk: 192.168.13.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.14
     description: OF-IT Services
@@ -1422,7 +1392,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_INT-CORE
     type: Проводная
     ipnetowrk: 192.168.114.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.40
       - sber.berezka.network.checkpoint.41
@@ -1448,7 +1417,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_INT-Security
     type: Проводная
     ipnetowrk: 192.168.115.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.42
       - sber.berezka.network.checkpoint.43
@@ -1460,7 +1428,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_INT-IT Services
     type: Проводная
     ipnetowrk: 192.168.116.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.44
       - sber.berezka.network.checkpoint.45
@@ -1472,7 +1439,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_INT-USERS
     type: Проводная
     ipnetowrk: 192.168.117.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.48
       - sber.berezka.network.checkpoint.49
@@ -1488,7 +1454,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_INT-ВАРМ-Admins
     type: Проводная
     ipnetowrk: 192.168.118.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.58
       - sber.berezka.network.checkpoint.59
@@ -1500,7 +1465,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_ INT-ВАРМ-Users
     type: Проводная
     ipnetowrk: 192.168.119.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.60
       - sber.berezka.network.checkpoint.61
@@ -1512,7 +1476,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_INT-MGMT
     type: Проводная
     ipnetowrk: 192.168.120.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.46
       - sber.berezka.network.checkpoint.47
@@ -1524,7 +1487,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_INT-Backup&Recovery
     type: Проводная
     ipnetowrk: 192.168.121.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.48
       - sber.berezka.network.checkpoint.49
@@ -1536,7 +1498,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_INT-PROD
     type: Проводная
     ipnetowrk: 192.168.122.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.52
       - sber.berezka.network.checkpoint.53
@@ -1552,7 +1513,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_VLAN PROD INT (FRONT-END)
     type: Проводная
     ipnetowrk: 192.168.123.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.52
       - sber.berezka.network.checkpoint.53
@@ -1568,7 +1528,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_VLAN PROD (APPS)
     type: Проводная
     ipnetowrk: 192.168.124.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.52
       - sber.berezka.network.checkpoint.53
@@ -1584,7 +1543,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_VLAN PROD (BACK-END)
     type: Проводная
     ipnetowrk: 192.168.125.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.52
       - sber.berezka.network.checkpoint.53
@@ -1600,7 +1558,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_VLAN PROD Kubernets
     type: Проводная
     ipnetowrk: 192.168.126.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.52
       - sber.berezka.network.checkpoint.53
@@ -1616,7 +1573,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_PROD Virtualization
     type: Проводная
     ipnetowrk: 192.168.127.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.52
       - sber.berezka.network.checkpoint.53
@@ -1632,7 +1588,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_PROD SDS
     type: Проводная
     ipnetowrk: 192.168.128.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.52
       - sber.berezka.network.checkpoint.53
@@ -1648,7 +1603,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_INT-tPZ
     type: Проводная
     ipnetowrk: 192.168.129.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.50
       - sber.berezka.network.checkpoint.51
@@ -1660,7 +1614,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_VLAN TEST (FRONT INT)
     type: Проводная
     ipnetowrk: 192.168.130.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.50
       - sber.berezka.network.checkpoint.51
@@ -1672,7 +1625,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_VLAN TEST (APPS)
     type: Проводная
     ipnetowrk: 192.168.131.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.50
       - sber.berezka.network.checkpoint.51
@@ -1684,7 +1636,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_VLAN TEST (BACK)
     type: Проводная
     ipnetowrk: 192.168.132.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.50
       - sber.berezka.network.checkpoint.51
@@ -1696,7 +1647,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_VLAN TEST Kubernets
     type: Проводная
     ipnetowrk: 192.168.133.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.50
       - sber.berezka.network.checkpoint.51
@@ -1708,7 +1658,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_VLAN PROD-FIR
     type: Проводная
     ipnetowrk: 192.168.134.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.52
       - sber.berezka.network.checkpoint.53
@@ -1720,7 +1669,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_SDZ-CORE
     type: Проводная
     ipnetowrk: 192.168.135.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.62
       - sber.berezka.network.checkpoint.63
@@ -1742,7 +1690,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_SDZ-ВАРМ-Admins
     type: Проводная
     ipnetowrk: 192.168.136.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.64
       - sber.berezka.network.checkpoint.65
@@ -1754,7 +1701,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_SDZ-Security
     type: Проводная
     ipnetowrk: 192.168.137.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.68
       - sber.berezka.network.checkpoint.69
@@ -1766,7 +1712,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_SDZ-FIR
     type: Проводная
     ipnetowrk: 192.168.138.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.66
       - sber.berezka.network.checkpoint.67
@@ -1778,7 +1723,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_SDZ-IT Services
     type: Проводная
     ipnetowrk: 192.168.139.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.70
       - sber.berezka.network.checkpoint.71
@@ -1790,7 +1734,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_SDZ-MGMT
     type: Проводная
     ipnetowrk: 192.168.140.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.74
       - sber.berezka.network.checkpoint.70
@@ -1802,7 +1745,6 @@ seaf.ta.services.lan:
     localareanetwork_id: LAN_SDZ-tPZ
     type: Проводная
     ipnetowrk: 192.168.141.0/24
-    ta_services_type: Сеть LAN
     network_appliance_id:
       - sber.berezka.network.checkpoint.73
       - sber.berezka.network.checkpoint.74
@@ -1818,7 +1760,6 @@ seaf.ta.services.dmz:
     vlan: 200
     ipnetowrk: 172.16.0.0/24
     purpose: OF-Internet-edge
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: OF-Internet-edge
     network_appliance_id:
       - sber.berezka.network.cisco.01
@@ -1835,7 +1776,6 @@ seaf.ta.services.dmz:
     vlan: 201
     ipnetowrk: 172.16.1.0/24
     purpose: OF-NT-WAN-edge
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: OF-NT-WAN-edge
     network_appliance_id:
       - sber.berezka.network.cisco.03
@@ -1852,7 +1792,6 @@ seaf.ta.services.dmz:
     vlan: 202
     ipnetowrk: 172.16.2.0/24
     purpose: DC-Internet-edge
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: DC-Internet-edge
     network_appliance_id:
       - sber.berezka.network.cisco.05
@@ -1870,7 +1809,6 @@ seaf.ta.services.dmz:
     vlan: 203
     ipnetowrk: 172.16.3.0/24
     purpose: DC-EXT-WAN-edge
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: DC-EXT-WAN-edge
     network_appliance_id:
       - sber.berezka.network.cisco.07
@@ -1886,7 +1824,6 @@ seaf.ta.services.dmz:
     vlan: 204
     ipnetowrk: 172.16.4.0/24
     purpose: DC-INT-WAN-Edge
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: DC-INT-WAN-Edge
     network_appliance_id:
       - sber.berezka.network.cisco.09
@@ -1904,7 +1841,6 @@ seaf.ta.services.dmz:
     vlan: 205
     ipnetowrk: 172.16.5.0/24
     purpose: DMZ-CORE (IPS, AV)
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: DMZ-CORE (IPS, AV)
     network_appliance_id:
       - sber.berezka.network.checkpoint.16
@@ -1950,7 +1886,6 @@ seaf.ta.services.dmz:
     vlan: 206
     ipnetowrk: 172.16.6.0/24
     purpose: DMZ-Security
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: DMZ-Security
     network_appliance_id:
       - sber.berezka.network.checkpoint.24
@@ -1961,7 +1896,6 @@ seaf.ta.services.dmz:
     vlan: 207
     ipnetowrk: 172.16.7.0/24
     purpose: DMZ-IT Services
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: DMZ-IT Services
     network_appliance_id:
       - sber.berezka.network.checkpoint.28
@@ -1972,7 +1906,6 @@ seaf.ta.services.dmz:
     vlan: 208
     ipnetowrk: 172.16.8.0/24
     purpose: DMZ-MGMT
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: DMZ-MGMT
     network_appliance_id:
       - sber.berezka.network.checkpoint.26
@@ -1983,7 +1916,6 @@ seaf.ta.services.dmz:
     vlan: 209
     ipnetowrk: 172.16.9.0/24
     purpose: DMZ-VPN
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: DMZ-VPN
     network_appliance_id:
       - sber.berezka.network.checkpoint.32
@@ -1998,7 +1930,6 @@ seaf.ta.services.dmz:
     vlan: 210
     ipnetowrk: 172.16.10.0/24
     purpose: DMZ-ВАРМ
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: DMZ-ВАРМ
     network_appliance_id:
       - sber.berezka.network.vpn.01
@@ -2013,7 +1944,6 @@ seaf.ta.services.dmz:
     vlan: 211
     ipnetowrk: 172.16.11.0/24
     purpose: DMZ-PROD
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: DMZ-PROD
     network_appliance_id:
       - sber.berezka.network.waf.01
@@ -2027,7 +1957,6 @@ seaf.ta.services.dmz:
     vlan: 212
     ipnetowrk: 172.16.12.0/24
     purpose: DMZ-tPZ
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: DMZ-tPZ
     network_appliance_id:
       - sber.berezka.network.checkpoint.36
@@ -2038,7 +1967,6 @@ seaf.ta.services.dmz:
     vlan: 213
     ipnetowrk: 172.16.13.0/24
     purpose: ВАРМ-CNTRS
-    ta_services_type: Сеть DMZ
     demilitarizednetwork_id: ВАРМ-CNTRS
     network_appliance_id:
       - sber.berezka.network.vpn.01
