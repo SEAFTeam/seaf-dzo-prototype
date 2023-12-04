@@ -34,5 +34,5 @@
 ## Monitoring Service
 ![Monitoring Service](@document/seaf.ta.services.monitoring)
 
-## Licenses and support
-![Licenses and support](@document/seaf.ta.services.licenses)
+## Software and licenses
+![Software and licenses](@document/seaf.ta.services.software)

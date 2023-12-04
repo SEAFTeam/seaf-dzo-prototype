@@ -718,12 +718,12 @@ entities:
         "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.services.monitoring"
 
-  seaf.ta.services.licenses:
+  seaf.ta.services.software:
     title: Licenses and support
     objects:
-      licenses:
+      software:
         route: "/"
-        title: Лицензии и поддержка
+        title: Программное обеспечение и лицензии
     schema: # JSON Schema контролирующая описание объекта сущности
       type: object
       patternProperties:

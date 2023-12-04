@@ -884,7 +884,7 @@ seaf.ta.services.backup:
       - sber.berezka.home_cinema.payments
       - sber.berezka.home_cinema.canals
 #### Создаём описание лицензий
-seaf.ta.services.licenses:
+seaf.ta.services.software:
   seaf.ta.services.licenses.acronis:
     software_id: licenses.acronis
     vendor: Acronis

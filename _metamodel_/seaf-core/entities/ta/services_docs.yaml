@@ -759,7 +759,7 @@ docs:
       	  }
         )]^(id)]
       )
-  seaf.ta.services.licenses:
+  seaf.ta.services.software:
     type: table
     headers:
 
@@ -807,7 +807,7 @@ docs:
 
     source: >
       (
-        [[$."seaf.ta.services.licenses".$spread().(
+        [[$."seaf.ta.services.software".$spread().(
           $COMPONENT_ID := $keys()[0];
       	 $.*.{
          	"vendor": vendor,
