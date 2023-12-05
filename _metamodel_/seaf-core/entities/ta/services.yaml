@@ -18,6 +18,11 @@ entities:
               type: array
               items:
                 $ref: "#/$rels/components.component"
+            requirements:
+              title: Требования
+              type: array
+              items:
+                $ref: "#/$rels/seaf.requirements.requirement"
 
 #### Описания технологических сервисов. Добавляются все необходимые поля и устанавливаются правила их наполнения ####
   seaf.ta.services.dc_region:

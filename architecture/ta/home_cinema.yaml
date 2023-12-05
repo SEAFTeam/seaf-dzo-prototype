@@ -208,7 +208,7 @@ seaf.ta.services.network:
     lan_type: Проводная
     ipnetowrk: 192.168.3.0/24
     network_appliance_id:
-      - Нет
+      -
     description: Сеть внутри VK
     dc_id:
       - sber.berezka.dc.02
@@ -255,7 +255,7 @@ seaf.ta.services.network:
     provider: Cloud
     bandwidth: 1000
     network_appliance_id:
-      - Нет
+      -
     wan_ip: 2.2.2.0/28
     network_id: wan.2.2.2.0
     type: WAN
@@ -267,7 +267,7 @@ seaf.ta.services.network:
     provider: VK
     bandwidth: 1000
     network_appliance_id:
-      - Нет
+      -
     wan_ip: 1.1.1.48/28
     network_id: wan.1.1.1.48
     type: WAN
@@ -363,8 +363,7 @@ seaf.ta.components.server:
     type: Физический
     model: DL360 G8
     storage_id: sber.berezka.hw_storage.01
-    network_connection:
-      - sber.berezka.lan.192.168.2.0
+    network_connection: sber.berezka.lan.192.168.2.0
   sber.berezka.server_metal.02:
     server_id: server_metal.02
     fqdn_name: server_metal.02.berezka.ru
@@ -795,8 +794,11 @@ seaf.ta.services.cluster:
     cluster_fqdn: wildfly.berezka.ru
     cluster_reservation_type: Active-Active
     description: Wildfly cluster for sber.berezka.home_cinema.catalog
+    requirements:
+      - ta.requirement1
+      - ta.requirement2
 
-#### Создаём описание кластеров K8s
+      #### Создаём описание кластеров K8s
 seaf.ta.services.k8s:
   sber.berezka.k8s.01:
     master_qty: 3
@@ -1150,3 +1152,21 @@ seaf.ta.services.monitoring_dzo:
     pam_anabled: true
     cluster_id: $null
     sber_radar: https://console.radar.sber.ru/dashboard/
+
+seaf.requirements:
+  ta.requirement1:
+    title: RPO
+    type: non-functional
+    description: RPO 9 часов
+    verifications:
+      test_check:
+        title: Провести учения
+        condition: Учения завершились успешно
+  ta.requirement2:
+    title: RTO
+    type: non-functional
+    description: RTO 2 часа
+    verifications:
+      test_check:
+        title: Провести учения
+        condition: Учения завершились успешно
