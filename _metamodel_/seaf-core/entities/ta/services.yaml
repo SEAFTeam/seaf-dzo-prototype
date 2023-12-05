@@ -18,6 +18,11 @@ entities:
               type: array
               items:
                 $ref: "#/$rels/components.component"
+            requirements:
+              title: Требования
+              type: array
+              items:
+                $ref: "#/$rels/seaf.requirements.requirement"
 
 #### Описания технологических сервисов. Добавляются все необходимые поля и устанавливаются правила их наполнения ####
   seaf.ta.services.dc_region:
@@ -350,18 +355,15 @@ entities:
             name:
               title: Имя хранилища
               type: string
-            #Часть 3. TACIR_1-КП-ПВ-2-01.
             hypervisor:
               title: Гипервизор
               type: string
             oversubscription_rate:
               title: Коэффициент переподписки кластера виртуализации
               type: integer
-            #Часть 3. TACIR_1-КП-ПВ-4-01.
             drs_support:
               title: Поддержка DRS кластером виртуализации
               type: boolean
-            #Часть 3. TACIR_1-КП-ПВ-5-01.
             sdrs_support:
               title: Поддержка Storage DRS кластером виртуализации
               type: boolean
@@ -716,12 +718,12 @@ entities:
         "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.services.monitoring"
 
-  seaf.ta.services.licenses:
+  seaf.ta.services.software:
     title: Licenses and support
     objects:
-      licenses:
+      software:
         route: "/"
-        title: Лицензии и поддержка
+        title: Программное обеспечение и лицензии
     schema: # JSON Schema контролирующая описание объекта сущности
       type: object
       patternProperties:

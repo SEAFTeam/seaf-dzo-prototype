@@ -208,7 +208,8 @@ seaf.ta.services.network:
     lan_type: Проводная
     ipnetowrk: 192.168.3.0/24
     network_appliance_id:
-      - Нет
+      -
+
     description: Сеть внутри VK
     dc_id:
       - sber.berezka.dc.02
@@ -255,7 +256,7 @@ seaf.ta.services.network:
     provider: Cloud
     bandwidth: 1000
     network_appliance_id:
-      - Нет
+      -
     wan_ip: 2.2.2.0/28
     network_id: wan.2.2.2.0
     type: WAN
@@ -267,7 +268,7 @@ seaf.ta.services.network:
     provider: VK
     bandwidth: 1000
     network_appliance_id:
-      - Нет
+      -
     wan_ip: 1.1.1.48/28
     network_id: wan.1.1.1.48
     type: WAN
@@ -363,8 +364,7 @@ seaf.ta.components.server:
     type: Физический
     model: DL360 G8
     storage_id: sber.berezka.hw_storage.01
-    network_connection:
-      - sber.berezka.lan.192.168.2.0
+    network_connection: sber.berezka.lan.192.168.2.0
   sber.berezka.server_metal.02:
     server_id: server_metal.02
     fqdn_name: server_metal.02.berezka.ru
@@ -795,8 +795,11 @@ seaf.ta.services.cluster:
     cluster_fqdn: wildfly.berezka.ru
     cluster_reservation_type: Active-Active
     description: Wildfly cluster for sber.berezka.home_cinema.catalog
+    requirements:
+      - ta.requirement1
+      - ta.requirement2
 
-#### Создаём описание кластеров K8s
+      #### Создаём описание кластеров K8s
 seaf.ta.services.k8s:
   sber.berezka.k8s.01:
     master_qty: 3
@@ -881,7 +884,7 @@ seaf.ta.services.backup:
       - sber.berezka.home_cinema.payments
       - sber.berezka.home_cinema.canals
 #### Создаём описание лицензий
-seaf.ta.services.licenses:
+seaf.ta.services.software:
   seaf.ta.services.licenses.acronis:
     software_id: licenses.acronis
     vendor: Acronis
@@ -901,8 +904,8 @@ seaf.ta.services.licenses:
     lic_qty: 10
 
 #### Создаём описание развёртываний
-seaf.ta.components.k8s_deployment:
-  seaf.ta.services.k8s_deployment.auth:
+seaf.ta.components.k8s_deployment_dzo:
+  seaf.ta.components.k8s_deployment.auth:
     maxunavailable: 2
     update_strategy: RollingUpdate
     kubernetes_id:
@@ -913,7 +916,7 @@ seaf.ta.components.k8s_deployment:
     deployment_id: k8s_deployment.auth
     availabilityzone_id: sber.berezka.dc_az.moscow
 
-  seaf.ta.services.k8s_deployment.payments:
+  seaf.ta.components.k8s_deployment.payments:
     maxunavailable: 2
     update_strategy: RollingUpdate
     kubernetes_id:
@@ -925,7 +928,7 @@ seaf.ta.components.k8s_deployment:
     availabilityzone_id: sber.berezka.dc_az.moscow
 
 #### Создаём описание POD
-seaf.ta.components.k8s_pod:
+seaf.ta.components.k8s_pod_dzo:
   seaf.ta.services.k8s_pod.auth:
     tmp_storage: 100
     pv: false
@@ -961,7 +964,7 @@ seaf.ta.components.k8s_pod:
     priorityclass: 5
 
 #### Создаём описание контейнера
-seaf.ta.components.k8s_container:
+seaf.ta.components.k8s_container_dzo:
   seaf.ta.services.k8s_container.identity:
     container_ram: 512
     name: Identity Container
@@ -983,7 +986,7 @@ seaf.ta.components.k8s_container:
     affinity: yes
 
 #### Создаём описание образа
-seaf.ta.components.k8s_image:
+seaf.ta.components.k8s_image_dzo:
   seaf.ta.services.k8s_image.identity:
     repo_path: https://repo.berezka.ru/repo
     image_size: 1000
@@ -1150,3 +1153,21 @@ seaf.ta.services.monitoring_dzo:
     pam_anabled: true
     cluster_id: $null
     sber_radar: https://console.radar.sber.ru/dashboard/
+
+seaf.requirements:
+  ta.requirement1:
+    title: RPO
+    type: non-functional
+    description: RPO 9 часов
+    verifications:
+      test_check:
+        title: Провести учения
+        condition: Учения завершились успешно
+  ta.requirement2:
+    title: RTO
+    type: non-functional
+    description: RTO 2 часа
+    verifications:
+      test_check:
+        title: Провести учения
+        condition: Учения завершились успешно

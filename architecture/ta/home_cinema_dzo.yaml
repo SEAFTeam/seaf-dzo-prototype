@@ -1,0 +1,270 @@
+#### Далее идут описания тех же самых сущностей, но со спецификой Сбер для проектирования и проверки стандартов
+#### Данный пример обогощает сущности базового слоя дополнительными признаками для автоматизированной проверки на соответствие стандартам.
+
+#### Создаём описание развёртываний
+seaf.ta.components.k8s_deployment_dzo:
+  seaf.ta.components.k8s_deployment.auth:
+    maxunavailable: 2
+    update_strategy: RollingUpdate
+    kubernetes_id:
+      - sber.berezka.k8s.02
+    replicas: 10
+    name: Auth
+    description: Микросервис аутентификации
+    deployment_id: k8s_deployment.auth
+    availabilityzone_id: sber.berezka.dc_az.moscow
+
+  seaf.ta.components.k8s_deployment.payments:
+    maxunavailable: 2
+    update_strategy: RollingUpdate
+    kubernetes_id:
+      - sber.berezka.k8s.01
+    replicas: 10
+    name: Payments
+    description: Микросервис платежей
+    deployment_id: k8s_deployment.payments
+    availabilityzone_id: sber.berezka.dc_az.moscow
+
+#### Создаём описание POD
+seaf.ta.components.k8s_pod_dzo:
+  seaf.ta.services.k8s_pod.auth:
+    tmp_storage: 100
+    pv: false
+    scheduled: false
+    replicas: 5
+    secrets: Yes
+    access_level: Не привилегированный
+    update_strategy: RollingUpdate
+    kubernetes_id:
+      - sber.berezka.k8s.02
+    name: Auth Back
+    pod_k8s_id: k8s_pod.auth
+    stoptimeout: 60
+    ml: false
+    description: Бекенд под
+    priorityclass: 5
+
+  seaf.ta.services.k8s_pod.payments:
+    tmp_storage: 100
+    pv: false
+    scheduled: false
+    replicas: 5
+    secrets: Yes
+    access_level: Не привилегированный
+    update_strategy: RollingUpdate
+    kubernetes_id:
+      - sber.berezka.k8s.01
+    name: Payments Back
+    pod_k8s_id: k8s_pod.payments
+    stoptimeout: 60
+    ml: false
+    description: Бекенд под
+    priorityclass: 5
+
+#### Создаём описание контейнера
+seaf.ta.components.k8s_container_dzo:
+  seaf.ta.services.k8s_container.identity:
+    container_ram: 512
+    name: Identity Container
+    container_type: Контейнер с бизнес-логикой
+    emergency_stop: Уровень настройки среды исполнения
+    description: Identity Container
+    container_cpu: 1000
+    container_id: k8s_container.identity
+    affinity: yes
+
+  seaf.ta.services.k8s_container.transaction:
+    container_ram: 512
+    name: Identity Container
+    container_type: Контейнер с бизнес-логикой
+    emergency_stop: Уровень настройки среды исполнения
+    description: Transaction Container
+    container_cpu: 1000
+    container_id: k8s_container.transaction
+    affinity: yes
+
+#### Создаём описание образа
+seaf.ta.components.k8s_image_dzo:
+  seaf.ta.services.k8s_image.identity:
+    repo_path: https://repo.berezka.ru/repo
+    image_size: 1000
+    name: identity
+    repo_proved: true
+    description: Образ контейнера
+    image_id: k8s_image.identity
+
+  seaf.ta.services.k8s_image.transaction:
+    repo_path: https://repo.berezka.ru/repo
+    image_size: 1000
+    name: transaction
+    repo_proved: true
+    description: Образ контейнера
+    image_id: k8s_image.transaction
+
+#### Использование расширений для ДЗО
+seaf.ta.components.network_dzo:
+  sber.berezka.network.cisco.04:
+    name: Cisco ASR 1001-X
+    realization_type: Физический
+    model: ASR 1001-X
+    dc_id: sber.berezka.dc.01
+    network_appliance_id: cisco.04
+    placement_type: Периметр
+    purpose: Пограничный маршрутизатор
+    address: 192.168.1.2
+    auth_type: Двухфакторная
+
+seaf.ta.services.k8s_dzo:
+  sber.berezka.k8s.02:
+    master_qty: 3
+    software: '1.28'
+    kubernetes_id: k8s.02
+    auth: Keycloack
+    cluster_fqdn: k8s.01.berezka.ru
+    worker_qty: 2
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    cni:  Calico
+    is_own: false
+    cluster_autoscaler: true
+    service_mesh: Istio
+    hpa: true
+    keys: Vault
+    policy: Kyverno
+    server_id:
+      - sber.berezka.server_virtual.05
+      - sber.berezka.server_virtual.06
+      - sber.berezka.server_virtual.07
+      - sber.berezka.server_virtual.08
+      - sber.berezka.server_virtual.09
+      - sber.berezka.server_virtual.10
+    pv: false
+    https_api_connect: true
+    anonymous_api_connect: false
+    tls_version: '1.2'
+    reservation_rate: 100
+    az_used: 1
+    ntp_server: ntp.berezka.ru
+    dc_id:
+      - sber.berezka.dc.02
+    app_components:
+      - sber.berezka.home_cinema.payments
+
+seaf.ta.components.server_metal_dzo:
+  sber.berezka.server_metal.07:
+    server_id: server_metal.07
+    fqdn_name: server_metal.07.berezka.ru
+    disks:
+      - disks:
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+    nic_qty: 4
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    ram_qty: 128
+    dc_id: sber.berezka.dc.02
+    vendor: HP
+    type: Физический
+    model: DL360 G8
+    power_module_qty: 2
+    raid_level:
+      - 1
+      - 6
+    rack_mount: true
+    fan_qty: 4
+    raid_spare_disks: 2
+
+  sber.berezka.server_metal.08:
+    server_id: server_metal.08
+    fqdn_name: server_metal.08.berezka.ru
+    disks:
+      - disks:
+          availabilityzone_id: dc_az.moscow
+          size: 100
+          type: SSD
+    nic_qty: 4
+    os:
+      name: 'Ubuntu 18.04'
+      bit: '64'
+    cpu:
+      cores: 4
+      frequency: 1700
+    ram_qty: 128
+    dc_id: sber.berezka.dc.02
+    vendor: HP
+    type: Физический
+    model: DL360 G8
+    power_module_qty: 2
+    raid_level:
+      - 1
+      - 6
+    rack_mount: true
+    fan_qty: 4
+    raid_spare_disks: 2
+
+seaf.ta.components.hw_storage_dzo:
+  sber.berezka.hw_storage.02:
+    volume: 10000
+    dc_id: sber.berezka.dc.01
+    storage_id: hw_storage.02
+    vendor: IBM Storwize 7000
+    disk_type: SSD
+    protocols: FC, Ethernet
+    storage_console: https://console-hw-storage.02.berezka.ru
+    reservation_ratio: 100
+    compression_rate: 5
+    storage_controller_qty: 2
+    dedup_rate: 2
+    nvram_amount: 0
+    links_qty: 4
+    storage_spare_disk_qty: 2
+    snapshot_lic: true
+    pwr_supply_qty: 4
+    ssd_cache_qty: 4
+    ntp_server: ntp.berezka.ru
+    erasure_coding: 1
+
+seaf.ta.services.monitoring_dzo:
+  sber.berezka.monitoring.02:
+    name: Zabbix
+    monitoring_id: monitoring.02
+    ha: true
+    availabilityzone_id:
+      - sber.berezka.dc_az.moscow
+    role: Инфраструктурный
+    app_components:
+      - sber.berezka.home_cinema.auth
+      - sber.berezka.home_cinema.catalog
+    siem_anabled: true
+    alarm_transport:
+      - mail
+      - TG
+    monitoring_console: https://monitoring-console.berezka.ru
+    history: 365
+    frequency:  5
+    pam_anabled: true
+    cluster_id: $null
+    sber_radar: https://console.radar.sber.ru/dashboard/
+
+seaf.requirements:
+  ta.requirement1:
+    title: RPO
+    type: non-functional
+    description: RPO 9 часов
+    verifications:
+      test_check:
+        title: Провести учения
+        condition: Учения завершились успешно
+  ta.requirement2:
+    title: RTO
+    type: non-functional
+    description: RTO 2 часа
+    verifications:
+      test_check:
+        title: Провести учения
+        condition: Учения завершились успешно

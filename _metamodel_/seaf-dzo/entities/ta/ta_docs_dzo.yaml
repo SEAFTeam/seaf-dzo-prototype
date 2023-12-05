@@ -1,0 +1,6 @@
+docs:
+  ta_main:
+    description: Общее описание технической архитектуры
+    type: markdown
+    location: /Архитектура/Техническая ДЗО
+    source: README.md
