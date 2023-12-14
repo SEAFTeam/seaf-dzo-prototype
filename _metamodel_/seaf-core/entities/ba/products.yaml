@@ -1,0 +1,36 @@
+entities:
+  seaf.ba.products:
+    title: Продукты или услуги
+    schema:
+      type: object
+      patternProperties:
+        "[a-zA-Z0-9_]*(\\.[a-zA-Z0-9_]*)*$":
+          type: object
+          properties:
+            title:
+              title: Наименование
+              type: string
+            description:
+              title: Описание
+              type: string
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
+            comments:
+              title: Комментарии, риски, проблемы
+              type: array
+              items:
+                type: string
+          required:
+            - title
+            - description
+            - status
+    objects:
+      products:
+        route: "/"
+        title: Продукт-услуга
+        symbol: "prd"
