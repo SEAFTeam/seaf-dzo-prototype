@@ -22,6 +22,8 @@ mm_discovery.stalker:
         title: Прикладная архитектура
       seaf.ia:
         title: Информационная архитектура
+      seaf.ba:
+        title: Бизнес-архитектура
     domains:
       - "**" # Отражаем все домены
     hooks:
