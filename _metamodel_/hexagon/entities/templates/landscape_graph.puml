@@ -6,12 +6,25 @@ hide empty description
 
 !$url = "{{{url}}}"
 
-
 {{#nodes}}
+{{#path}}
+!$path = "{{.}}" 
 {{#body.bage}}sprite ${{bId}} {{{svg}}}{{/body.bage}}
-state "{{#body.bage}}<${{bId}}> {{/body.bage}}{{body.title}}" as {{#path}}{{.}}{{/path}}{{^path}}{{id}}{{/path}} {
-     {{#path}}{{.}}{{/path}}{{^path}}{{id}}{{/path}}: <b>id:{{id}}</b>
+state "{{#body.bage}}<${{bId}}> {{/body.bage}}{{body.title}}" as $path {
+     $path: <b>id:{{id}}</b>
 }
+{{/path}}
+{{^path}}
+{{#body.bage}}sprite ${{bId}} {{{svg}}}{{/body.bage}}
+state "{{#body.bage}}<${{bId}}> {{/body.bage}}{{body.title}}" as {{id}} {
+     {{id}}: <b>id:{{id}}</b>
+}
+{{/path}}
+
+' {{#body.bage}}sprite ${{bId}} {{{svg}}}{{/body.bage}}
+' state "{{#body.bage}}<${{bId}}> {{/body.bage}}{{body.title}}" as {{#path}}{{.}}{{/path}}{{^path}}{{id}}{{/path}} {
+'      {{#path}}{{.}}{{/path}}{{^path}}{{id}}{{/path}}: <b>id:{{id}}</b>
+' }
 
 {{/nodes}}
 

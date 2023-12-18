@@ -39,18 +39,26 @@ entities:
         template: templates/view.md
         source: >
           (
-            /*link: ...view?id=vId&mode=mode_x.mode_y*/
-            $vId:= $params.id; $modes_selected:= $params.mode;
-            $modes_selected:= $split($modes_selected, ".");
+            /*link: /entities/hexV/view??id=vId&mode=mode_x.mode_y*/
 
-            $view:= $lookup($$."seaf.ba.ttl", $vId);
-            $view.hexV ?
-              (
+            /*CHECK PARAMS*/
+              $vId:= $params.id; $modes_selected:= $params.mode;
+
+              /*if mode is multileveled, then get array of mode levels from top to bottom*/
+              $modes_selected:= $split($modes_selected, ".");
+
+              /*get view object and check if hexV is well formed*/
+              $view:= $lookup($$."seaf.ba.ttl", $vId);
+              $not($exists($view.hexV)) ? {"error": "Object **" & $vId & "** has no view configuration (hexV)"} :
                 $count($view.hexV) = 0 ? {"error": "Object **" & $vId & "** has empty view configuration (hexV)"} :
-                $count($view.hexV) > 0 ? 
-                  (
-                    $chunks:= $distinct($view.hexV.**.modes.%.{"h": $.title, "l": $.modes.title}); 
+            /*PARAMS WELL FORMED*/
+
+                (
+                  /*GET SELECTED MODE'S PATTERN */
+                    /*get modes tree*/
+                    $chunks:= $distinct($view.hexV.**.modes.%.{"h": $.title, "l": $.modes.title});
                     $patternPre:= $count($chunks) > 0 ? 
+                      /*mode defined*/
                       (
                         $chunks:= $map($chunks, function($v) {
                           $map($v.l, function($vv) {(
@@ -72,22 +80,28 @@ entities:
                         $modes:= $map($modes, function($v, $i) {(
                           $row:= $map($v.*, function($vv) {
                             $vv.b = "viewRoot" or $vv.b = $modes_selected[$i-1] ? 
-                              {"level": $eval($replace($keys($v), "lev_", "")), "chain": $encodeUrl($join($vv.chain, ".")), "b": $vv.b, "title": $vv.l, "selected": $vv.l = $modes_selected[$i] ? true : false}
+                              {"level": $eval($replace($keys($v), "lev_", "")), "chain": $encodeUrl($join($vv.chain, ".")), "b": $vv.b, "title": $vv.l, "description": $view.hexV.**.modes[$.title = $vv.l].description, "selected": $vv.l = $modes_selected[$i] ? true : false}
                           });
                           $row ? (true in $row.selected ? {"row": $row} : {"row": $row~>|$[0]|{"selected": true}|})
                         )});
                         $assemblyMode:= $modes.**.selected[$=true].%.title; 
                         $patternNodes:= $keys($merge($view.**.hexV.%[$.title in $assemblyMode].hexV)); 
                         {"vId": $vId, "body": $view~>|$|{}, ["hexV"]|, "modes": $modes, "patternPre": $patternNodes}
-                      ) : {"vId": $vId, "body": $view~>|$|{}, ["hexV"]|, "patternPre": $keys($view.hexV)};
-
+                      ) : 
+                      /*modes undefined*/
+                      {"vId": $vId, "body": $view~>|$|{}, ["hexV"]|, "patternPre": $keys($view.hexV)};
+                  /*SELECTED MODE's PATTERN EXTRACTED*/
+                    
+                    /*restore hexR object*/                  
                     $patternPre:= $patternPre~>|$|{"patternPre": $append($.patternPre, [{"hexR": $patternPre.modes ? $view.hexV.modes.**[$.title=$patternPre.modes.*[$.selected].title].hexV.hexR : $view.hexV.hexR}])}|;
-                    $r:= $eval($$.hexF.resolveView, {"patternPre": $patternPre.patternPre});
-                    $patternPre~>|$|{"resView": {"pattern": $encodeUrl($string($r.pattern)), "landscape": $encodeUrl($string($r.landscape))}}, ["patternPre"]|
 
-                  ) 
-              ) :
-              {"error": "Object **" & $vId & "** has no view configuration (hexV)"}
+                  /*GET VIEW DATA*/
+                    $r:= $eval($$.hexF.resolveView, {"patternPre": $patternPre.patternPre});
+
+                    /*prepare view data for template*/
+                    $patternPre~>|$|{"resView": {"pattern": $encodeUrl($string($r.pattern)), "landscape": $encodeUrl($string($r.landscape))}}, ["patternPre"]|
+                    
+                ) 
           )
 
       pattern_graph:

@@ -1,0 +1,265 @@
+# КАК ЗАКОДИТЬ ВЬЮ "Экосистема" (Продуктовый ландшафт)
+# Результат: https://ba.lamark.pro/entities/hexV/view?id=ecosystem
+
+# Вью реализован на базе Hexagon -- DocHub add-on для быстрой реализации метамоделей
+# без использования JSONata
+
+# ############# Щ -- щастье ############# - ландшафт как результат применения паттернов к исходным данным ⮯
+# ##### Hexagon native yaml  (data) ##### - исходные данные описывающие архитектуру в виде графа (вершин и ребер)
+# # Hexagon native yaml  (presentation) # - описание запросов, паттернов (метамоделей), вью, навигации 
+# ########### Hexagon engine ############ - DocHub-сущности и JSONata-код
+# ############### DocHub ################ - Платформа AaC
+
+
+
+
+
+# Исходные данные https://github.com/altershaman/eco_architecture/blob/master_eco_arch/ba/parties.yaml
+
+
+
+seaf.ba.ttl:             # основная DocHub-сущность Hexagon.
+                         # Любые архитектурные объекты и их отношения описываются с помощью ttl (true typeless)
+
+  sber.berezka:                                     # Идентификатор архитектурного объекта
+    title: Березка                                  # Наименование архитектурного объекта
+
+    hex:                                            # Объект для описания отношений данного архитектурного объекта с другими объектами
+                                                    # Отношение между двумя объектами описывается один раз -- либо в одном, либо в другом
+
+      <=:                                           # Направление отношения (какого-то), в данном случае, "к sber.berezka"
+        sber.berezka.home_cinema:                   #     "от sber.berezka.home_cinema"
+        sber.berezka.media_platform_saas:           #     "от sber.berezka.media_platform_saas"
+        sber.berezka.media_platform_self:           #     "от berezka.media_platform_self"
+
+      =>map:                                        # Направление отношения (map), в данном случае, "от sber.berezka"
+        mm.party:                                   #     "к mm.party"
+  
+  sber.education:
+    title: Образовательный бизнес
+    hex:
+      <=:
+        sber.education.courses:
+      =>map:
+        mm.party:
+
+  sber.education.courses:
+    title: Образовательные курсы
+    hex:
+      =>map:
+        mm.product:
+
+  fl:
+    title: ФЛ
+    hex:
+      =>map:
+        mm.party:
+      =>:
+        sber.berezka.home_cinema:
+        sber.education.courses:
+  ul:
+    title: ЮЛ
+    hex:
+      =>map:
+        mm.party:
+      =>:
+        sber.education.courses:
+
+  sber.berezka.home_cinema:
+    title: Домашний кинотеатр
+    hex:
+      =>map:
+        mm.product:
+      <=:
+        sber.berezka.media_platform_self:
+
+  sber.center.payments:
+    title: Прием платежей
+    hex:
+      =>map:
+        mm.product:
+      =>:
+        sber.berezka.home_cinema:
+        sber.education.courses:
+        sber.center:
+
+  sber.berezka.media_platform_saas:
+    title: Медиа-платформа
+    hex:
+      =>map:
+        mm.product:
+
+  sber.berezka.media_platform_self:
+    title: Медиа-платформа
+    hex:
+      =>map:
+        mm.product:
+
+  sber.center:
+    title: Центр
+    hex:
+      =>map:
+        mm.party:
+      <=:
+        sber.center.fl_auth:
+
+  sber.center.fl_auth:
+    title: Аутентификация пользователей
+    hex:
+      =>map:
+        mm.product:
+      =>:
+        sber.berezka.home_cinema:
+        sber.education.courses:
+
+  content_matter_buz:
+    title: Контентно-зависимый бизнес
+    hex:
+      =>map:
+        mm.party:
+      =>:
+        sber.berezka.media_platform_saas:
+        ul:  
+
+---
+
+
+
+
+# Запросы, паттерны (метамодели), вью https://github.com/altershaman/eco_methodology/blob/master_method/entities/ba/metamodel.yaml
+
+seaf.ba.ttl:             # Мета-объекты тоже описываются с помощью основной DocHub-сущности ttl
+
+  mm.party:
+    title: Участник
+    bage: person_gear_orange
+    hex:
+      =>заинтересован:
+        mm.product:
+      =>относится к:
+        mm.party:
+    hexQ:                                            # hexQ - Hexagon Query
+                                                     # Объект mm.party содержит в себе запрос к исходным данным и является указателем на:
+      seaf.ba.ttl:                                   #    все ttl-объекты,
+        EVERY=>map:                                  #    которые имеют как минимум одно исходящее отношение "map"
+          mm.party:                                  #    к mm.party, т.е., в данном случае к самому исходному архитектурному объекту
+                                                     # Т.о., к mm.party можно обратиться как к архитектурному объекту:
+                                                     #    как в строке 156
+                                                     # а можно как ко множеству объектов, имеющих мэппинг на mm.party:
+                                                     #    как в строке 192 (все объекты типа mm.party)
+
+  mm.product:
+    title: Продукт
+    bage: box_heart
+    hex:
+      =>владелец:
+        mm.party:
+      <=используется:
+        mm.product:
+      <=относится к:
+        processes:
+    hexQ:
+      seaf.ba.ttl:
+        EVERY=>map:
+          mm.product:
+
+          
+  ecosystem:
+    title: Экосистема
+    description: >
+      Экосистема (социально-экономическая) образуется из отношений между активными Участниками, которые вступают в обмен ценными Ресурсами. 
+      Для того, чтобы этот обмен мог осуществляться, один или несколько Участников предоставляют Продукт -- механизм, с помощью которого стороны 
+      взаимодействуют и передают Ресурсы друг другу.
+    hexV:                                            # hexV - Hexagon View
+                                                     # Объект ecosystem содержит в себе описание паттерна, который результируется во вью
+                                                     #    (см. раздел "Навигация")
+      modes:                                         # Необязательная конструкция - служит для переключения между релевантными вью
+        - title: Предложения экосистемы
+          description: 
+          hexV:                                      # Вложенный вью (уровни вложенности - без ограничений)
+                                                     # Описание паттерна:
+            mm.products.targeted.hexQ:               #    в паттерне отобразятся объекты и отношения между ними
+            mm.segments.hexQ:                        #    в ландшафте отобразятся множества
+            mm.providers.hexQ:                       #         и отношения между членами множества, соответсвующие отношениям паттерна
+
+            hexR:                                    # Дополнительные инструкции для Рендеринга:
+              nest:                                  #    объекты-источники в отношениях "относятся к" вложить внутрь объектов-цели
+                - <=относится к:
+
+
+        - title: Использование продуктов
+          hexV:
+            mm.party.hexQ:
+            mm.product.hexQ:
+            hexR:
+              nest:
+                - <=используется:
+              exclude:                          
+                - относится к                        #    исключить из отношений паттерна "относится к" 
+
+  mm.products.targeted:
+    title: Предлагаемые продукты
+    bage: box_heart
+    hexQ:
+      mm.product.hexQ:
+        ANY<=:
+          mm.party.hexQ:
+
+  mm.segments:
+    title: Сегменты
+    bage: building_blue
+    hex:
+      =>относится к:
+        mm.segments:
+      =>заинтересован:
+        mm.products.targeted:
+    hexQ:
+      mm.party.hexQ:
+        ANY=>:
+          mm.product.hexQ:
+
+  mm.providers:
+    title: Провайдеры
+    bage: building_green_pale
+    hex:
+      <=владелец:
+        mm.products.targeted:
+    hexQ:
+      mm.party.hexQ:
+        ANY<=:
+          mm.product.hexQ:
+
+
+
+
+
+# Навигация https://github.com/altershaman/eco_methodology/blob/master_method/entities/ba/menu.yaml
+
+hexNav:             # Вспомогательная DocHub-сущность Hexagon для выведения вью в UI DocHub
+  - title: Архитектура/Бизнес-архитектура/Реализация на Hexagon
+    link: "/entities/docs/blank?dh-doc-id=ba_main"
+    includes:
+      - title: Мотивация(TBD)
+        link: "/entities/hexV/view?id=motivation"
+      - title: Экосистема                          # Наименование пункта меню
+        link: "/entities/hexV/view?id=ecosystem"   # Ссылка на вью -- отображение паттерна и ландшафта, на основе паттерна
+      - title: Процессы
+        link: "/entities/hexV/view?id=process_map"
+      - title: Реестр ресурсов
+        link: "/entities/hexV/view?id=resource_registry"
+      - title: Способности (Capabilities)
+        link: "/entities/hexV/view?id=capability_map"
+
+
+
+
+
+# Hexagon https://github.com/altershaman/hexagon
+
+# Hexagon -- это engine, который:
+#     считывает ttl-объекты
+#     резолвит hexQ, hexV, hexR, hexNav и другие служебные объекты:
+#        строит паттерны на основе объектов, содержащих hexV
+#        наполняет ландшафты из объектов паттерна, содержащих hexQ
+#        управляет тонкими настройками рендеринга ландшафтов через hexR
+#        выводит вью (паттерн + ландшафт) в меню через hexNav
