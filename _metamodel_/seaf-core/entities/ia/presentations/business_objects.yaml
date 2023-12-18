@@ -1,0 +1,51 @@
+entities:
+  kadzo.v2023.business_objects:
+    presentations:
+      registry:
+        type: table
+        headers:
+          - value: id
+            text: Идентификатор
+            link: link
+          - value: title
+            text: Наименование
+            align: left
+            link: link
+          - value: status
+            text: Статус
+            align: left
+          - value: processes
+            text: Используется в бизнес-процессах
+            align: left
+          - value: comments
+            text: Комментарии, риски, проблемы
+
+        origin: kadzo.v2023.business_objects
+
+        source: >
+          (
+              ["kadzo.v2023.business_objects".$spread().{
+                  "domain": $split($keys()[0], ".")[0],
+                  "id": $keys()[0],
+                  "link": "/entities/kadzo.v2023.business_objects/card?id=" & $keys()[0],
+                  "title": *.title,
+                  "status": *.status,
+                  "processes": *.processes,
+                  "comments": *.comments
+              }[domain=$params.domain]]
+          )
+
+      card:
+        type: markdown
+        template: templates/business_objects.md
+        origin: kadzo.v2023
+        source: >
+          (
+              $ctx := $;
+              $ctx."kadzo.v2023.business_objects".$spread()[$keys()[0]=$params.id].{
+                  "id": $keys()[0],
+                  "title": *.title,
+                  "status": *.status,
+                  "comments": *.comments
+              };
+          )

@@ -22,7 +22,7 @@ entities:
               title: Используется в бизнес-процессах
               type: array
               items:
-                $ref: "#/$rels/kadzo.v2023.processes.processes"
+                $ref: "#/$rels/seaf.ba.processes.processes"
             comments:
               title: Комментарии, риски, проблемы
               type: array

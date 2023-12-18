@@ -20,6 +20,8 @@ mm_discovery.stalker:
         title: Зона Advanced
       seaf.app:
         title: Прикладная архитектура
+      seaf.ia:
+        title: Информационная архитектура
     domains:
       - "**" # Отражаем все домены
     hooks:
