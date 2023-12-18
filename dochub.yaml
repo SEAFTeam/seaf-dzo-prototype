@@ -2,8 +2,13 @@ docs:
   dochub.welcome:
     title: Sber Enterprise Architect Framework (SEAF)
     type: markdown
+    location: SEAF
     source: README.md
-
+  dochub.welcome.timeline2023Q4:
+    title: SEAF Roadmap 2023Q4
+    location: SEAF Roadmap 2023Q4
+    type: mermaid
+    source: _metamodel_/seaf-core/docs/SEAF_Roadmap_2023Q4.mmd
 imports:
   # Расширение для исследования метамодели
   - _metamodel_/mm-discovery/dochub.yaml
