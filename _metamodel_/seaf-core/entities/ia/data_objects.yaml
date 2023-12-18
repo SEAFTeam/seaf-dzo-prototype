@@ -1,5 +1,5 @@
 entities:
-  kadzo.v2023.data_objects:
+  seaf.ia.data_objects:
     title: Объекты данных
     schema:
       type: object

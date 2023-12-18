@@ -1,5 +1,5 @@
 entities:
-  kadzo.v2023.business_objects:
+  seaf.ia.business_objects:
     title: Бизнес-объекты
     schema:
       type: object
