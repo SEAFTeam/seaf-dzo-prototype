@@ -1,7 +1,7 @@
 entities:
-  kadzo.v2023.business_objects:
+  seaf.ia.business_objects:
     presentations:
-      registry:
+      list:
         type: table
         headers:
           - value: id
@@ -19,30 +19,25 @@ entities:
             align: left
           - value: comments
             text: Комментарии, риски, проблемы
-
-        origin: kadzo.v2023.business_objects
-
         source: >
           (
-              ["kadzo.v2023.business_objects".$spread().{
-                  "domain": $split($keys()[0], ".")[0],
+              ["seaf.ia.business_objects".$spread().{
                   "id": $keys()[0],
-                  "link": "/entities/kadzo.v2023.business_objects/card?id=" & $keys()[0],
+                  "link": "/entities/seaf.ia.business_objects/card?id=" & $keys()[0],
                   "title": *.title,
                   "status": *.status,
                   "processes": *.processes,
                   "comments": *.comments
-              }[domain=$params.domain]]
+              }]
           )
 
       card:
         type: markdown
         template: templates/business_objects.md
-        origin: kadzo.v2023
         source: >
           (
               $ctx := $;
-              $ctx."kadzo.v2023.business_objects".$spread()[$keys()[0]=$params.id].{
+              $ctx."seaf.ia.business_objects".$spread()[$keys()[0]=$params.id].{
                   "id": $keys()[0],
                   "title": *.title,
                   "status": *.status,

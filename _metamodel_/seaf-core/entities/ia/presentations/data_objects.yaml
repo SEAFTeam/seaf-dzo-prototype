@@ -1,7 +1,7 @@
 entities:
-  kadzo.v2023.data_objects:
+  seaf.ia.data_objects:
     presentations:
-      registry:
+      list:
         type: table
         headers:
           - value: id
@@ -24,113 +24,31 @@ entities:
           - value: master_system
             text: Мастер система
             align: left
-            link: system_link
           - value: comments
             text: Комментарии, риски, проблемы
-
-        origin: kadzo.v2023.data_objects
-
         source: >
           (
-              [$."kadzo.v2023.data_objects".$spread().{
-                  "domain": $split($keys()[0], ".")[0],
+              [$."seaf.ia.data_objects".$spread().{
                   "id": $keys()[0],
-                  "link": "/entities/kadzo.v2023.data_objects/card?id=" & $keys()[0],
+                  "link": "/entities/seaf.ia.data_objects/card?id=" & $keys()[0],
                   "title": *.title,
                   "category": *.category,
                   "status": *.status,
                   "business_object": *.business_object,
-                  "business_object_link": "/entities/kadzo.v2023.business_objects/card?id=" & *.business_object,
+                  "business_object_link": "/entities/seaf.ia.business_objects/card?id=" & *.business_object,
                   "master_system": *.master_system,
-                  "system_link": "/entities/kadzo.v2023.systems/card?id=" & *.master_system,
                   "comments": *.comments
-              }[domain=$params.domain]]
-          )
-
-      system_data_objects:
-        type: table
-        headers:
-          - value: title
-            text: Наименование
-            link: link
-          - value: category
-            text: Категория
-            align: left
-          - value: status
-            text: Статус
-            align: left
-          - value: business_object
-            text: Связь с бизнес-объектом
-            align: left
-            link: business_object_link
-
-        origin: kadzo.v2023
-
-        source: >
-          (
-              [$."kadzo.v2023.data_objects".$spread().{
-                  "domain": $split($keys()[0], ".")[0],
-                  "id": $keys()[0],
-                  "link": "/entities/kadzo.v2023.data_objects/card?id=" & $keys()[0],
-                  "title": *.title,
-                  "category": *.category,
-                  "status": *.status,
-                  "business_object": *.business_object,
-                  "business_object_link": "/entities/kadzo.v2023.business_objects/card?id=" & $.business_object,
-                  "master_system": *.master_system
-              }[master_system=$params.system]]
-          )
-
-      data_objects_by_business:
-        type: table
-        headers:
-          - value: id
-            text: Идентификатор
-            link: link
-          - value: title
-            text: Наименование
-            align: left
-            link: link
-          - value: category
-            text: Категория
-            align: left
-          - value: status
-            text: Статус
-            align: left
-          - value: master_system
-            text: Мастер система
-            link: master_system_link
-
-        origin: kadzo.v2023
-
-        source: >
-          (
-              $ctx := $;
-              [$ctx."kadzo.v2023.data_objects".$spread().(
-                  {
-                      "domain": $split($keys()[0], ".")[0],
-                      "id": $keys()[0],
-                      "link": "/entities/kadzo.v2023.data_objects/card?id=" & $keys()[0],
-                      "title": *.title,
-                      "category": *.category,
-                      "status": *.status,
-                      "business_object": *.business_object,
-                      "master_system": *.master_system,
-                      "master_system_link": "/entities/kadzo.v2023.systems/card?id=" & *.master_system
-                  }
-              )[business_object=$params.src]]
+              }]
           )
 
       card:
         type: markdown
         template: templates/data_objects.md
-        origin: kadzo.v2023
         source: >
           (
               $ctx := $;
-              $lookup($ctx."kadzo.v2023.data_objects", $params.id).(
-                  $ms := $lookup($ctx."kadzo.v2023.systems", $.master_system);
-                  $bo := $lookup($ctx."kadzo.v2023.business_objects", $.business_object);
+              $lookup($ctx."seaf.ia.data_objects", $params.id).(
+                  $bo := $lookup($ctx."seaf.ia.business_objects", $.business_object);
               {
                       "id": $params.id,
                       "title": $.title,
@@ -138,49 +56,9 @@ entities:
                       "status": $.status,
                       "business_object": $.business_object,
                       "business_object_title": $bo.title,
-                      "business_object_link": "/entities/kadzo.v2023.business_objects/card?id=" & $.business_object, 
+                      "business_object_link": "/entities/seaf.ia.business_objects/card?id=" & $.business_object, 
                       "master_system": $.master_system,
-                      "master_system_title": $ms.title,
-                      "master_system_link": "/entities/kadzo.v2023.systems/card?id=" & $.master_system
+                      "master_system_title": $ms.title
                   }
               )
-          )
-          
-
-      data_objects_by_integration:
-        type: table
-        headers:
-          - value: id
-            text: Идентификатор
-            link: link
-          - value: title
-            text: Наименование
-            align: left
-            link: link
-          - value: category
-            text: Категория
-            align: left
-          - value: status
-            text: Статус
-            align: left
-          - value: master_system
-            text: Мастер система
-            link: master_system_link
-        origin: kadzo.v2023
-        source: >
-          (
-              $data_obj := [$lookup($."kadzo.v2023.integrations", $params.integration)."data-objects"];
-              [$."kadzo.v2023.data_objects".$spread().(
-                  ($keys()[0] in $data_obj) ?
-                  {
-                      "id": $keys()[0],
-                      "link": "/entities/kadzo.v2023.data_objects/card?id=" & $keys()[0],
-                      "title": *.title,
-                      "category": *.category,
-                      "status": *.status,
-                      "business_object": *.business_object,
-                      "master_system": *.master_system,
-                      "master_system_link": "/entities/kadzo.v2023.systems/card?id=" & *.master_system
-                  }
-              )]
           )
