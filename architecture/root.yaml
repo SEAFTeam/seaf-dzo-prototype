@@ -2,5 +2,6 @@ imports:
   - ta/root.yaml
   - app/root.yaml
   - ba/root.yaml
+  - ia/root.yaml
   - tools/root.yaml
   - interface/root.yaml
