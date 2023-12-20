@@ -19,15 +19,17 @@ entities:
               minLength: 2
             source:
               title: Источник данных (поставщик)
-              $ref: "#/$rels/components.component"
+              anyOf:
+                - $ref: "#/$rels/components.component"
             consumer:
               title: Потребитель данных
-              $ref: "#/$rels/components.component"
+              anyOf:
+                - $ref: "#/$rels/components.component"
             data-objects:
               title: Объекты данных
               type: array
               items:
-                $ref: "#/$rels/data_objects.data_object"
+                $ref: "#/$rels/seaf.ia.data_objects.data_objects"
             technologies:
               title: Технологии интеграции
               type: array
