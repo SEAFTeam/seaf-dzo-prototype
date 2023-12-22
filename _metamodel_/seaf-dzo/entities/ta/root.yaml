@@ -1,4 +1,3 @@
 imports:
   - dzo_entities.yaml
   - rules/root.yaml
-  - ta_docs_dzo.yaml
