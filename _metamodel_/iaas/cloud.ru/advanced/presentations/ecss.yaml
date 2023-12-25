@@ -5,10 +5,10 @@ entities:
         type: smartants
         source: >
           (
-            $cservers := $."seaf.ta.components.server_metal";
-            $cvpcs := $."seaf.ta.services.dc";
+            $cservers := $."seaf.ta.reverse.cloud_ru.advanced.ecss";
+            $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
             $arr1 := $merge($cvpcs.$spread().(
-                      $id := $.*.dc_id;
+                      $id := $.*.id;
                       $name := *.dc_name;
                       $id in $cvpcs.*.dc_id ?
                       {

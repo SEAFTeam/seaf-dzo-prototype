@@ -47,7 +47,7 @@ entities:
           )
 
       root:
-        type: markdown
+        type: plantuml
         template: templates/root.puml
         source: >
           (
@@ -58,10 +58,10 @@ entities:
               $menu := $functions.(
                   $item := $;
                   $matcher := /^(.*)$/;
-                  $items := $eval($item)[location ~> $matcher][location != 'undefined'];
+                  $items := $eval($item)[location ~> $matcher][location != 'undefined'][$not($contains(link, "readme"))];
                   $items.({
                     'location': $matcher($.location).groups[0],
-                    'link': $.link
+                    'link': '"/' & $.link & '"'
                   })
               );
               $items := $menu.(
@@ -111,7 +111,7 @@ entities:
               );
               {
                   'txt': $txt,
-                  'item': $items,
+                  'item': $distinct($items),
                   'links': $distinct($links)
               }
           )

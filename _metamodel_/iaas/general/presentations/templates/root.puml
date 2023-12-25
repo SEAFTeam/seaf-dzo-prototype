@@ -13,7 +13,7 @@ skinparam rectangle {
 title {{txt}}
 
 {{#item}}
-rectangle "{{title}}" {{#link}}[[{{.}}]] #text:MediumBlue{{/link}}
+rectangle "{{title}}" {{#link}}[[{{&.}}]] #text:MediumBlue{{/link}}
 {{/item}}
 
 {{#links}}

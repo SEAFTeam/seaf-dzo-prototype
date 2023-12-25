@@ -13,7 +13,7 @@ entities:
               $systems[$match($keys()[0], $regexp)]
           ));
           [$available_systems.({
-              "link": "/entities/seaf.ta.reverse.cloud_ru.advanced.systems/systems_ta?id=" & $keys()[0],
+              "link": "entities/seaf.ta.reverse.cloud_ru.advanced.systems/systems_ta?id=" & $keys()[0],
               "location": $root_menu & "/Системы/" & $.*.title
           })]
       )
