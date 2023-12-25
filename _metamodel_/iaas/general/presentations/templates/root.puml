@@ -1,0 +1,23 @@
+@startuml
+skinparam linetype ortho
+left to right direction
+skinparam ranksep 10
+skinparam rectangle {
+    FontSize 18
+    BorderColor black
+    ArrowFontName Impact
+    ArrowColor #FF6655
+}
+
+
+title {{txt}}
+
+{{#item}}
+rectangle "{{title}}" {{#link}}[[{{.}}]] #text:MediumBlue{{/link}}
+{{/item}}
+
+{{#links}}
+"{{from}}" --- "{{to}}"
+{{/links}}
+
+@enduml
