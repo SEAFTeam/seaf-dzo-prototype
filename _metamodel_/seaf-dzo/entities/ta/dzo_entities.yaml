@@ -1,15 +1,10 @@
 entities:
-  seaf.ta.services.k8s_dzo:
-    title: Расширение описание кластера K8s для целей проверки станадртов
-    objects:
-      k8s_dzo:
-        route: "/"
-        title: Расширение описание кластера K8s для целей проверки станадртов
-    schema: # JSON Schema контролирующая описание объекта сущности
-      type: object
-      patternProperties:
-        "[a-zA-Z0-9_\\.]*":
-          $ref: "#/$defs/seaf.ta.services.k8s"
+  seaf.ta.services.k8s:
+    schema:
+      $defs:
+        seaf.ta.services.k8s_dzo:
+          title: Расширение описание кластера K8s для целей проверки станадртов
+          type: object
           properties:
             #Часть 3. TACIR_1-КП-КО-3-01. Платформа контейнерной оркестрации должна иметь в резервных зонах доступности кластер/кластеры обеспечивающие 100% производительности платформы при потере основной зоны.
             reservation_rate:
@@ -42,6 +37,50 @@ entities:
             virtual_cluster_id:
               title: Связь K8s кластера с кластером виртуализации
               type: string
+            class:
+              title: Класс систем
+              enum:
+                - Архитектурный репозиторий
+                - Бекапирование и восстановление данных
+                - Виртуализация
+                - Контейнеризация
+                - Логгирование
+                - Мониторинг
+                - Удаленный доступ
+                - Управление конфигурациями
+                - Управление облачной инфраструктурой
+                - BigData
+                - CDC (Change Data Capture)
+                - DWH (Хранилище данных)
+                - ETL
+                - FTP/SFTP/FTPS серверы
+                - MDM (Master Data Management)
+                - Message Queue
+                - NoSQL СУБД
+                - OLAP & BI
+                - Proxy-серверы
+                - Web-серверы
+                - Балансировка нагрузки (load balancers)
+                - Интеграционная шина
+                - Каналы обслуживания клиентов (фронтальные решения)
+                - Проверка и очистка данных
+                - Распределенный кэш
+                - Реляционные СУБД
+                - Серверы приложений (Application Servers)
+                - Файловое хранилище
+                - Иное
+            location:
+              title: Размещение
+              enum:
+                - Внешняя
+                - Внутренняя
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
           required:
             - reservation_rate
             - az_used
@@ -50,8 +89,15 @@ entities:
             - anonymous_api_connect
             - https_api_connect
             - pv
+      patternProperties:
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          properties:
+            type: object
+            sber:
+              $ref: "#/$defs/seaf.ta.services.k8s_dzo"
 
-  seaf.ta.components.k8s_deployment_dzo:
+  seaf.ta.components.k8s_deployment:
     title: K8s Deployment
     objects:
       k8s_deployment:
@@ -101,7 +147,7 @@ entities:
             - description
             - availabilityzone_id
 
-  seaf.ta.components.k8s_pod_dzo:
+  seaf.ta.components.k8s_pod:
     title: POD K8s
     objects:
       k8s_pod:
@@ -176,7 +222,7 @@ entities:
             - access_level
             - kubernetes_id
 
-  seaf.ta.components.k8s_container_dzo:
+  seaf.ta.components.k8s_container:
     title: K8s Container
     objects:
       k8s_container:
@@ -253,7 +299,7 @@ entities:
             - container_id
             - name
 
-  seaf.ta.components.k8s_image_dzo:
+  seaf.ta.components.k8s_image:
     title: Image ПО для развёртывания в K8s
     objects:
       k8s_image:
@@ -262,7 +308,7 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        r"[a-zA-Z0-9_\\.]*":
           type: object
           $ref: "#/$defs/seaf.ta.components.base.entity"
           properties:
@@ -297,17 +343,12 @@ entities:
             - image_size
             - description
 
-  seaf.ta.components.server_metal_dzo:
-    title: Расширение описания физических серверов для целей проверки станадртов
-    objects:
-      server_metal_dzo:
-        route: "/"
-        title: Расширение описание физического сервера для целей проверки станадртов
-    schema: # JSON Schema контролирующая описание объекта сущности
-      type: object
-      patternProperties:
-        "[a-zA-Z0-9_\\.]*":
-          $ref: "#/$defs/seaf.ta.components.server"
+  seaf.ta.components.server:
+    schema:
+      $defs:
+        seaf.ta.components.server_dzo:
+          title: Расширение описания физических серверов для целей проверки станадртов
+          type: object
           properties:
             #Часть 3. TACIR_1-Ч03.02.4-02.
             power_module_qty:
@@ -335,18 +376,20 @@ entities:
             - raid_level
             - raid_spare_disks
             - rack_mount
-
-  seaf.ta.components.hw_storage_dzo:
-    title: Расширение описания физической СХД для целей проверки станадртов
-    objects:
-      hw_storage_dzo:
-        route: "/"
-        title: Расширение описания физической СХД для целей проверки станадртов
-    schema: # JSON Schema контролирующая описание объекта сущности
-      type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
-          $ref: "#/$defs/seaf.ta.components.hw_storage"
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          properties:
+            type: object
+            sber:
+              $ref: "#/$defs/seaf.ta.components.server_dzo"
+
+  seaf.ta.components.hw_storage:
+    schema:
+      $defs:
+        seaf.ta.components.hw_storage_dzo:
+          title: Расширение описания физической СХД для целей проверки станадртов
+          type: object
           properties:
             #Часть 4. TACIR_2-Ч04.01.3-01.
             nvram_amount:
@@ -413,18 +456,20 @@ entities:
             - links_qty
             - reservation_ratio
             - erasure_coding
-
-  seaf.ta.services.monitoring_dzo:
-    title: Расширение описания сервиса мониторинга для целей проверки станадртов
-    objects:
-      monitoring_dzo:
-        route: "/"
-        title: Расширение описания сервиса мониторинга для целей проверки станадртов
-    schema: # JSON Schema контролирующая описание объекта сущности
-      type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
-          $ref: "#/$defs/seaf.ta.services.monitoring"
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          properties:
+            type: object
+            sber:
+              $ref: "#/$defs/seaf.ta.components.hw_storage_dzo"
+
+  seaf.ta.services.monitoring:
+    schema:
+      $defs:
+        seaf.ta.services.monitoring_dzo:
+          title: Расширение описания сервиса мониторинга для целей проверки станадртов
+          type: object
           properties:
             #Часть 6. TACMN_1-Ч06.01.4-02.
             monitoring_console:
@@ -458,6 +503,50 @@ entities:
             siem_anabled:
               title: Система мониторинга подключена к SIEM системе
               type: boolean
+            class:
+              title: Класс систем
+              enum:
+                - Архитектурный репозиторий
+                - Бекапирование и восстановление данных
+                - Виртуализация
+                - Контейнеризация
+                - Логгирование
+                - Мониторинг
+                - Удаленный доступ
+                - Управление конфигурациями
+                - Управление облачной инфраструктурой
+                - BigData
+                - CDC (Change Data Capture)
+                - DWH (Хранилище данных)
+                - ETL
+                - FTP/SFTP/FTPS серверы
+                - MDM (Master Data Management)
+                - Message Queue
+                - NoSQL СУБД
+                - OLAP & BI
+                - Proxy-серверы
+                - Web-серверы
+                - Балансировка нагрузки (load balancers)
+                - Интеграционная шина
+                - Каналы обслуживания клиентов (фронтальные решения)
+                - Проверка и очистка данных
+                - Распределенный кэш
+                - Реляционные СУБД
+                - Серверы приложений (Application Servers)
+                - Файловое хранилище
+                - Иное
+            location:
+              title: Размещение
+              enum:
+                - Внешняя
+                - Внутренняя
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
           required:
             - monitoring_console
             - cluster_id
@@ -467,22 +556,538 @@ entities:
             - frequency
             - pam_anabled
             - siem_anabled
-
-  seaf.ta.components.network_dzo:
-    title: Расширение описания сетевых устройств для целей проверки станадртов
-    objects:
-      network_dzo:
-        route: "/"
-        title: Расширение описания сетевых устройств для целей проверки станадртов
-    schema: # JSON Schema контролирующая описание объекта сущности
-      type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
-          $ref: "#/$defs/seaf.ta.components.network"
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
           properties:
+            type: object
+            sber:
+              $ref: "#/$defs/seaf.ta.services.monitoring_dzo"
+
+  seaf.ta.components.network:
+    schema:
+      $defs:
+        seaf.ta.components.network_dzo:
+          title: Расширение описания сетевых устройств для целей проверки станадртов
+          type: object
+          properties:
+            class:
+              title: Класс систем
+              enum:
+                - Архитектурный репозиторий
+                - Бекапирование и восстановление данных
+                - Виртуализация
+                - Контейнеризация
+                - Логгирование
+                - Мониторинг
+                - Удаленный доступ
+                - Управление конфигурациями
+                - Управление облачной инфраструктурой
+                - BigData
+                - CDC (Change Data Capture)
+                - DWH (Хранилище данных)
+                - ETL
+                - FTP/SFTP/FTPS серверы
+                - MDM (Master Data Management)
+                - Message Queue
+                - NoSQL СУБД
+                - OLAP & BI
+                - Proxy-серверы
+                - Web-серверы
+                - Балансировка нагрузки (load balancers)
+                - Интеграционная шина
+                - Каналы обслуживания клиентов (фронтальные решения)
+                - Проверка и очистка данных
+                - Распределенный кэш
+                - Реляционные СУБД
+                - Серверы приложений (Application Servers)
+                - Файловое хранилище
+                - Иное
+            location:
+              title: Размещение
+              enum:
+                - Внешняя
+                - Внутренняя
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
             auth_type:
               title: Тип аутентификации
               type: string
               enum: [Отсутствует, Пароль и логин, Сертификат, Двухфакторная]
+      patternProperties:
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          properties:
+            type: object
+            sber:
+              $ref: "#/$defs/seaf.ta.components.network_dzo"
+
+  seaf.ta.services.cluster:
+    schema:
+      $defs:
+        seaf.ta.services.cluster_dzo:
+          title: Расширение описания Cluster для совместимости с КА ДЗО
+          type: object
+          properties:
+            class:
+              title: Класс систем
+              enum:
+                - Архитектурный репозиторий
+                - Бекапирование и восстановление данных
+                - Виртуализация
+                - Контейнеризация
+                - Логгирование
+                - Мониторинг
+                - Удаленный доступ
+                - Управление конфигурациями
+                - Управление облачной инфраструктурой
+                - BigData
+                - CDC (Change Data Capture)
+                - DWH (Хранилище данных)
+                - ETL
+                - FTP/SFTP/FTPS серверы
+                - MDM (Master Data Management)
+                - Message Queue
+                - NoSQL СУБД
+                - OLAP & BI
+                - Proxy-серверы
+                - Web-серверы
+                - Балансировка нагрузки (load balancers)
+                - Интеграционная шина
+                - Каналы обслуживания клиентов (фронтальные решения)
+                - Проверка и очистка данных
+                - Распределенный кэш
+                - Реляционные СУБД
+                - Серверы приложений (Application Servers)
+                - Файловое хранилище
+                - Иное
+            location:
+              title: Размещение
+              enum:
+                - Внешняя
+                - Внутренняя
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
+            comments:
+              title: Комментарии, риски, проблемы
+              type: array
+              items:
+                type: string
+      patternProperties:
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          properties:
+            type: object
+            sber:
+              $ref: "#/$defs/seaf.ta.services.cluster_dzo"
+
+  seaf.ta.services.compute_service:
+    schema:
+      $defs:
+        seaf.ta.services.compute_service_dzo:
+          title: Расширение описания Compute Service для совместимости с КА ДЗО
+          type: object
+          properties:
+            class:
+              title: Класс систем
+              enum:
+                - Архитектурный репозиторий
+                - Бекапирование и восстановление данных
+                - Виртуализация
+                - Контейнеризация
+                - Логгирование
+                - Мониторинг
+                - Удаленный доступ
+                - Управление конфигурациями
+                - Управление облачной инфраструктурой
+                - BigData
+                - CDC (Change Data Capture)
+                - DWH (Хранилище данных)
+                - ETL
+                - FTP/SFTP/FTPS серверы
+                - MDM (Master Data Management)
+                - Message Queue
+                - NoSQL СУБД
+                - OLAP & BI
+                - Proxy-серверы
+                - Web-серверы
+                - Балансировка нагрузки (load balancers)
+                - Интеграционная шина
+                - Каналы обслуживания клиентов (фронтальные решения)
+                - Проверка и очистка данных
+                - Распределенный кэш
+                - Реляционные СУБД
+                - Серверы приложений (Application Servers)
+                - Файловое хранилище
+                - Иное
+            location:
+              title: Размещение
+              enum:
+                - Внешняя
+                - Внутренняя
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
+      patternProperties:
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          properties:
+            type: object
+            sber:
+               $ref: "#/$defs/seaf.ta.services.compute_service_dzo"
+
+  seaf.ta.services.backup:
+    schema:
+      $defs:
+        seaf.ta.services.backup_dzo:
+          title: Расширение описания backup для совместимости с КА ДЗО
+          type: object
+          properties:
+            class:
+              title: Класс систем
+              enum:
+                - Архитектурный репозиторий
+                - Бекапирование и восстановление данных
+                - Виртуализация
+                - Контейнеризация
+                - Логгирование
+                - Мониторинг
+                - Удаленный доступ
+                - Управление конфигурациями
+                - Управление облачной инфраструктурой
+                - BigData
+                - CDC (Change Data Capture)
+                - DWH (Хранилище данных)
+                - ETL
+                - FTP/SFTP/FTPS серверы
+                - MDM (Master Data Management)
+                - Message Queue
+                - NoSQL СУБД
+                - OLAP & BI
+                - Proxy-серверы
+                - Web-серверы
+                - Балансировка нагрузки (load balancers)
+                - Интеграционная шина
+                - Каналы обслуживания клиентов (фронтальные решения)
+                - Проверка и очистка данных
+                - Распределенный кэш
+                - Реляционные СУБД
+                - Серверы приложений (Application Servers)
+                - Файловое хранилище
+                - Иное
+            location:
+              title: Размещение
+              enum:
+                - Внешняя
+                - Внутренняя
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
+      patternProperties:
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          properties:
+            type: object
+            sber:
+              $ref: "#/$defs/seaf.ta.services.backup_dzo"
+
+  seaf.ta.services.cluster_virtualization:
+    schema:
+      $defs:
+        seaf.ta.services.cluster_virtualization_dzo:
+          title: Расширение описания кластера виртуализации для совместимости с КА ДЗО
+          type: object
+          properties:
+            class:
+              title: Класс систем
+              enum:
+                - Архитектурный репозиторий
+                - Бекапирование и восстановление данных
+                - Виртуализация
+                - Контейнеризация
+                - Логгирование
+                - Мониторинг
+                - Удаленный доступ
+                - Управление конфигурациями
+                - Управление облачной инфраструктурой
+                - BigData
+                - CDC (Change Data Capture)
+                - DWH (Хранилище данных)
+                - ETL
+                - FTP/SFTP/FTPS серверы
+                - MDM (Master Data Management)
+                - Message Queue
+                - NoSQL СУБД
+                - OLAP & BI
+                - Proxy-серверы
+                - Web-серверы
+                - Балансировка нагрузки (load balancers)
+                - Интеграционная шина
+                - Каналы обслуживания клиентов (фронтальные решения)
+                - Проверка и очистка данных
+                - Распределенный кэш
+                - Реляционные СУБД
+                - Серверы приложений (Application Servers)
+                - Файловое хранилище
+                - Иное
+            location:
+              title: Размещение
+              enum:
+                - Внешняя
+                - Внутренняя
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
+      patternProperties:
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          properties:
+            type: object
+            sber:
+              $ref: "#/$defs/seaf.ta.services.cluster_virtualization_dzo"
+
+  seaf.ta.services.storage:
+    schema:
+      $defs:
+        seaf.ta.services.storage_dzo:
+          title: Расширение описания Storage для совместимости с КА ДЗО
+          type: object
+          properties:
+            class:
+              title: Класс систем
+              enum:
+                - Архитектурный репозиторий
+                - Бекапирование и восстановление данных
+                - Виртуализация
+                - Контейнеризация
+                - Логгирование
+                - Мониторинг
+                - Удаленный доступ
+                - Управление конфигурациями
+                - Управление облачной инфраструктурой
+                - BigData
+                - CDC (Change Data Capture)
+                - DWH (Хранилище данных)
+                - ETL
+                - FTP/SFTP/FTPS серверы
+                - MDM (Master Data Management)
+                - Message Queue
+                - NoSQL СУБД
+                - OLAP & BI
+                - Proxy-серверы
+                - Web-серверы
+                - Балансировка нагрузки (load balancers)
+                - Интеграционная шина
+                - Каналы обслуживания клиентов (фронтальные решения)
+                - Проверка и очистка данных
+                - Распределенный кэш
+                - Реляционные СУБД
+                - Серверы приложений (Application Servers)
+                - Файловое хранилище
+                - Иное
+            location:
+              title: Размещение
+              enum:
+                - Внешняя
+                - Внутренняя
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
+      patternProperties:
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          properties:
+            type: object
+            sber:
+              $ref: "#/$defs/seaf.ta.services.storage_dzo"
+
+  seaf.ta.services.dc:
+    schema:
+      $defs:
+        seaf.ta.services.dc_dzo:
+          title: Расширение описания Datacenter для совместимости с КА ДЗО
+          type: object
+          properties:
+            class:
+              title: Класс систем
+              enum:
+                - Архитектурный репозиторий
+                - Бекапирование и восстановление данных
+                - Виртуализация
+                - Контейнеризация
+                - Логгирование
+                - Мониторинг
+                - Удаленный доступ
+                - Управление конфигурациями
+                - Управление облачной инфраструктурой
+                - BigData
+                - CDC (Change Data Capture)
+                - DWH (Хранилище данных)
+                - ETL
+                - FTP/SFTP/FTPS серверы
+                - MDM (Master Data Management)
+                - Message Queue
+                - NoSQL СУБД
+                - OLAP & BI
+                - Proxy-серверы
+                - Web-серверы
+                - Балансировка нагрузки (load balancers)
+                - Интеграционная шина
+                - Каналы обслуживания клиентов (фронтальные решения)
+                - Проверка и очистка данных
+                - Распределенный кэш
+                - Реляционные СУБД
+                - Серверы приложений (Application Servers)
+                - Файловое хранилище
+                - Иное
+            location:
+              title: Размещение
+              enum:
+                - Внешняя
+                - Внутренняя
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
+      patternProperties:
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          properties:
+            type: object
+            sber:
+              $ref: "#/$defs/seaf.ta.services.dc_dzo"
+
+  seaf.ta.services.dc_az:
+    schema:
+      $defs:
+        seaf.ta.services.dc_az_dzo:
+          title: Расширение описания Datacenter для совместимости с КА ДЗО
+          type: object
+          properties:
+            class:
+              title: Класс систем
+              enum:
+                - Архитектурный репозиторий
+                - Бекапирование и восстановление данных
+                - Виртуализация
+                - Контейнеризация
+                - Логгирование
+                - Мониторинг
+                - Удаленный доступ
+                - Управление конфигурациями
+                - Управление облачной инфраструктурой
+                - BigData
+                - CDC (Change Data Capture)
+                - DWH (Хранилище данных)
+                - ETL
+                - FTP/SFTP/FTPS серверы
+                - MDM (Master Data Management)
+                - Message Queue
+                - NoSQL СУБД
+                - OLAP & BI
+                - Proxy-серверы
+                - Web-серверы
+                - Балансировка нагрузки (load balancers)
+                - Интеграционная шина
+                - Каналы обслуживания клиентов (фронтальные решения)
+                - Проверка и очистка данных
+                - Распределенный кэш
+                - Реляционные СУБД
+                - Серверы приложений (Application Servers)
+                - Файловое хранилище
+                - Иное
+            location:
+              title: Размещение
+              enum:
+                - Внешняя
+                - Внутренняя
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
+      patternProperties:
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          properties:
+            type: object
+            sber:
+              $ref: "#/$defs/seaf.ta.services.dc_dzo"
+
+  seaf.ta.services.kb:
+    title: Сервис кибер безопасности
+    objects:
+      kb:
+        route: "/"
+        title: Сервис кибер безопасности
+    schema: # JSON Schema контролирующая описание объекта сущности
+      type: object
+      patternProperties:
+        "^[a-zA-Z0-9_\\.]*$":
+          type: object
+          $ref: "#/$defs/seaf.ta.services.base.entity"
+          properties:
+            class:
+              title: Класс
+              enum:
+                - ИБ-Антивирусное ПО
+                - ИБ-Аудит действий персонала
+                - ИБ-Аутентификация пользователей
+                - ИБ-Биометрия
+                - ИБ-Защита от киберугроз
+                - ИБ-Защита от сетевых атак
+                - ИБ-Защита от утечек информации
+                - ИБ-Защита трафика
+                - ИБ-Криптография и шифрование
+                - ИБ-Предотвращение мошенничества
+                - ИБ-Управление доступом
+                - ИБ-Управление сертификатами
+                - ИБ-Управление событиями инф.безопасности
+                - Иное
+            location:
+              title: Размещение
+              enum:
+                - Внутренняя
+                - Внешняя
+            status:
+              title: Статус
+              enum:
+                - Создается
+                - Используется
+                - Выводится
+                - В архиве
           required:
-            - auth_type
+            - class
+            - location
+            - status

@@ -11,8 +11,20 @@ docs:
     type: markdown
     source: ../_metamodel_/seaf-core/README.md
 
+  # Публикация документации по SEAF Техническая архитектура
+  sber.berezka.documentations.seaf_ta:
+    location: SEAF/Техническая архитектура
+    type: markdown
+    source: ../_metamodel_/seaf-core/entities/ta/README.md
+
   # Публикация документации по SEAF.DZO
   sber.berezka.documentations.seaf.dzo:
     location: SEAF.DZO
     type: markdown
     source: ../_metamodel_/seaf-dzo/README.md
+
+  # Публикация документации по SEAF Техническая архитектура
+  sber.berezka.documentations.seaf.dzo.ta:
+    location: SEAF.DZO/Техническая архитектура
+    type: markdown
+    source: ../_metamodel_/seaf-dzo/entities/ta/README.md

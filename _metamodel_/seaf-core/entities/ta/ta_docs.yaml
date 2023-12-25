@@ -1,6 +1,0 @@
-docs:
-  ta_main:
-    description: Общее описание технической архитектуры
-    type: markdown
-    location: /Архитектура/Техническая
-    source: README.md
