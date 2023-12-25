@@ -2,6 +2,7 @@
 Пример описания корпоративной архитектуры с использованием специализированного 
 фреймворка [SEAF.DZO](./_metamodel_/seaf-dzo/README.md) основанного на [SEAF](./_metamodel_/seaf-core/README.md).
 
+Структура примера:
 ```mermaid
 flowchart TB
     subgraph "Пример ООО Березка"
@@ -9,13 +10,18 @@ flowchart TB
             id2(Бизнес-архитектура)
             id3(Прикладная архитектура)
             id4(Техническая архитектура)
-            id5(TBD Информационная архитектура )
+            id5(Информационная архитектура )
         end
         subgraph Метамодель ООО Березка
             id6(Частная метамодель примера)
             subgraph SEAF.DZO
                 id7(Специальная метамодель Группы Сбер)
-                id8(SEAF)
+                subgraph Расширения
+                    id8(IaaS)
+                    id9(MMDiscovery)
+                    id10(Hexagon)
+                end
+                seaf(SEAF)
             end
         end
     end
