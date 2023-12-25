@@ -4,6 +4,11 @@ Sber Enterprise Architecture Framework (SEAF) - открытый и развив
 
 ## Быстрый старт
 
+1. Установите DocHub используя [инструкцию](https://github.com/RabotaRu/dochub?tab=readme-ov-file#%D0%B1%D1%8B%D1%81%D1%82%D1%80%D1%8B%D0%B9-%D1%81%D1%82%D0%B0%D1%80%D1%82).
+Для ознокомления, рекомендуется использовать вариант развертывания - плагин для IDEA;
+2. Клонируйте данный репозиторий;
+3. Откройте проект в IDE.
+
 ## Архитектура фреймворка
 ```mermaid
 flowchart TB
