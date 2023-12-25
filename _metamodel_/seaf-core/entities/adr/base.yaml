@@ -1,0 +1,149 @@
+# ADR (Architecture Decision Record)
+# Основано на https://github.com/joelparkerhenderson/architecture-decision-record
+entities:
+  seaf.adr:
+    title: Architecture Decision Record
+    schema:
+      $defs:
+        seaf.adr.issue:
+          type: string
+          title: Описание проблемы
+          description: >
+            Опишите проблему архитектурного проектирования, которую вы решаете,
+            не оставляя вопросов о том, почему вы решаете эту проблему сейчас.
+            Следуя минималистскому подходу, рассматривайте и документируйте только
+            те проблемы, которые требуют решения на различных этапах жизненного цикла.
+        seaf.adr.decision:
+          type: string
+          title: Решение
+          description: >
+            Четко определите архитектурное решение.
+        seaf.adr.status:
+          title: Статус
+          type: string
+          enum:
+            - pending
+            - decided
+            - approved
+        seaf.adr.affects.type:
+          title: Тип эффекта
+          type: string
+          enum:
+            - people
+            - money
+            - resources
+            - time
+            - business
+            - technology
+            - other
+        seaf.adr.context.item:
+          title: Характеристика контекста
+          type: object
+          properties:
+            type:
+              $ref: "#/$defs/seaf.adr.affects.type"
+            content:
+              title: Описание характеристики
+              type: string
+              description: >
+                Четко опишите характеристику контекста
+        seaf.adr.context:
+          title: Контекст принятия решения
+          description: >
+            Укажите все важные сведения влияющие на принятие решения
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/$defs/seaf.adr.context.item"
+        seaf.adr.consequences.item:
+          title: Характеристика последствий
+          type: object
+          properties:
+            type:
+              $ref: "#/$defs/seaf.adr.affects.type"
+            content:
+              title: Описание характеристики
+              type: string
+              description: >
+                Четко опишите последствия принятого решения
+        seaf.adr.consequences:
+          title: Последствия
+          description: >
+            Укажите все важные последствия принятого архитектурного решения
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/$defs/seaf.adr.consequences.item"
+        seaf.adr.requirements.item:
+          title: Требование
+          description: >
+            Укажите требование, которое удовлетворяет решение
+          $ref: "#/$rels/seaf.requirements.requirement"
+        seaf.adr.requirements:
+          title: Требования
+          description: >
+            Перечислите требование, которые должно удовлетворить архитектурное решение
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/$defs/seaf.adr.requirements.item"
+        seaf.adr.deciders.item:
+          title: Принимающий решение
+          type: string
+        seaf.adr.deciders:
+          title: Кто принял решение
+          description: >
+            Укажите всех, кто принимал архитектурное решение.
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/$defs/seaf.adr.deciders.item"
+        seaf.adr.dependencies.item:
+          title: Зависимость от другого решения
+          $ref: "#/$rels/seaf.adr.adr"
+        seaf.adr.dependencies:
+          title: Зависимости от других решений
+          description: >
+            Укажите от каких решений зависит данное
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/$defs/seaf.adr.dependencies.item"
+        seaf.adr:
+          type: object
+          properties:
+            title:
+              type: string
+              title: Название
+            issue:
+              $ref: "#/$defs/seaf.adr.issue"
+            deciders:
+              $ref: "#/$defs/seaf.adr.deciders"
+            decision:
+              $ref: "#/$defs/seaf.adr.decision"
+            status:
+              $ref: "#/$defs/seaf.adr.status"
+            context:
+              $ref: "#/$defs/seaf.adr.context"
+            consequences:
+              $ref: "#/$defs/seaf.adr.consequences"
+            requirements:
+              $ref: "#/$defs/seaf.adr.requirements"
+            dependencies:
+              $ref: "#/$defs/seaf.adr.dependencies"
+          required:
+            - title
+            - issue
+            - decision
+            - status
+            - context
+            - context
+            - consequences
+      type: object
+      patternProperties:
+        "^[a-z0-9_\\$][a-z0-9_\\$]*(\\.[a-z0-9_\\$][a-z0-9_\\$]*)*$":
+          $ref: "#/$defs/seaf.adr"
+    objects:
+      adr:
+        route: "/"
+        title: ADR

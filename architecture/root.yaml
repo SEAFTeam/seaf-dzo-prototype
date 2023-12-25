@@ -5,3 +5,4 @@ imports:
   - ia/root.yaml
   - tools/root.yaml
   - interface/root.yaml
+  - adr/root.yaml

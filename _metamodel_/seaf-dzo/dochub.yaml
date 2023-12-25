@@ -16,3 +16,4 @@ $package:
 imports:
   - entities/root.yaml
   - architecture/root.yaml
+  - docs/root.yaml
