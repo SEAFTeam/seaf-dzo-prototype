@@ -13,6 +13,31 @@ entities:
             description:
               title: Описание
               type: string
+            owner:
+              title: Владелец продукта
+              type: string
+              $ref: "#/$rels/seaf.ba.paries.parties"
+            used_in:
+              title: используется в
+              type: array
+              items:
+                $ref: "#/$rels/seaf.ba.products.products"
+            is_channel:
+              title: является каналом
+              type: object
+              properties: 
+                type:
+                  title: Тип канала
+                  enum:
+                    - Цифровой
+                    - Физический
+                    - Смешанный
+                security:
+                  title: Способы защиты канала
+                  type: string
+              required:
+                - type
+                - security
             status:
               title: Статус
               enum:
@@ -29,6 +54,7 @@ entities:
             - title
             - description
             - status
+            - owner
     objects:
       products:
         route: "/"
