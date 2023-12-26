@@ -52,25 +52,19 @@ entities:
             - verifications
     menu: >
       (
-        $requirements := $."seaf.requirements";
-        $makeLocation := function($id) {(
-            $arrleft := function($arr ,$count) {
-                $map($arr, function($v, $i) {
-                  $i <= $count ? $v
-                })
-            };
-            $domains := $split($id, ".");
-            "Анализ/Требования/" & $join($map($domains, function($domain, $index) {(
-                $lookup($requirements, $join($arrleft($domains, $index), ".")).title
-            )}), "/");
-        )};
-        [$append([{
+        $append(
+          [{
             "link": "/entities/seaf.requirements/tree", 
             "location": "Анализ/Требования" 
           }],
-          [$requirements.$spread().{
-              "link": "/entities/seaf.requirements/blank?seaf-req-id=" & $keys()[0],
-              "location": $makeLocation($keys()[0])
-          }][location]
-        )];
+          $seaf_menu_location_by_id(
+              $."seaf.requirements",
+              "",
+              "Анализ/Требования/",
+              function($location, $item, $itemId, $collection){{
+                  "location": $location,
+                  "link": "/entities/seaf.requirements/blank?seaf-req-id=" & $itemId
+              }}
+          )
+        );
       )

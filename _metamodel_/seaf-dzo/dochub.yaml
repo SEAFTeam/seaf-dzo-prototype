@@ -11,7 +11,7 @@ $package:
     version: 1.0.0
     # Зависимости от других пакетов
     dependencies:
-      seaf: 1.0.0
+      seaf: ">=1.0.0"
 
 imports:
   - entities/root.yaml

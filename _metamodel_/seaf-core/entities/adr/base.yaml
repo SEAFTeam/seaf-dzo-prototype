@@ -25,28 +25,41 @@ entities:
             - pending
             - decided
             - approved
-        seaf.adr.affects.type:
-          title: Тип эффекта
+        seaf.adr.affects.area:
+          title: Область эффекта
           type: string
           enum:
-            - people
-            - money
-            - resources
-            - time
-            - business
-            - technology
-            - other
+            - people      # Люди
+            - money       # Деньги
+            - resources   # Ресурсы
+            - time        # Время
+            - business    # Бизнес
+            - technology  # Технологии
+            - other       # Прочее
+        seaf.adr.affects.vector:
+          title: Область эффекта
+          type: string
+          enum:
+            - negative    # Негативное влияние
+            - positive    # Позитивное влияние
+            - unknown     # Неизвестно
         seaf.adr.context.item:
           title: Характеристика контекста
           type: object
           properties:
-            type:
-              $ref: "#/$defs/seaf.adr.affects.type"
+            area:
+              $ref: "#/$defs/seaf.adr.affects.area"
+            vector:
+              $ref: "#/$defs/seaf.adr.affects.vector"
             content:
               title: Описание характеристики
               type: string
               description: >
                 Четко опишите характеристику контекста
+          required:
+            - area
+            - vector
+            - content
         seaf.adr.context:
           title: Контекст принятия решения
           description: >
@@ -59,13 +72,19 @@ entities:
           title: Характеристика последствий
           type: object
           properties:
-            type:
-              $ref: "#/$defs/seaf.adr.affects.type"
+            area:
+              $ref: "#/$defs/seaf.adr.affects.area"
+            vector:
+              $ref: "#/$defs/seaf.adr.affects.vector"
             content:
               title: Описание характеристики
               type: string
               description: >
                 Четко опишите последствия принятого решения
+          required:
+            - area
+            - vector
+            - content
         seaf.adr.consequences:
           title: Последствия
           description: >
@@ -115,6 +134,10 @@ entities:
             title:
               type: string
               title: Название
+            moment:
+              type: string
+              title: Дата создания
+              pattern: ^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$
             issue:
               $ref: "#/$defs/seaf.adr.issue"
             deciders:
@@ -133,6 +156,7 @@ entities:
               $ref: "#/$defs/seaf.adr.dependencies"
           required:
             - title
+            - moment
             - issue
             - decision
             - status
@@ -147,3 +171,21 @@ entities:
       adr:
         route: "/"
         title: ADR
+    menu: >
+      (       
+          $append(
+              [{
+                  "location": "Анализ/ADR",
+                  "link": "/entities/seaf.adr/list"
+              }],
+              $seaf_menu_location_by_id(
+                    $."seaf.adr",
+                    "",
+                    "Анализ/ADR/",
+                    function($location, $item, $itemId, $collection){{
+                        "location": $location,
+                        "link": "/entities/seaf.adr/blank?seaf-adr-id=" & $itemId
+                    }}
+            )
+        );
+      )
