@@ -22,6 +22,11 @@ entities:
               type: array
               items:
                 $ref: "#/$rels/seaf.ba.products.products"
+            systems:
+              title: Связи с АС
+              type: array
+              items:
+                $ref: "#/$rels/components.component"
             is_channel:
               title: является каналом
               type: object
