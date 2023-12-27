@@ -5,23 +5,24 @@ entities:
         type: smartants
         source: >
           (
-            $cservers := $."seaf.ta.components.server_metal";
-            $cvpcs := $."seaf.ta.services.dc";
+            $cservers := $."seaf.ta.reverse.cloud_ru.advanced.ecss";
+            $cvpcs := $."seaf.ta.reverse.cloud_ru.advanced.vpcs";
             $arr1 := $merge($cvpcs.$spread().(
-                      $id := $.*.dc_id;
-                      $name := *.dc_name;
-                      $id in $cvpcs.*.dc_id ?
+                      $id := $.*.id;
+                      $name := *.name;
+                      $id in $cservers.*.vpc_id ?
                       {
                           $id: {
-                              'title': $name
+                              'title': $name & ' - ' & *.cidr,
+                              'description': *.cidr
                           }
                       }
               )
             );
             $arr2 := $merge($cservers.$spread().(
-                  $id := $.*.server_id;
-                  $dcid := *.dc_id;
-                  $domain := $dcid & '.' & $id;
+                  $id := $.*.id;
+                  $vpcid := *.vpc_id;
+                  $domain := $vpcid & '.' & $id;
                   {
                       $domain: {
                               'title': *.name,
@@ -29,6 +30,23 @@ entities:
                       }
                   }
               )
+            );
+            $links := $cvpcs.$spread().(
+                     $id := $keys()[0];
+                     $name := *.name;
+                     {"id": $name};
+                     $matcher := /.*fw.*/i;
+                     $matcher($name) ? $cvpcs.$spread().(    
+                                         $from := $keys()[0];
+                                         $dstname := *.name;
+                                         $id != $from ?
+                                        {
+                                             "from": $from,
+                                             "to": $id,
+                                             "title": $name & ' to ' & $dstname,
+                                             "style": "->"
+                                        }
+                                       )
             );
             {
             "nodes": $merge($append($arr1, $arr2)),
