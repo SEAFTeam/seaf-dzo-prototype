@@ -30,18 +30,88 @@ entities:
               $txt := $params.txt;
               $matcher := $eval("/^seaf\\.ta\\." & $id & ".*$/");
               $functions := $.entities.$spread()[$matcher($keys()[0])].*.menu;
-              $menu := $functions.(
-                  $item := $;
-                  $matcher := $eval("/.*(" & $txt & ".*)$/");
-                  $items := $eval($item)[location ~> $matcher];
-                  $items.({
-                    'location': $matcher($.location).groups[0],
-                    'link': $.link
-                  })
-              );
+              $menu :=
+                  $functions.(
+                      $item := $;
+                      $matcher := $eval("/.*(" & $txt & ".*)$/");
+                      $items := $eval($item)[location ~> $matcher];
+                      $items.({
+                        'location': $matcher($.location).groups[0],
+                        'link': $.link
+                      })
+                  );
               {
                   'txt': $txt,
                   'menu': $menu
               }
-          
+          )
+
+      root:
+        type: plantuml
+        template: templates/root.puml
+        source: >
+          (
+              $id := $params.id;
+              $txt := $params.txt;
+              $matcher := $eval("/^seaf\\.ta\\." & $id & ".*$/");
+              $functions := $.entities.$spread()[$matcher($keys()[0])].*.menu;
+              $menu := $functions.(
+                  $item := $;
+                  $matcher := /^(.*)$/;
+                  $items := $eval($item)[location ~> $matcher][location != 'undefined'][$not($contains(link, "readme"))];
+                  $items.({
+                    'location': $matcher($.location).groups[0],
+                    'link': '"/' & $.link & '"'
+                  })
+              );
+              $items := $menu.(
+                  $splitted := $.location.$split("/");
+                  $qty := $count($.location.$split("/"));
+                  $current_item := $splitted[-1];
+                  $current_link := $.link;
+                  $parents := [1..$qty-2].(
+                      $i := $;
+                      $parent := $splitted[$i];
+                      $matcher := $eval("/\\.*\\/" & $parent & "$/");
+                      $a := $menu[location ~> $matcher] ? ($menu[location ~> $matcher][$not($contains(link, "readme"))].(
+                          {
+                              'title': $.location.$split("/")[-1],
+                              'link': $.link
+                          }
+                      )) : (
+                        {
+                            'title': $parent,
+                            'link': null
+                        }
+                      );
+                  );
+                  $distinct($append($parents,
+                      {
+                          'title': $current_item,
+                          'link': $current_link
+                      }
+                  ));
+              );
+              $links := $menu.(
+                  $splitted := $.location.$split("/");
+                  $qty := $count($.location.$split("/"));
+                  $current_item := $splitted[-1];
+                  $parents := [1..$qty-1].(
+                      $i := $;
+                      $parent := $splitted[$i];
+                      $i < $qty-1 ? (
+                          $from := $parent;
+                          $to := $splitted[$i+1];
+                          {
+                              "from": $from,
+                              "to": $to
+                          }
+                      )
+                  );
+              );
+              {
+                  'txt': $txt,
+                  'item': $distinct($items),
+                  'links': $distinct($links)
+              }
           )
