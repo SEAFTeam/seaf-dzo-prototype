@@ -17,7 +17,7 @@ entities:
               title: Системы, обеспечивающие бизнес-процесс
               type: array
               items:
-                $ref: "#/$rels/kadzo.v2023.systems.systems"
+                $ref: "#/$rels/components.component"
             products:
               title: Связь с продуктами
               type: array
