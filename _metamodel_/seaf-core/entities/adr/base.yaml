@@ -18,13 +18,6 @@ entities:
           title: Решение
           description: >
             Четко определите архитектурное решение.
-        seaf.adr.status:
-          title: Статус
-          type: string
-          enum:
-            - pending
-            - decided
-            - approved
         seaf.adr.affects.area:
           title: Область эффекта
           type: string
@@ -144,8 +137,6 @@ entities:
               $ref: "#/$defs/seaf.adr.deciders"
             decision:
               $ref: "#/$defs/seaf.adr.decision"
-            status:
-              $ref: "#/$defs/seaf.adr.status"
             context:
               $ref: "#/$defs/seaf.adr.context"
             consequences:

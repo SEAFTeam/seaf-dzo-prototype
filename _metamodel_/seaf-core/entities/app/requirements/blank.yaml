@@ -17,7 +17,9 @@ entities:
         source: >
           (
               $aspects := aspects;
-              $lookup($."seaf.requirements", $params."seaf-req-id").{
+              $id := $params."seaf-req-id";
+              $lookup($."seaf.requirements", $id).{
+                  "id": $id,
                   "title": title,
                   "type": type,
                   "description": description,

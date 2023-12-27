@@ -22,11 +22,6 @@ entities:
             sortable: true
             align: left
             width: 10%
-          - value: status
-            text: Статус
-            sortable: true
-            align: left
-            width: 5%
         source: >
           (
               $."seaf.adr".$spread().(
@@ -36,7 +31,6 @@ entities:
                       "moment": *.moment,
                       "link": "/entities/seaf.adr/blank?seaf-adr-id=" & $id,
                       "title": *.title,
-                      "status": *.status,
                       "sort": $toMillis(*.moment)
                   }
               )^(sort);
