@@ -19,10 +19,12 @@ entities:
               minLength: 2
             source:
               title: Источник данных (поставщик)
+              type: string
               anyOf:
-                - $ref: "#/$rels/components.component"
+                - $ref: "#/$rels/components.component"                
             consumer:
               title: Потребитель данных
+              type: string
               anyOf:
                 - $ref: "#/$rels/components.component"
             data-objects:
