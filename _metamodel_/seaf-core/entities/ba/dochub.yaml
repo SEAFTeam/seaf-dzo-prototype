@@ -10,10 +10,9 @@ imports:
   # hexagon articles
   - ../../docs/ba/docs.yaml
 
+  - parties.yaml
   - strategy.yaml
   - goals.yaml
   - products.yaml
-  - channels.yaml
-  - clients.yaml
   - processes.yaml
   

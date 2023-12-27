@@ -1,20 +1,6 @@
 # Core functions
 hexF:
 
-  # Translation app layer objects links into hex
-  dh_componentsToHex: >
-    (
-      $components:= $$.components.$spread()[$.*.entity="component"];
-      $reduce($map($components, function($v) {(
-        $maps:= [
-          {"source": $keys($v), "target": "mm.resource", "label": "map"},
-          {"source": $keys($v), "target": "mm.resource.app_service", "label": "type"}];
-        $regs:= $map($v.*.processes, function($vv) {
-          {"source": $keys($v), "target": $vv, "label": "поддерживает"}
-        });
-        $append($maps, $regs);
-      )}), $append)
-    )
 
 
   # Scans objects declarations through whole lake by seaf.ba.ttl
@@ -29,6 +15,7 @@ hexF:
                       {"id": $k, "body": $v~>|$|{}, ["hex", "hexQ", "hexV"]|}
                     }
                );
+      $nodes:= $append($nodes, $eval($$.hexF.toHexNodes)) /*Add converted entities*/
     )
   
   edges: >
@@ -50,7 +37,7 @@ hexF:
                                    )})
                     }); 
       $inTTLHexes:= $distinct($reduce($reduce($inTTLHexes, $append), $append));
-      $append($eval($$.hexF.dh_componentsToHex), $inTTLHexes)
+      $append($eval($$.hexF.toHexEdges), $inTTLHexes)
     )
 
   queryExe: >
