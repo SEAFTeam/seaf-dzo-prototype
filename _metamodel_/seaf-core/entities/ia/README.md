@@ -43,23 +43,22 @@
 ## Примеры сущностей
 
 **Бизнес-объект**
-    
-    *
-    seaf.ia.business_objects:
-        sber.berezka.business_objects.client:
-            title: Клиент
-            status: Используется
-            processes:
-                - sber.berezak.ba.processes.process_1
-
+```yaml
+seaf.ia.business_objects:
+    sber.berezka.business_objects.client:
+        title: Клиент
+        status: Используется
+        processes:
+            - sber.berezak.ba.processes.process_1
+```
 
 **Объект данных**
-
-    *
-    seaf.ia.data_objects:
-        sber.berezka.data_objects.client_name:
-            title: ФИО Клиента
-            status: Используется
-            business_object: sber.berezka.business_objects.client
-            category: Перс.данные
-            master_system: sber.berezka.components.home_cinema
+```yaml
+seaf.ia.data_objects:
+    sber.berezka.data_objects.client_name:
+        title: ФИО Клиента
+        status: Используется
+        business_object: sber.berezka.business_objects.client
+        category: Перс.данные
+        master_system: sber.berezka.components.home_cinema
+```
