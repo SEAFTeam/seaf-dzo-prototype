@@ -10,10 +10,6 @@ entities:
               {
                   'location': 'Архитектура/Информационная/Объекты данных',
                   'link': 'entities/seaf.ia.data_objects/list'
-              },
-              {
-                  'location': 'Документы/SEAF/Информационная архитектура',
-                  'link': 'entities/seaf.ia.general/readme'
               }
           ]
       )

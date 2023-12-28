@@ -34,21 +34,3 @@ seaf.app.integrations:
     to: sber.berezka.home_cinema.auth
     specifications:
       - smartpay
-
-integrations:
-  sber.asdas.asdads.asdas:
-    id:
-    description:
-    specifications:
-    source:
-    consumer:
-    data-objects:
-      -
-    technologies:
-      -
-    technical-use:
-    async:
-    status:
-    protected:
-      -
-    load:

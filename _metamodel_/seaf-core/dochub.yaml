@@ -15,3 +15,4 @@ $package:
 
 imports:
   - entities/root.yaml
+  - docs/ia/docs.yaml

@@ -1,6 +1,0 @@
-entities:
-  seaf.ia.general:
-    presentations:
-      readme:
-        type: markdown
-        template: ../README.md
