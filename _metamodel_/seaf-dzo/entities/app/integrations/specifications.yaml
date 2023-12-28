@@ -7,13 +7,13 @@ entities:
         "^[a-z0-9_\\$][a-z0-9_\\$]*(\\.[a-z0-9_\\$][a-z0-9_\\$]*)*$":
           type: object
           properties:
-            id:
-              title: Уникальный идентификатор спецификации интеграции
-              type: string
-              format: uuid
             sber:
               type: object
               properties:
+                id:
+                  title: Уникальный идентификатор спецификации интеграции
+                  type: string
+                  format: uuid
                 interface:
                   title: Интерфейс взаимодействия
                   type: string
@@ -47,9 +47,7 @@ entities:
                   title: Интеграция по требованию и правилам регулятора?
                   type: boolean
               required:
+                - id
                 - interface
                 - interface_type
                 - interface_standard_type
-          required:
-            - id
-            - description

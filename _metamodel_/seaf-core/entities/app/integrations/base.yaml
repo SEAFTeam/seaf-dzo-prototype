@@ -37,6 +37,11 @@ entities:
               items:
                 title: Идентификатор спецификации
                 $ref: "#/$rels/seaf.app.integration_specifications.specification"
+            data-objects:
+              title: Объекты данных
+              type: array
+              items:
+                $ref: "#/$rels/data_objects.data_object"
           required:
             - title
             - description
