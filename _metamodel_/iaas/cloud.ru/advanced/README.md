@@ -74,6 +74,7 @@ dms = False                             # Distributed Message Server
 
 ## Структура каталогов
 ```console
+
 |- _metamodel_                      - Подключенные пакеты метамоделей
 |  |- iaas                          - Пакет метамодели
 |  |  |- cloud.ru                   - Модель провайдера
