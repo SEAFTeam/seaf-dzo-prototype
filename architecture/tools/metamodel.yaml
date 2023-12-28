@@ -66,6 +66,15 @@ mm_discovery.stalker:
       - components
       - seaf.requirements
       - seaf.app.**
+  sber.berezka.analytics:
+    title: Аналитика
+    location: Метамодель/Аналитика
+    nodes:
+      seaf:
+        title: SEAF
+    domains:
+      - seaf.adr
+      - seaf.requirements
   sber.berezka.technical:
     title: Техническая архитектура
     location: Метамодель/Техническая
