@@ -21,6 +21,11 @@ docs:
     location: SEAF/Техническая архитектура/SEAF TA Roadmap 2024Q1
     type: mermaid
     source: _metamodel_/seaf-core/docs/SEAF_TA_Roadmap_2024Q1.mmd
+  dochub.welcome.iaas_timeline2024:
+    title: SEAF IaaS Roadmap 2024Q1
+    location: IAAS/SEAF IaaS Roadmap 2024Q1
+    type: mermaid
+    source: _metamodel_/seaf-core/docs/SEAF_IAAS_Roadmap_2024.mmd
 imports:
   # Расширение для исследования метамодели
   - _metamodel_/mm-discovery/dochub.yaml
