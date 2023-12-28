@@ -27,7 +27,7 @@ entities:
               title: Связь с интеграционными потоками
               type: array
               items:
-                $ref: "#/$rels/kadzo.v2023.integrations.integrations"
+                $ref: "#/$rels/seaf.app.integrations.integrations"
             comments:
               title: Комментарии, риски, проблемы
               type: array
