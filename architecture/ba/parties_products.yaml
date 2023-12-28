@@ -1,14 +1,5 @@
 seaf.ba.ttl:
 
-  sber.berezka:
-    title: Березка
-    hex:
-      <=:
-        sber.berezka.home_cinema:
-        sber.berezka.media_platform_saas:
-        sber.berezka.media_platform_self:
-      =>map:
-        mm.party:
 
   fl:
     title: ФЛ
@@ -25,6 +16,8 @@ seaf.ba.ttl:
         mm.product:
       <=:
         sber.berezka.media_platform_self:
+      =>:
+        sber.berezka:
 
   sber.center.payments:
     title: Прием платежей
@@ -36,17 +29,14 @@ seaf.ba.ttl:
         sber.center:
 
 
-  sber.berezka.media_platform_saas:
-    title: Медиа-платформа
-    hex:
-      =>map:
-        mm.product:
-
   sber.berezka.media_platform_self:
     title: Медиа-платформа
     hex:
       =>map:
         mm.product:
+      =>:
+        sber.berezka:
+
 
   sber.center:
     title: Центр
@@ -64,10 +54,29 @@ seaf.ba.ttl:
       =>:
         sber.berezka.home_cinema:
 
+
+# Conventional entities
+# Для описания БА можно использовать основную сущность Hexagon -- seaf.ba.ttl как показано выше
+# и классические сущности (ниже).
+
+# Использование классических сущностей делает возможным получение КА ДЗО (в части БА) из SEAF 
+
+seaf.ba.self:
+  - sber.berezka
+
+
+seaf.ba.parties:
+
+  sber.berezka:
+    title: Березка
+
   content_matter_buz:
     title: Контентно-зависимый бизнес
-    hex:
-      =>map:
-        mm.party:
-      =>:
-        sber.berezka.media_platform_saas:
+    has_interest:
+      - sber.berezka.media_platform_saas
+
+seaf.ba.products:
+
+  sber.berezka.media_platform_saas:
+    title: Медиа-платформа
+    owner: sber.berezka

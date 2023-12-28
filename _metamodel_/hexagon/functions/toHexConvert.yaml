@@ -1,0 +1,118 @@
+hexF:
+
+# converted entities final assembly
+  toHexNodes: >
+    (
+      $parties:= $eval($$.hexF.partiesToParty_ttl);
+      $products:= $eval($$.hexF.productsToProduct_ttl);
+      $append($parties, $products);
+    )
+
+  toHexEdges: >
+    (
+      $supports:= $eval($$.hexF.dh_componentsToHex);
+      $fromParties:= $eval($$.hexF.partiesToEdges);
+      $fromProducts:= $eval($$.hexF.productsToEdges);
+
+      $fromKADZO:= $append($fromParties, $fromProducts);
+      $append($fromKADZO, $supports);
+    )
+
+# from KADZO to Hex Converters
+  partiesToParty_ttl: >
+    (
+      $kadzo_parties:= $$."seaf.ba.parties".$spread();
+      $map($kadzo_parties, function($v){
+        { "id": $keys($v),
+          "body": $v.* 
+        }
+      })
+    )
+
+  partiesToEdges: >
+    (
+      $kadzo_parties:= $$."seaf.ba.parties".$spread();
+      $reduce([$map($kadzo_parties, function($v){(
+        
+        $maps:= {
+          "source": $keys($v),
+          "target": "mm.party",
+          "label": "map"
+        };
+
+        $interested:= $v.*.has_interest;
+        $interested:= $map($interested, function($vv) {
+          { "source": $keys($v),
+            "target": $vv,
+            "label":"" 
+          }
+        });
+
+        $relates:= $v.*.relates;
+        $relates:= $map($relates, function($vv) {
+          { "source": $keys($v),
+            "target": $vv,
+            "label":"" 
+          }
+        });
+
+        $converted:= $append($interested, $relates);
+        $append($converted, $maps);
+      )})], $append)
+    )
+
+  productsToProduct_ttl: >
+    (
+      $kadzo_products:= $$."seaf.ba.products".$spread();
+      $map($kadzo_products, function($v){
+        { "id": $keys($v),
+          "body": $v.* 
+        }
+      })
+    )
+
+  productsToEdges: >
+    (
+      $kadzo_products:= $$."seaf.ba.products".$spread();
+      $reduce([$map($kadzo_products, function($v){(
+
+      $maps:= {
+          "source": $keys($v),
+          "target": "mm.product",
+          "label": "map"
+        };
+
+        
+        $owner:= $v.*.owner;
+        $owner:= {"source": $keys($v),
+                  "target": $owner,
+                  "label":"" 
+                 };
+
+        $used:= $v.*.used_in;
+        $used:= $map($used, function($vv) {
+          { "source": $keys($v),
+            "target": $vv,
+            "label":"" 
+          }
+        });
+
+        $converted:= $append($owner, $used);
+        $append($converted, $maps);
+      )})], $append)
+    )
+
+# Translation app layer objects links into hex
+  dh_componentsToHex: >
+    (
+      $components:= $$.components.$spread()[$.*.entity="component"];
+      $reduce($map($components, function($v) {(
+        $maps:= [
+          {"source": $keys($v), "target": "mm.resource", "label": "map"},
+          {"source": $keys($v), "target": "mm.resource.app_service", "label": "type"}];
+        $regs:= $map($v.*.processes, function($vv) {
+          {"source": $keys($v), "target": $vv, "label": "поддерживает"}
+        });
+        $append($maps, $regs);
+      )}), $append)
+    )
