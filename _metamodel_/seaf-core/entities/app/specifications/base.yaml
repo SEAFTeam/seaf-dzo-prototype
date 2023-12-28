@@ -18,10 +18,10 @@ entities:
             description:
               title: Описание интеграции
               type: string
-            encryption_:
+            encryption:
               title: Используемое шифрование
               type: boolean
-            asynchronous:
+            async:
               title: Асинхронный поток?
               type: boolean
             technologies:

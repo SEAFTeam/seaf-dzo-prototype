@@ -6,6 +6,14 @@ entities:
     description: Прикладные компоненты являются составными частями прикладного сервиса
     # Расширение схемы данных объектов под SEAF
     schema:
+      $defs:
+        seaf.app.sber.component_type:
+          title: Тип компонента
+          type: string
+          default: component
+          enum:
+            - component
+            - service
       patternProperties:
         "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
           type: object
@@ -13,6 +21,8 @@ entities:
             description:
               title: Описание компонента
               type: string
+            type:
+              $ref: "#/$defs/seaf.app.sber.component_type"
             requirements:
               title: Требования
               type: array
