@@ -13,10 +13,11 @@ entities:
             description:
               title: Описание
               type: string
-            owner:
-              title: Владелец продукта
-              type: string
-              $ref: "#/$rels/seaf.ba.paries.parties"
+#todo нужно реализовать сущность
+#            owner:
+#              title: Владелец продукта
+#              type: string
+#              $ref: "#/$rels/seaf.ba.paries.parties"
             used_in:
               title: используется в
               type: array

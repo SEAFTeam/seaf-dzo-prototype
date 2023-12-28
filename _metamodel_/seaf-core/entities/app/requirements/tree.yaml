@@ -25,13 +25,13 @@ entities:
               $id := $keys()[0];
               $requirement := $lookup($requirements, $id);
               {
-                "id": $ID,
+                "id": $id,
                 "title": $requirement.title ? $requirement.title : $id,
                 "link": "/entities/seaf.requirements/blank?seaf-req-id=" & $id
               }            
             )^(id).(
               /* Готовим PlantUML код для MindMap */
               $content := " [[" & link & " " & title & "]]";
-              "**" & $join($split(id, ".").("*")) & $content
+              "*" & $join($split(id, ".").("*")) & $content
             )~>$join("\n");
           )

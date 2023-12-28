@@ -24,7 +24,9 @@ entities:
                       { "title": $id },
                       $,
                       {
-                          "$id": $id
+                          "$id": $id,
+                          "async": async ? "Да" : "Нет",
+                          "encryption": encryption ? "Да" : "Нет"
                       }
                   ])
               )

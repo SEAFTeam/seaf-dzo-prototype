@@ -1,27 +1,25 @@
 # Описание интеграций сервисов и компонентов
 seaf.app.integration_specifications:
   oauth:
-    id: 1c464e8d-d948-43e5-92ff-8bed59becb5a
     description: Протокол OAuth авторизации
-    interface: HTTP
-    interface_type: API
     title: OAuth авторизация
     interface_standard_type: Универсальный интерфейс/Индустриальный стандарт
+    technologies:
+      - OAuth
+      - HTTP
 
   smartpay:
-    id: 1c464e8d-d948-43e5-92ff-8bed59becb5a
     description: Протокол платежей
-    interface: HTTP
-    interface_type: API
     title: SmartPay Оплата
     interface_standard_type: Универсальный интерфейс/Индустриальный стандарт
+    technologies:
+      - HTTP
 
 seaf.app.integrations:
   sber.berezka.home_cinema.oauth:
     title: Авторизация
     description: Авторизация в сервисе
     from: sber.berezka.home_cinema.catalog
-    id: 735df01b-772e-4e16-84f1-02e1ae476be3
     to: sber.berezka.home_cinema.auth
     specifications:
       - oauth
@@ -30,7 +28,6 @@ seaf.app.integrations:
     title: Платежи
     description: Сервис оплаты
     from: sber.berezka.home_cinema.payments
-    id: 735df01b-772e-4e16-84f1-02e1ae476be3
     to: sber.berezka.home_cinema.auth
     specifications:
       - smartpay

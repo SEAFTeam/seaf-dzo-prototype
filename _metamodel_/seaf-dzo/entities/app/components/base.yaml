@@ -246,7 +246,6 @@ entities:
             - provider_type
             - is_component_of
         seaf.app.sber.component:
-
           anyOf:
             - $ref: "#/$defs/seaf.app.sber.app_component"
               additionalProperties: false
