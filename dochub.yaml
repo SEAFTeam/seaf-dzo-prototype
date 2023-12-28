@@ -15,10 +15,17 @@ docs:
     type: mermaid
     source: _metamodel_/seaf-core/docs/SEAF_Roadmap_2024Q1.mmd
 
+  # Публикация роадмапа по SEAF Прикладная архитектура
+  dochub.welcome.SEAF_APP_Roadmap_2024Q1.mmd:
+    title: SEAF ПА Roadmap 2024Q1
+    location: SEAF/Прикладная архитектура/Дорожная карта 2024Q1
+    type: mermaid
+    source: _metamodel_/seaf-core/docs/SEAF_APP_Roadmap_2024Q1.mmd
+
   # Публикация роадмапа по SEAF Техническая архитектура
   dochub.welcome.ta_timeline2024Q1:
     title: SEAF TA Roadmap 2024Q1
-    location: SEAF/Техническая архитектура/SEAF TA Roadmap 2024Q1
+    location: SEAF/Техническая архитектура/Дорожная карта 2024Q1
     type: mermaid
     source: _metamodel_/seaf-core/docs/SEAF_TA_Roadmap_2024Q1.mmd
 imports:
