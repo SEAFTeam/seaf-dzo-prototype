@@ -54,7 +54,7 @@ entities:
             - vector
             - content
         seaf.adr.context:
-          title: Контекст принятия решения
+          title: Предпосылки принятия решения
           description: >
             Укажите все важные сведения влияющие на принятие решения
           type: array
