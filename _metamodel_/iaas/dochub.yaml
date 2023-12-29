@@ -1,2 +1,8 @@
+docs:
+  dochub.welcome.iaas_timeline2024:
+    title: SEAF IaaS Roadmap 2024Q1
+    location: IAAS/SEAF IaaS Roadmap 2024Q1
+    type: mermaid
+    source: docs/SEAF_IAAS_Roadmap_2024.mmd
 imports:
   - root.yaml

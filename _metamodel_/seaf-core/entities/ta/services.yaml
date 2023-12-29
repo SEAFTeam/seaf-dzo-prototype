@@ -22,7 +22,7 @@ entities:
               title: Требования
               type: array
               items:
-                $ref: "#/$rels/seaf.requirements.requirement"
+                $ref: "#/$rels/seaf.change.requirements.requirement"
             integrations:
               title: Перечисление связанных интеграций с технологичесим сервисом в виде массива
               type: array

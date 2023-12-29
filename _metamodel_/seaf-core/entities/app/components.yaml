@@ -27,7 +27,7 @@ entities:
               title: Требования
               type: array
               items:
-                $ref: "#/$rels/seaf.requirements.requirement"
+                $ref: "#/$rels/seaf.change.requirements.requirement"
             aspects:
               title: Функциональность
               type: array

@@ -1,5 +1,5 @@
 # Фиксируется архитектурное решение
-seaf.adr:
+seaf.change.adr:
   # Идентификатор архитектурного решения
   sber.berezka.home_cinema.stack.base:
     # Дата создания

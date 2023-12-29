@@ -1,6 +1,6 @@
 # Требования прикладной архитектуры SEAF
 entities:
-  seaf.requirements:
+  seaf.change.requirements:
     title: Требования
     objects:
       requirement:
@@ -54,16 +54,16 @@ entities:
       (
         $append(
           [{
-            "link": "/entities/seaf.requirements/tree", 
-            "location": "Анализ/Требования" 
+            "link": "/entities/seaf.change.requirements/tree", 
+            "location": "Изменения/Требования" 
           }],
           $seaf_menu_location_by_id(
-              $."seaf.requirements",
+              $."seaf.change.requirements",
               "",
-              "Анализ/Требования/",
+              "Изменения/Требования/",
               function($location, $item, $itemId, $collection){{
                   "location": $location,
-                  "link": "/entities/seaf.requirements/blank?seaf-req-id=" & $itemId
+                  "link": "/entities/seaf.change.requirements/blank?seaf-req-id=" & $itemId
               }}
           )
         );

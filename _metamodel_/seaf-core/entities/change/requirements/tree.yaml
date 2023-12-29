@@ -1,6 +1,6 @@
 # Представление дерева требований SEAF
 entities:
-  seaf.requirements:
+  seaf.change.requirements:
     presentations:
       tree:
         title: Требования
@@ -8,7 +8,7 @@ entities:
         template: templates/tree.puml
         source: >
           (
-            $requirements := $."seaf.requirements";
+            $requirements := $."seaf.change.requirements";
             $merge((
                 [$requirements.$spread().(
                     $keys()[0]~>$split(".")~>$map(function($v, $limit, $struct) {
@@ -27,7 +27,7 @@ entities:
               {
                 "id": $id,
                 "title": $requirement.title ? $requirement.title : $id,
-                "link": "/entities/seaf.requirements/blank?seaf-req-id=" & $id
+                "link": "/entities/seaf.change.requirements/blank?seaf-req-id=" & $id
               }            
             )^(id).(
               /* Готовим PlantUML код для MindMap */

@@ -42,6 +42,6 @@
 * методология описания
 * инструментарий для описания
 
-![](@document/ba_method)
-![](@document/ba_realization)
+![](@document/seaf.ba.method)
+![](@document/seaf.ba.realization)
 

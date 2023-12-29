@@ -1,6 +1,6 @@
 # Бланк требования
 entities:
-  seaf.requirements:
+  seaf.change.requirements:
     presentations:
       blank:
         title: Карточка требования
@@ -18,7 +18,7 @@ entities:
           (
               $aspects := aspects;
               $id := $params."seaf-req-id";
-              $lookup($."seaf.requirements", $id).{
+              $lookup($."seaf.change.requirements", $id).{
                   "id": $id,
                   "title": title,
                   "type": type,

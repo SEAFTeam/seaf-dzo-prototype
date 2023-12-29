@@ -1,11 +1,11 @@
 # ADR (Architecture Decision Record)
 # Основано на https://github.com/joelparkerhenderson/architecture-decision-record
 entities:
-  seaf.adr:
+  seaf.change.adr:
     title: Architecture Decision Record
     schema:
       $defs:
-        seaf.adr.issue:
+        seaf.change.adr.issue:
           type: string
           title: Описание проблемы
           description: >
@@ -13,12 +13,12 @@ entities:
             не оставляя вопросов о том, почему вы решаете эту проблему сейчас.
             Следуя минималистскому подходу, рассматривайте и документируйте только
             те проблемы, которые требуют решения на различных этапах жизненного цикла.
-        seaf.adr.decision:
+        seaf.change.adr.decision:
           type: string
           title: Решение
           description: >
             Четко определите архитектурное решение.
-        seaf.adr.affects.area:
+        seaf.change.adr.affects.area:
           title: Область эффекта
           type: string
           enum:
@@ -29,21 +29,21 @@ entities:
             - business    # Бизнес
             - technology  # Технологии
             - other       # Прочее
-        seaf.adr.affects.vector:
+        seaf.change.adr.affects.vector:
           title: Область эффекта
           type: string
           enum:
             - negative    # Негативное влияние
             - positive    # Позитивное влияние
             - unknown     # Неизвестно
-        seaf.adr.context.item:
+        seaf.change.adr.context.item:
           title: Характеристика контекста
           type: object
           properties:
             area:
-              $ref: "#/$defs/seaf.adr.affects.area"
+              $ref: "#/$defs/seaf.change.adr.affects.area"
             vector:
-              $ref: "#/$defs/seaf.adr.affects.vector"
+              $ref: "#/$defs/seaf.change.adr.affects.vector"
             content:
               title: Описание характеристики
               type: string
@@ -53,22 +53,22 @@ entities:
             - area
             - vector
             - content
-        seaf.adr.context:
+        seaf.change.adr.context:
           title: Предпосылки принятия решения
           description: >
             Укажите все важные сведения влияющие на принятие решения
           type: array
           minItems: 1
           items:
-            $ref: "#/$defs/seaf.adr.context.item"
-        seaf.adr.consequences.item:
+            $ref: "#/$defs/seaf.change.adr.context.item"
+        seaf.change.adr.consequences.item:
           title: Характеристика последствий
           type: object
           properties:
             area:
-              $ref: "#/$defs/seaf.adr.affects.area"
+              $ref: "#/$defs/seaf.change.adr.affects.area"
             vector:
-              $ref: "#/$defs/seaf.adr.affects.vector"
+              $ref: "#/$defs/seaf.change.adr.affects.vector"
             content:
               title: Описание характеристики
               type: string
@@ -78,50 +78,50 @@ entities:
             - area
             - vector
             - content
-        seaf.adr.consequences:
+        seaf.change.adr.consequences:
           title: Последствия
           description: >
             Укажите все важные последствия принятого архитектурного решения
           type: array
           minItems: 1
           items:
-            $ref: "#/$defs/seaf.adr.consequences.item"
-        seaf.adr.requirements.item:
+            $ref: "#/$defs/seaf.change.adr.consequences.item"
+        seaf.change.adr.requirements.item:
           title: Требование
           description: >
             Укажите требование, которое удовлетворяет решение
-          $ref: "#/$rels/seaf.requirements.requirement"
-        seaf.adr.requirements:
+          $ref: "#/$rels/seaf.change.requirements.requirement"
+        seaf.change.adr.requirements:
           title: Требования
           description: >
             Перечислите требование, которые должно удовлетворить архитектурное решение
           type: array
           minItems: 1
           items:
-            $ref: "#/$defs/seaf.adr.requirements.item"
-        seaf.adr.deciders.item:
+            $ref: "#/$defs/seaf.change.adr.requirements.item"
+        seaf.change.adr.deciders.item:
           title: Принимающий решение
           type: string
-        seaf.adr.deciders:
+        seaf.change.adr.deciders:
           title: Кто принял решение
           description: >
             Укажите всех, кто принимал архитектурное решение.
           type: array
           minItems: 1
           items:
-            $ref: "#/$defs/seaf.adr.deciders.item"
-        seaf.adr.dependencies.item:
+            $ref: "#/$defs/seaf.change.adr.deciders.item"
+        seaf.change.adr.dependencies.item:
           title: Зависимость от другого решения
-          $ref: "#/$rels/seaf.adr.adr"
-        seaf.adr.dependencies:
+          $ref: "#/$rels/seaf.change.adr.adr"
+        seaf.change.adr.dependencies:
           title: Зависимости от других решений
           description: >
             Укажите от каких решений зависит данное
           type: array
           minItems: 1
           items:
-            $ref: "#/$defs/seaf.adr.dependencies.item"
-        seaf.adr:
+            $ref: "#/$defs/seaf.change.adr.dependencies.item"
+        seaf.change.adr:
           type: object
           properties:
             title:
@@ -132,19 +132,19 @@ entities:
               title: Дата создания
               pattern: ^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$
             issue:
-              $ref: "#/$defs/seaf.adr.issue"
+              $ref: "#/$defs/seaf.change.adr.issue"
             deciders:
-              $ref: "#/$defs/seaf.adr.deciders"
+              $ref: "#/$defs/seaf.change.adr.deciders"
             decision:
-              $ref: "#/$defs/seaf.adr.decision"
+              $ref: "#/$defs/seaf.change.adr.decision"
             context:
-              $ref: "#/$defs/seaf.adr.context"
+              $ref: "#/$defs/seaf.change.adr.context"
             consequences:
-              $ref: "#/$defs/seaf.adr.consequences"
+              $ref: "#/$defs/seaf.change.adr.consequences"
             requirements:
-              $ref: "#/$defs/seaf.adr.requirements"
+              $ref: "#/$defs/seaf.change.adr.requirements"
             dependencies:
-              $ref: "#/$defs/seaf.adr.dependencies"
+              $ref: "#/$defs/seaf.change.adr.dependencies"
           required:
             - title
             - moment
@@ -157,7 +157,7 @@ entities:
       type: object
       patternProperties:
         "^[a-z0-9_\\$][a-z0-9_\\$]*(\\.[a-z0-9_\\$][a-z0-9_\\$]*)*$":
-          $ref: "#/$defs/seaf.adr"
+          $ref: "#/$defs/seaf.change.adr"
     objects:
       adr:
         route: "/"
@@ -166,16 +166,16 @@ entities:
       (       
           $append(
               [{
-                  "location": "Анализ/ADR",
-                  "link": "/entities/seaf.adr/list"
+                  "location": "Изменения/ADR",
+                  "link": "/entities/seaf.change.adr/list"
               }],
               $seaf_menu_location_by_id(
-                    $."seaf.adr",
+                    $."seaf.change.adr",
                     "",
-                    "Анализ/ADR/",
+                    "Изменения/ADR/",
                     function($location, $item, $itemId, $collection){{
                         "location": $location,
-                        "link": "/entities/seaf.adr/blank?seaf-adr-id=" & $itemId
+                        "link": "/entities/seaf.change.adr/blank?seaf-adr-id=" & $itemId
                     }}
             )
         );
