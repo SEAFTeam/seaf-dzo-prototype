@@ -1,6 +1,5 @@
 hexNav:
   - title: Архитектура/Бизнес-архитектура
-#    link: "/entities/docs/blank?dh-doc-id=ba_main"
     includes:
       - title: Мотивация(TBD)
         link: "/entities/hexV/view?id=motivation"

@@ -237,7 +237,7 @@ seaf.ba.ttl:             # Мета-объекты тоже описываютс
 
 hexNav:             # Вспомогательная DocHub-сущность Hexagon для выведения вью в UI DocHub
   - title: Архитектура/Бизнес-архитектура/Реализация на Hexagon
-    link: "/entities/docs/blank?dh-doc-id=ba_main"
+    link: "/entities/docs/blank?dh-doc-id=seaf.ba.main"
     includes:
       - title: Мотивация(TBD)
         link: "/entities/hexV/view?id=motivation"

@@ -16,4 +16,4 @@ $package:
 imports:
   - functions/root.yaml
   - entities/root.yaml
-  - docs/ia/docs.yaml
+  - docs/root.yaml

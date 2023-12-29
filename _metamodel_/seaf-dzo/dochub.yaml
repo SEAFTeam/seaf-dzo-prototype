@@ -12,7 +12,12 @@ $package:
     # Зависимости от других пакетов
     dependencies:
       seaf: ">=1.0.0"
-
+docs:
+  dochub.welcome.ta_timeline2024Q1:
+    title: SEAF TA Roadmap 2024Q1
+    location: SEAF.DZO/Техническая архитектура/SEAF TA Roadmap 2024Q1
+    type: mermaid
+    source: docs/SEAF_TA_Roadmap_2024Q1.mmd
 imports:
   - entities/root.yaml
   - architecture/root.yaml

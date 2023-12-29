@@ -4,28 +4,6 @@ docs:
     type: markdown
     location: SEAF
     source: README.md
-  dochub.welcome.timeline2023Q4:
-    title: SEAF Roadmap 2023Q4
-    location: SEAF Roadmap 2023Q4
-    type: mermaid
-    source: _metamodel_/seaf-core/docs/SEAF_Roadmap_2023Q4.mmd
-  dochub.welcome.timeline2024Q1:
-    title: SEAF Roadmap 2024Q1
-    location: SEAF Roadmap 2024Q1
-    type: mermaid
-    source: _metamodel_/seaf-core/docs/SEAF_Roadmap_2024Q1.mmd
-
-  # Публикация роадмапа по SEAF Техническая архитектура
-  dochub.welcome.ta_timeline2024Q1:
-    title: SEAF TA Roadmap 2024Q1
-    location: SEAF/Техническая архитектура/SEAF TA Roadmap 2024Q1
-    type: mermaid
-    source: _metamodel_/seaf-core/docs/SEAF_TA_Roadmap_2024Q1.mmd
-  dochub.welcome.iaas_timeline2024:
-    title: SEAF IaaS Roadmap 2024Q1
-    location: IAAS/SEAF IaaS Roadmap 2024Q1
-    type: mermaid
-    source: _metamodel_/seaf-core/docs/SEAF_IAAS_Roadmap_2024.mmd
 imports:
   # Расширение для исследования метамодели
   - _metamodel_/mm-discovery/dochub.yaml

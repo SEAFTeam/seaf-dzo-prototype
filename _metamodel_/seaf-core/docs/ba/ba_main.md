@@ -1,4 +1,4 @@
-###### SEAF Business Architecture (ba_main.md)
+###### SEAF Business Architecture
 
 ---
 

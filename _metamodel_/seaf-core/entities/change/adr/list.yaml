@@ -1,6 +1,6 @@
 # Бланк архитектурного решения
 entities:
-  seaf.adr:
+  seaf.change.adr:
     presentations:
       list:
         title: Карточка требования
@@ -24,12 +24,12 @@ entities:
             width: 10%
         source: >
           (
-              $."seaf.adr".$spread().(
+              $."seaf.change.adr".$spread().(
                   $id := $keys()[0];
                   {
                       "id": $id,
                       "moment": *.moment,
-                      "link": "/entities/seaf.adr/blank?seaf-adr-id=" & $id,
+                      "link": "/entities/seaf.change.adr/blank?seaf-adr-id=" & $id,
                       "title": *.title,
                       "sort": $toMillis(*.moment)
                   }

@@ -8,7 +8,7 @@ imports:
   # hexagon menu items
   - menu.yaml
   # hexagon articles
-  - ../../docs/ba/docs.yaml
+  - root.yaml
 
   - parties.yaml
   - strategy.yaml

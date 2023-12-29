@@ -1,6 +1,6 @@
 imports:
   - entities/hex_core.yaml
-  - docs/docs.yaml
+  - docs/root.yaml
   - functions/dochub.yaml  
   - entities/templates/bages.yaml    
 

@@ -1,6 +1,6 @@
-docs:
-  seaf.dzo.metamodel.concation:
-    title: Концептуальная метамодель
-    location: "/Архитектура"
-    type: markdown
-    source: overview.md
+#docs:
+#  seaf.dzo.metamodel.concation:
+#    title: Концептуальная метамодель
+#    location: "/Архитектура"
+#    type: markdown
+#    source: overview.md
