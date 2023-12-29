@@ -1,0 +1,10 @@
+seaf.ia.business_objects:
+  sber.berezka.business_objects.client:
+    title: Клиент
+    status: Используется
+    processes: todo
+
+  sber.berezka.business_objects.service:
+    title: Услуга
+    status: Используется
+    processes: todo

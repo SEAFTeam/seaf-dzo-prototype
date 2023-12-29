@@ -209,7 +209,6 @@ seaf.ta.services.network:
     ipnetowrk: 192.168.3.0/24
     network_appliance_id:
       -
-
     description: Сеть внутри VK
     dc_id:
       - sber.berezka.dc.02
@@ -1154,7 +1153,7 @@ seaf.ta.services.monitoring_dzo:
     cluster_id: $null
     sber_radar: https://console.radar.sber.ru/dashboard/
 
-seaf.requirements:
+seaf.change.requirements:
   ta.requirement1:
     title: RPO
     type: non-functional

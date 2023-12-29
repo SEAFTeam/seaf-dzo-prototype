@@ -1,15 +1,84 @@
-# Расширение интеграций для SEAF ДЗО Группы Сбер
+# Расширение свойств интеграций для нуж ДЗО
 entities:
-  integrations:
+  seaf.app.integrations:
+    title: Интеграции
+    description: Интеграция между компонентами, автоматизированными системами
+    config:
+      root_menu: Архитектура/Прикладная
+    objects:
+      integrations:
+        route: "/"
+        title: Интеграция
     schema:
+      type: object
       patternProperties:
         "^[a-z0-9_\\$][a-z0-9_\\$]*(\\.[a-z0-9_\\$][a-z0-9_\\$]*)*$":
+          type: object
           properties:
-            id:
-              type: string
-              title: Идентификатор интеграции
-              format: uuid
-          required:
-            - id
-            - description
-            - specifications
+            sber:
+              type: object
+              properties:
+                id:
+                  type: string
+                  title: Идентификатор интеграции
+                  format: uuid
+                technologies:
+                  title: Технологии интеграции
+                  type: array
+                  minItems: 1
+                  items:
+                    type: string
+                technical-use:
+                  title: Механизм использования
+                  enum:
+                    - По запросу
+                    - По событию
+                    - По расписанию
+                async:
+                  title: Асинхронный информационный поток
+                  enum:
+                    - Истинно
+                    - Ложно
+                status:
+                  title: Статус информационных потоков
+                  enum:
+                    - Дорабатывается
+                    - Используется
+                    - Создается
+                    - Удаляется
+                protected:
+                  title: Средства защиты потока
+                  type: array
+                  minItems: 0
+                  items:
+                    type: string
+                load:
+                  title: Нагрузочные характеристики потока
+                  type: object
+                  properties:
+                    maximum:
+                      title: пик
+                      type: string
+                    average:
+                      title: среднее
+                      type: string
+                changes:
+                  title: Описание изменений
+                  type: string
+                agreement:
+                  title: Основание для обмена данными (договор)
+                  type: string
+                comments:
+                  title: Комментарии, риски, проблемы
+                  type: array
+                  items:
+                    type: string
+              required:
+                - id
+                - data-objects
+                - technologies
+                - technical-use
+                - async
+                - status
+                - protected
+                - load

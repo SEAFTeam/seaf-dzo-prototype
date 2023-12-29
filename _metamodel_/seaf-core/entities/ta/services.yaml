@@ -14,7 +14,7 @@ entities:
               title: Описание
               type: string
             app_components:
-              title: Перечисление связанных прикладных компонентов с технологичесим сервисов в виде массива
+              title: Перечисление связанных прикладных компонентов с технологичесим сервисом в виде массива
               type: array
               items:
                 $ref: "#/$rels/components.component"
@@ -22,7 +22,12 @@ entities:
               title: Требования
               type: array
               items:
-                $ref: "#/$rels/seaf.requirements.requirement"
+                $ref: "#/$rels/seaf.change.requirements.requirement"
+            integrations:
+              title: Перечисление связанных интеграций с технологичесим сервисом в виде массива
+              type: array
+              items:
+                $ref: "#/$rels/seaf.app.integrations.integrations"
 
 #### Описания технологических сервисов. Добавляются все необходимые поля и устанавливаются правила их наполнения ####
   seaf.ta.services.dc_region:
@@ -136,7 +141,7 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        "^[a-zA-Z0-9_\\.]*$":
           type: object
           $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
@@ -210,7 +215,7 @@ entities:
           $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
             compute_id:
-              title: Compute Service ID
+              title: Compute Service IDВчера
               type: string
             availabilityzone_id:
               title: В какие зоны доступности входит DC
@@ -334,7 +339,7 @@ entities:
               additionalProperties: false
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.services.storage"
 
   seaf.ta.services.cluster_virtualization:
@@ -346,7 +351,7 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
             virtualization_id:
@@ -464,7 +469,7 @@ entities:
             - is_own
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.services.k8s"
 
   seaf.ta.services.network:
@@ -579,7 +584,7 @@ entities:
               additionalProperties: false
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.services.network"
 
   seaf.ta.services.network_links:
@@ -626,7 +631,7 @@ entities:
             - ch_type
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.services.network_links"
 
   seaf.ta.services.backup:
@@ -638,7 +643,7 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
             backup_id:
@@ -727,7 +732,7 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.services.base.entity"
           properties:
             software_id:

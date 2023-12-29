@@ -82,6 +82,9 @@ entities:
                 - Business Critical
                 - Business Operational
                 - Office Productivity
+            performance:
+              title: Производительность
+              type: string
             location:
               title: Размещение
               enum:
@@ -134,6 +137,12 @@ entities:
             sla:
               title: SLA (%)
               type: number
+            changes:
+              title: Описание изменений
+              type: string
+            comments:
+              title: Комментарии, риски, проблемы
+              type: string
           required:
             - class
             - role_model
@@ -142,6 +151,9 @@ entities:
           title: Описание автоматизированной системы (АС)
           $ref: "#/$defs/seaf.app.sber.profile"
           properties:
+            is_component_of:
+              title: Указание прикладного сервиса, в рамках которого проектируется или уже создан компонент
+              $ref: "#/$rels/components.component"
             component_type:
               title: Тип прикладного компонента
               type: string
@@ -216,15 +228,27 @@ entities:
             escrow:
               title: Автоматизированная система включена в договор эскроу с вендором?
               type: boolean
+            performance:
+              title: Производительность
+              type: string
+            changes:
+              title: Описание изменений
+              type: string
+            comments:
+              title: Комментарии, риски, проблемы
+              type: string
+
           required:
             - component_type
             - scalability
             - stores_confidential_data
             - provider
             - provider_type
+            - is_component_of
         seaf.app.sber.component:
           anyOf:
             - $ref: "#/$defs/seaf.app.sber.app_component"
+              additionalProperties: false
               properties:
                 type:
                   type: string
@@ -233,6 +257,7 @@ entities:
               required:
                 - type
             - $ref: "#/$defs/seaf.app.sber.service"
+              additionalProperties: false
               properties:
                 type:
                   type: string
@@ -241,7 +266,7 @@ entities:
               required:
                 - type
       patternProperties:
-        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z][a-zA-Z0-9_-]*)*$":
+        "^[a-zA-Z][a-zA-Z0-9_-]*(\\.[a-zA-Z0-9][a-zA-Z0-9_-]*)*$":
           type: object
           properties:
             sber:

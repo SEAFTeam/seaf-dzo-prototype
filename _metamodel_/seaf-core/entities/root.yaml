@@ -1,4 +1,6 @@
 imports:
-  - ba/dochub.yaml
+  - ba/root.yaml
   - app/root.yaml
   - ta/root.yaml
+  - ia/root.yaml
+  - change/root.yaml

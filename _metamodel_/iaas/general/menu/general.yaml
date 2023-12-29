@@ -6,7 +6,7 @@ entities:
           $config := entities."seaf.ta.reverse.general".config;
           [{
                       "location": $config.arch_menu,
-                      "link": "entities/seaf.ta.reverse.general/loc?id=reverse.cloud_ru.advanced&txt=Расширение IAAS"
+                      "link": "entities/seaf.ta.reverse.general/root?id=reverse&txt=Расширение IAAS"
           },
           {
                       "location": $config.arch_menu & "/Cloud.ru",

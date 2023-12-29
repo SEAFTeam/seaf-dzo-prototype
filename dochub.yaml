@@ -2,8 +2,8 @@ docs:
   dochub.welcome:
     title: Sber Enterprise Architect Framework (SEAF)
     type: markdown
+    location: SEAF
     source: README.md
-
 imports:
   # Расширение для исследования метамодели
   - _metamodel_/mm-discovery/dochub.yaml

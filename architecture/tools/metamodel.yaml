@@ -2,7 +2,7 @@
 mm_discovery.stalker:
   sber.berezka.overview:
     title: Общая карта
-    location: Метамодель/Общая
+    location: Метамодель/Общая метамодель
     nodes:
       seaf:
         title: SEAF
@@ -20,6 +20,12 @@ mm_discovery.stalker:
         title: Зона Advanced
       seaf.app:
         title: Прикладная архитектура
+      seaf.ia:
+        title: Информационная архитектура
+      seaf.ba:
+        title: Бизнес-архитектура
+      seaf.change:
+        title: Управление изменениями
     domains:
       - "**" # Отражаем все домены
     hooks:
@@ -60,8 +66,18 @@ mm_discovery.stalker:
     domains:
       - aspects
       - components
-      - seaf.requirements
+      - seaf.change.requirements
       - seaf.app.**
+  sber.berezka.change:
+    title: Управление изменениями
+    location: Метамодель/Управление изменениями
+    nodes:
+      seaf:
+        title: SEAF
+      seaf.change:
+        title: Управление изменениями
+    domains:
+      - seaf.change.**
   sber.berezka.technical:
     title: Техническая архитектура
     location: Метамодель/Техническая
@@ -82,3 +98,23 @@ mm_discovery.stalker:
         title: Зона Advanced
     domains:
       - seaf.ta.**
+  sber.berezka.ia:
+    title: Информационная архитектура
+    location: Метамодель/Информационная архитектура
+    nodes:
+      seaf:
+        title: SEAF
+      seaf.ia:
+        title: Информационная архитектура
+    domains:
+      - seaf.ia.**
+  sber.berezka.ba:
+    title: Бизнес-архитектура
+    location: Метамодель/Бизнес-архитектура
+    nodes:
+      seaf:
+        title: SEAF
+      seaf.ba:
+        title: Бизнес-архитектура
+    domains:
+      - seaf.ba.**

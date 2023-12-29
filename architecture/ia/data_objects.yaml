@@ -1,0 +1,42 @@
+seaf.ia.data_objects:
+  sber.berezka.data_objects.client_name:
+    title: ФИО Клиента
+    status: Используется
+    business_object: sber.berezka.business_objects.client
+    category: Перс.данные
+    master_system: sber.berezka.home_cinema
+
+  sber.berezka.data_objects.client_phone:
+    title: Телефон клиента
+    status: Используется
+    business_object: sber.berezka.business_objects.client
+    category: Перс.данные
+    master_system: sber.berezka.home_cinema
+
+  sber.berezka.data_objects.client_adress:
+    title: Адрес клиента
+    status: Используется
+    business_object: sber.berezka.business_objects.client
+    category: Перс.данные
+    master_system: sber.berezka.home_cinema
+
+  sber.berezka.data_objects.service_deal:
+    title: Сделка по услуге
+    status: Используется
+    category: Иное
+    business_object: sber.berezka.business_objects.service
+    master_system: sber.berezka.home_cinema.payments
+
+  sber.berezka.data_objects.service_params:
+    title: Параметры сделки
+    status: Используется
+    category: Иное
+    business_object: sber.berezka.business_objects.service
+    master_system: sber.berezka.home_cinema.payments
+
+  sber.berezka.data_objects.service_stats:
+    title: Статистика по услугам
+    status: Планируется
+    category: Иное
+    business_object: sber.berezka.business_objects.service
+    master_system: sber.berezka.home_cinema.catalog

@@ -1,4 +1,4 @@
-seaf.requirements:
+seaf.change.requirements:
   auth:
     title: Авторизация
     type: functional

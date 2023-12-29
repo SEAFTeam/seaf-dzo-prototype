@@ -15,6 +15,7 @@
 {{#modes}}
 ###### {{#row}}{{#.}}{{#selected}}=={{title}}== | {{/selected}}{{^selected}}[{{title}}](/entities/hexV/view?id={{vId}}&mode={{chain}}) | {{/selected}}{{/.}}{{/row}}
 
+{{#row}}{{#.}}{{#selected}}{{description}}{{/selected}}{{/.}}{{/row}}
 {{/modes}}
 
 
@@ -23,8 +24,6 @@
 ---
 
 ![](@entity/hexV/landscape_graph?data={{resView.landscape}})
-
-
 
 {{/error}}
 

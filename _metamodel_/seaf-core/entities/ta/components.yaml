@@ -205,7 +205,7 @@ entities:
               additionalProperties: false
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.components.server"
 
   seaf.ta.components.hw_storage:
@@ -308,7 +308,7 @@ entities:
             - realization_type
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        "^[a-zA-Z0-9_\\.]*$":
           $ref: "#/$defs/seaf.ta.components.network"
 
   seaf.ta.components.user_device:
@@ -320,7 +320,7 @@ entities:
     schema: # JSON Schema контролирующая описание объекта сущности
       type: object
       patternProperties:
-        "[a-zA-Z0-9_\\.]*":
+        "^[a-zA-Z0-9_\\.]*$":
           type: object
           $ref: "#/$defs/seaf.ta.components.base.entity"
           properties:

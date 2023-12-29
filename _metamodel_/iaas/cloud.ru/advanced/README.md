@@ -32,18 +32,17 @@
 - Заполнить объект сущности Связь (**seaf.ta.reverse.cloud_ru.advanced.links**) и привязать Прикладные компоненты к Техническим компонентам в метамодели расширения IaaS.Reverse.
 
 Пример заполнения объекта сущности Связь
-
-    -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
-    seaf.ta.reverse.cloud_ru.advanced.links:
-     sber.berezka.links.home_cinema.auth:
-     app_id: sber.berezka.home_cinema.auth
-     reverse_ta_id:
-       - sber.berezka.ecss.62f713a4-1139-461f-8053-1df267861aef
-       - sber.berezka.ecss.729d3b73-350c-4987-86ed-01d36b719c57
-       - sber.berezka.rdss.0e493e5847714a14a313e215d9e59b15in03
-       - sber.berezka.elbs.ad9af3b6-fd82-404e-8d6c-466660e92329
-       - sber.berezka.ecss.e5e60a69-0653-4297-8799-ea0df4f0cacc
-
+```yaml
+seaf.ta.reverse.cloud_ru.advanced.links:
+    sber.berezka.links.home_cinema.auth:
+       app_id: sber.berezka.home_cinema.auth
+       reverse_ta_id:
+         - sber.berezka.ecss.62f713a4-1139-461f-8053-1df267861aef
+         - sber.berezka.ecss.729d3b73-350c-4987-86ed-01d36b719c57
+         - sber.berezka.rdss.0e493e5847714a14a313e215d9e59b15in03
+         - sber.berezka.elbs.ad9af3b6-fd82-404e-8d6c-466660e92329
+         - sber.berezka.ecss.e5e60a69-0653-4297-8799-ea0df4f0cacc
+```
 ### Запуск скрипта выгрузки
 1. Создать пользователя в Cloud.Advanced IAM с правами на чтение и выгрузите AK/SK ключи для подключения
 к API. Подробнее: [Cloud.ru](https://support.hc.sbercloud.ru/en-us/devg/apisign/api-sign-provide-aksk.html)
@@ -51,47 +50,50 @@
 
         Помните, это небезопасно и лучше использовать Vault или другое хранилище ключей!
 3. Открыть в IDE папку API и в скрипте SberCloud-Python.py указать значения переменных для запуска
-
-        cloudregion = 'ru-moscow-1'                                                 # Регион для вызова API
-        cloudproject = 'здесь должен быть идентификатор проекта/тенанта'            # ID проекта, можно найти в консоли или раскомментировать ниже секцию Cloud Project
-        credentials = "credentials.csv"                                             # Файл с учетными данными SberCloud
-        company_domain = 'berezka'                                                  # Префикс/домен компании для наименвоания сущностей
-        dc = 'идентификатор ЦОД/IaaS из сущности seaf.ta.services.dc'               # Идентификатор сущности
+```python
+cloudregion = 'ru-moscow-1'                                                 # Регион для вызова API
+cloudproject = 'здесь должен быть идентификатор проекта/тенанта'            # ID проекта, можно найти в консоли или раскомментировать ниже секцию Cloud Project
+credentials = "credentials.csv"                                             # Файл с учетными данными SberCloud
+company_domain = 'berezka'                                                  # Префикс/домен компании для наименвоания сущностей
+dc = 'идентификатор ЦОД/IaaS из сущности seaf.ta.services.dc'               # Идентификатор сущности
+```
 4. Выбрать необходимые сущности переключив значение соответсвующих переменных в true
-
-        servers = False                         # Elastic Cloud Server
-        eip = False                             # Elastic IP (external ip addresses)
-        vault = False                           # Cloud Backup and Recovery vaults
-        backup_policy = False                   # Cloud Backup and Recovery policies
-        rds = False                             # Relational Database Service                     
-        natgateway = False                      # NAT Gateway
-        elb = False                             # Elastic Load Balance
-        cce = False                             # Cloud Container Engine
-        dms = False                             # Distributed Message Server
+```python
+servers = False                         # Elastic Cloud Server
+eip = False                             # Elastic IP (external ip addresses)
+vault = False                           # Cloud Backup and Recovery vaults
+backup_policy = False                   # Cloud Backup and Recovery policies
+rds = False                             # Relational Database Service                     
+natgateway = False                      # NAT Gateway
+elb = False                             # Elastic Load Balance
+cce = False                             # Cloud Container Engine
+dms = False                             # Distributed Message Server
+```
 5. В результате выполнения скрипта данные будут сохранены в папку exports
 
 
 ## Структура каталогов
-    -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
-    |- _metamodel_                      - Подключенные пакеты метамоделей
-    |  |- iaas                          - Пакет метамодели
-    |  |  |- cloud.ru                   - Модель провайдера
-    |  |  |  |- advanced                - Регион или тип услуги (vmware/aws)
-    |  |  |  |  |- entities             - Сущности метамодели
-    |  |  |  |  |- functions            - Запросы написанные на JSONata
-    |  |  |  |  |- datasets             - Переиспользуемые датасеты
-    |  |  |  |  |- menu                 - Структура меню сущностей метамодели
-    |  |  |  |  |- presentations        - Презентационный слой сущностей метамодели
-    |  |  |- general                    - Общее для всех модулей 
-    |  |  |  |- menu                    - Общие для всех модулей меню
-    |  |  |  |- presentations           - Общие для всех модулей представления
-    |  |  |  |- bin                     - Инструментарий, скрипты
-    |  |- architecture                  - Архитектурные объекты поставляемые с пакетом
-    |  |  |- ta                         - Объекты сущностей
-    |  |- dochub.yaml                   - Корневой манифест пакета
-    |  |- README.md                     - Описание пакета
-    |  |- LICENSE                       - Лицензия под которой распространяется пакет
+```console
 
+|- _metamodel_                      - Подключенные пакеты метамоделей
+|  |- iaas                          - Пакет метамодели
+|  |  |- cloud.ru                   - Модель провайдера
+|  |  |  |- advanced                - Регион или тип услуги (vmware/aws)
+|  |  |  |  |- entities             - Сущности метамодели
+|  |  |  |  |- functions            - Запросы написанные на JSONata
+|  |  |  |  |- datasets             - Переиспользуемые датасеты
+|  |  |  |  |- menu                 - Структура меню сущностей метамодели
+|  |  |  |  |- presentations        - Презентационный слой сущностей метамодели
+|  |  |- general                    - Общее для всех модулей 
+|  |  |  |- menu                    - Общие для всех модулей меню
+|  |  |  |- presentations           - Общие для всех модулей представления
+|  |  |  |- bin                     - Инструментарий, скрипты
+|  |- architecture                  - Архитектурные объекты поставляемые с пакетом
+|  |  |- ta                         - Объекты сущностей
+|  |- dochub.yaml                   - Корневой манифест пакета
+|  |- README.md                     - Описание пакета
+|  |- LICENSE                       - Лицензия под которой распространяется пакет
+```
 ## Сущности
 
 | №  | **Объект**          | **Наименование сущности**                          | **Описание**                                                                          |
