@@ -1,0 +1,44 @@
+technologies:
+  sections:
+    hardware:
+      title: Оборудование
+    software:
+      title: Программное обеспечение
+    tools:
+      title: Инструментарий
+    network:
+      title: Сети
+    datacenter:
+      title: ЦОД
+    storage:
+      title: Хранение и обработка данных
+    k8s:
+      title: Kubernetes
+    virtualization:
+      title: Виртуализация
+    backup:
+      title: Резервное копирование
+    monitoring:
+      title: Мониторинг
+  items:                      # Перечисление технологий
+    dataline:             # Идентификатор технологии
+      aliases:            # Синонимы технологии
+        - DTLN
+      title: Даталайн ЦОД          # Название технологии
+      link: https://dtln.ru/
+      section: datacenter
+      status: assess
+    postgres:             # Идентификатор технологии
+      aliases:            # Синонимы технологии
+        - PG SQL
+      title: Postgres        # Название технологии
+      link: https://www.postgresql.org
+      section: storage
+      status: assess
+    weblogic:             # Идентификатор технологии
+      aliases:            # Синонимы технологии
+        - Jakarta EE
+      title: WebLogic        # Название технологии
+      link: https://www.oracle.com
+      section: software
+      status: adopt

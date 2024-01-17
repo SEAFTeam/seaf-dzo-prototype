@@ -6,3 +6,4 @@ imports:
   - services.yaml
   - components_docs.yaml
   - services_docs.yaml
+  - technologies.yaml

@@ -6,6 +6,8 @@ components:
     description: Авторизация пользователей
     aspects:
       - sber.berezka.home_cinema.auth
+    technologies:
+      - dataline
     sber:
       type: component
       component_type: Интеграционный компонент
@@ -20,6 +22,8 @@ components:
     entity: component
     title: Каталог фильмов
     description: Каталог фильмов
+    technologies:
+      - postgres
     sber:
       type: component
       component_type: Сервер Приложений
